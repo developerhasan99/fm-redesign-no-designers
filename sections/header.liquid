@@ -404,7 +404,6 @@
     Category row (phones): the same menu blocks as the desktop menu and the drawer, so one list drives all
     three. A sub-menu block links to the first link of its menu, a mega-menu block to its collection.
     The category_menu link list is only used when the header has no menu blocks.
-    Left out on the Bundle & Save page (template suffix bundle-save).
   {%- endcomment -%}
   {%- liquid
     assign pm_catrow_menu = linklists[section.settings.category_menu]
@@ -416,7 +415,7 @@
       endif
     endfor
   -%}
-  {%- if section.settings.show_category_row and product.template_suffix != 'bundle-save' -%}
+  {%- if section.settings.show_category_row -%}
     {%- if pm_catrow_has_blocks -%}
       <nav class="pm-catrow" aria-label="{{ 'premium.header.categories' | t }}">
         <ul class="pm-catrow__list" role="list">
