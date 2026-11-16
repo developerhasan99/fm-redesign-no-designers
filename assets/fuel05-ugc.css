@@ -230,6 +230,27 @@
   color: #000;
 }
 
+.fuel05-ugc__pill-badge {
+  position: absolute;
+  left: 12px;
+  top: 0;
+  transform: translateY(-50%);
+  max-width: calc(100% - 24px);
+  box-sizing: border-box;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #c8202f;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .fuel05-ugc__pill-thumb {
   width: 66px;
   height: 66px;

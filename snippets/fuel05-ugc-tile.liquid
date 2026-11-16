@@ -221,6 +221,11 @@
     {%- endif -%}
     {%- if product_item != blank -%}
       <a class="fuel05-ugc__pill" href="{{ product_item.url }}">
+        {%- comment -%} Campaign badge on the bundle product's pill; empty the locale key to drop it. {%- endcomment -%}
+        {%- if product_item.template_suffix == 'bundle-save' -%}
+          {%- assign ugc_badge = 'bundle.tsr_offer_badge' | t -%}
+          {%- if ugc_badge != blank -%}<span class="fuel05-ugc__pill-badge">{{ ugc_badge }}</span>{%- endif -%}
+        {%- endif -%}
         {%- if product_item.featured_image != blank -%}
           <img
             class="fuel05-ugc__pill-thumb"
