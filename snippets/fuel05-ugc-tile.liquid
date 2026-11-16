@@ -220,12 +220,17 @@
       {%- endif -%}
     {%- endif -%}
     {%- if product_item != blank -%}
+      {%- comment -%}
+        Campaign badge for tiles that sell the bundle: a line above the title in the white card, and on phones,
+        where the theme hides that card, a chip on the video's corner. Empty the locale key to drop it.
+      {%- endcomment -%}
+      {%- assign ugc_badge = blank -%}
+      {%- if product_item.template_suffix == 'bundle-save' -%}
+        {%- assign ugc_badge = 'bundle.tsr_offer_badge' | t -%}
+        {%- if ugc_badge != blank -%}<span class="fuel05-ugc__badge" aria-hidden="true">{{ ugc_badge }}</span>{%- endif -%}
+      {%- endif -%}
       <a class="fuel05-ugc__pill" href="{{ product_item.url }}">
-        {%- comment -%} Campaign badge on the bundle product's pill; empty the locale key to drop it. {%- endcomment -%}
-        {%- if product_item.template_suffix == 'bundle-save' -%}
-          {%- assign ugc_badge = 'bundle.tsr_offer_badge' | t -%}
-          {%- if ugc_badge != blank -%}<span class="fuel05-ugc__pill-badge">{{ ugc_badge }}</span>{%- endif -%}
-        {%- endif -%}
+        {%- if ugc_badge != blank -%}<span class="fuel05-ugc__pill-badge">{{ ugc_badge }}</span>{%- endif -%}
         {%- if product_item.featured_image != blank -%}
           <img
             class="fuel05-ugc__pill-thumb"
