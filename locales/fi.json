@@ -555,7 +555,7 @@
     "tsr_offer_save": "Säästä {{ percent }}%",
     "tsr_offer_heading": "Paras tarjouksemme: Kokoa oma pakettisi!",
     "tsr_offer_promo": "Black Friday: 40 % alennus + 2 pulloa kaupan päälle!",
-    "tsr_offer_badge": "Black Friday −40 %",
+    "tsr_offer_badge": "Black Friday −40 %",
     "tsr_offer_price_prefix": "Vain",
     "tsr_offer_price_suffix": "per pullo"
   },
