@@ -1,0 +1,42 @@
+{%- comment -%}
+  Folds text like fold() in assets/pm-frag.js (part of the /search matcher, snippets/pm-frag-search-match.liquid):
+  downcase, ä -> ae, ö -> oe, ü -> ue, accents off, ' ’ ` dropped; letters a-z and digits stay, any run of other
+  characters becomes one space (none at the ends).
+  "Lancôme La Vie Est Belle" -> "lancome la vie est belle", "N°5" -> "n 5", "J’adore®" -> "jadore".
+  Common punctuation becomes a space first; the per-character pass runs only when other characters are left.
+  Usage: {% capture folded %}{% render 'pm-frag-search-fold', text: product.title %}{% endcapture %}
+  Contract: FRAGRANTICA-SEARCH.md.
+{%- endcomment -%}
+{%- liquid
+  assign pfsf_text = text | default: '' | append: '' | downcase
+  assign pfsf_text = pfsf_text | replace: 'ä', 'ae' | replace: 'ö', 'oe' | replace: 'ü', 'ue' | replace: 'ß', 'ss' | replace: 'æ', 'ae' | replace: 'œ', 'oe' | replace: 'ø', 'o'
+  assign pfsf_text = pfsf_text | replace: 'å', 'a' | replace: 'á', 'a' | replace: 'à', 'a' | replace: 'â', 'a' | replace: 'ã', 'a'
+  assign pfsf_text = pfsf_text | replace: 'é', 'e' | replace: 'è', 'e' | replace: 'ê', 'e' | replace: 'ë', 'e'
+  assign pfsf_text = pfsf_text | replace: 'í', 'i' | replace: 'ì', 'i' | replace: 'î', 'i' | replace: 'ï', 'i'
+  assign pfsf_text = pfsf_text | replace: 'ó', 'o' | replace: 'ò', 'o' | replace: 'ô', 'o' | replace: 'õ', 'o'
+  assign pfsf_text = pfsf_text | replace: 'ú', 'u' | replace: 'ù', 'u' | replace: 'û', 'u'
+  assign pfsf_text = pfsf_text | replace: 'ñ', 'n' | replace: 'ç', 'c' | replace: 'ý', 'y' | replace: 'ÿ', 'y'
+  assign pfsf_text = pfsf_text | remove: "'" | remove: '’' | remove: '`'
+  assign pfsf_text = pfsf_text | replace: '-', ' ' | replace: '.', ' ' | replace: ',', ' ' | replace: '&', ' ' | replace: '/', ' ' | replace: '(', ' ' | replace: ')', ' ' | replace: '®', ' ' | replace: '°', ' ' | replace: '™', ' ' | replace: '+', ' '
+  assign pfsf_other = pfsf_text | remove: 'a' | remove: 'b' | remove: 'c' | remove: 'd' | remove: 'e' | remove: 'f' | remove: 'g' | remove: 'h' | remove: 'i' | remove: 'j' | remove: 'k' | remove: 'l' | remove: 'm' | remove: 'n' | remove: 'o' | remove: 'p' | remove: 'q' | remove: 'r' | remove: 's' | remove: 't' | remove: 'u' | remove: 'v' | remove: 'w' | remove: 'x' | remove: 'y' | remove: 'z' | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9' | remove: ' '
+  if pfsf_other == ''
+    echo pfsf_text | split: ' ' | join: ' '
+  else
+    assign pfsf_keep = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    assign pfsf_out = ''
+    assign pfsf_gap = false
+    assign pfsf_chars = pfsf_text | split: ''
+    for pfsf_char in pfsf_chars
+      if pfsf_keep contains pfsf_char
+        if pfsf_gap and pfsf_out != ''
+          assign pfsf_out = pfsf_out | append: ' '
+        endif
+        assign pfsf_out = pfsf_out | append: pfsf_char
+        assign pfsf_gap = false
+      else
+        assign pfsf_gap = true
+      endif
+    endfor
+    echo pfsf_out
+  endif
+-%}

@@ -1,0 +1,2220 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Dawn",
+    "theme_version": "15.3.0",
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "Multi-buy gift offer",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Copy and tiers for the multi-buy progress bar in the cart drawer. It is hidden while the offer is switched off, and it appears on the Swedish market only. It states the offer, it does not grant it. These live in theme settings and not on a section because the cart drawer is rendered as a snippet, so there is no section to hang them on."
+      },
+      {
+        "type": "number",
+        "id": "fuel04_cart_tier_1",
+        "label": "First tier, bottles",
+        "default": 3
+      },
+      {
+        "type": "number",
+        "id": "fuel04_cart_tier_2",
+        "label": "Second tier, bottles",
+        "default": 5
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_size_token",
+        "label": "Bottle size that counts",
+        "info": "The variant name of the size the offer is written for, spaces ignored. Only single bottles of that size count, the same unit the gift app counts: a multi bottle box (\"5X 100ml\") and a bottle sold without a size variant do not. Leave empty to count every line in the cart.",
+        "default": "100ml"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_code_tier_1",
+        "label": "Discount code, first tier",
+        "info": "The Shopify discount code that gives the first tier's gift (buy the first tier of bottles, get a 30 ml free). The test version puts it on the cart once the first tier is reached and takes it off again below it; the normal site never touches it. Leave empty and no code is applied.",
+        "default": "FUEL04-30ML"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_code_tier_2",
+        "label": "Discount code, second tier",
+        "info": "Same for the second tier's gift (the mystery 100 ml). Leave empty and no code is applied for it.",
+        "default": "FUEL04-100ML"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_gift_variant_tier_2",
+        "label": "Second tier gift, variant ID",
+        "info": "The variant the test version puts in the cart at the second tier (Gratis Mystik Parfym 100 ml). It goes in with the code above and comes out again below the tier, or straight away if the code does not make it free. Leave empty and the second tier adds nothing and applies no code.",
+        "default": "50537448505414"
+      },
+      {
+        "type": "paragraph",
+        "content": "Write [n] where the number of bottles still needed should appear, and put the part that should stand out in green between asterisks."
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_text_start",
+        "label": "Line before the first tier",
+        "default": "Lägg [n] flaskor till och *välj en 30 ml GRATIS*"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_text_start_one",
+        "label": "Line before the first tier, one bottle left",
+        "info": "Used in place of the line above when exactly one bottle is missing, so it reads flaska and not flaskor. Leave empty to keep using the line above.",
+        "default": "Lägg [n] flaska till och *välj en 30 ml GRATIS*"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_text_mid",
+        "label": "Line between the tiers",
+        "default": "Din 30 ml är upplåst. Lägg [n] flaskor till och få även *en 100 ml Mystery Scent GRATIS*"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_text_mid_one",
+        "label": "Line between the tiers, one bottle left",
+        "info": "Used in place of the line above when exactly one bottle is missing. Leave empty to keep using the line above.",
+        "default": "Din 30 ml är upplåst. Lägg [n] flaska till och få även *en 100 ml Mystery Scent GRATIS*"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_text_done",
+        "label": "Line at the second tier",
+        "default": "*Din 30 ml och din 100 ml Mystery Scent är upplåsta*"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_label_1",
+        "label": "First tier caption",
+        "info": "Sits under the chip for the first tier on the ladder.",
+        "default": "30 ml GRATIS"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_cart_label_2",
+        "label": "Second tier caption",
+        "info": "Sits under the chip for the second tier on the ladder.",
+        "default": "+100 ml MYSTERY"
+      },
+      {
+        "type": "checkbox",
+        "id": "fuel04_cart_show_message",
+        "label": "Show a line under the progress rail",
+        "info": "The lines above only render when this is on.",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Scent Quiz (popup)",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_scent_quiz",
+        "label": "Enable scent quiz popup",
+        "default": true
+      },
+      {
+        "type": "paragraph",
+        "content": "A swipe-based scent quiz shown as a popup site-wide. The visitor saves up to 6 favorites and is linked through to the bundle product with their picks pre-filled. On-site copy stays in Swedish; only these settings are in English."
+      },
+      {
+        "type": "product",
+        "id": "scent_quiz_bundle_product",
+        "label": "Bundle product",
+        "info": "Added to cart when a visitor taps \"Build my bundle\" after the quiz, with their picks recorded as line item properties, then taken straight to checkout. Required for that button - if left blank, it shows an inline error instead of adding to cart."
+      },
+      {
+        "type": "header",
+        "content": "Scents"
+      },
+      {
+        "type": "collection",
+        "id": "scent_quiz_collection",
+        "label": "Scent collection",
+        "info": "Required - products swiped through in the quiz deck. Until a collection with products is picked here, the trigger button stays visible but shows a notice instead of opening the quiz. Copy (tagline, \"inspired by\", mood tags, second photo) is read from each product's metafields where set - see the comment at the top of snippets/scent-quiz-popup.liquid for the exact fields."
+      },
+      {
+        "type": "text",
+        "id": "scent_quiz_variant_match",
+        "label": "Variant to use",
+        "default": "50",
+        "info": "For each product in the collection above, the variant whose title contains this text is used (e.g. \"50\" matches \"50 ml\"). Falls back to the product's first available variant if none match."
+      },
+      {
+        "type": "header",
+        "content": "Trigger"
+      },
+      {
+        "type": "checkbox",
+        "id": "scent_quiz_show_floating_button",
+        "label": "Show floating button",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "scent_quiz_button_label",
+        "label": "Button text",
+        "default": "Hitta din doft"
+      },
+      {
+        "type": "select",
+        "id": "scent_quiz_button_position",
+        "label": "Button position",
+        "options": [
+          {
+            "value": "bottom_right",
+            "label": "Bottom right"
+          },
+          {
+            "value": "bottom_left",
+            "label": "Bottom left"
+          }
+        ],
+        "default": "bottom_right"
+      },
+      {
+        "type": "range",
+        "id": "scent_quiz_auto_open_delay",
+        "label": "Auto-open after",
+        "info": "0 = auto-open disabled. Visitors can always open the quiz manually via the floating button.",
+        "min": 0,
+        "max": 60,
+        "step": 1,
+        "unit": "s",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "scent_quiz_frequency",
+        "label": "How often the popup should auto-open",
+        "options": [
+          {
+            "value": "every_visit",
+            "label": "Every page load"
+          },
+          {
+            "value": "once_per_session",
+            "label": "Once per session"
+          },
+          {
+            "value": "once_per_day",
+            "label": "Once per day"
+          },
+          {
+            "value": "once_ever",
+            "label": "Only once, ever"
+          }
+        ],
+        "default": "once_per_session"
+      },
+      {
+        "type": "header",
+        "content": "Appearance"
+      },
+      {
+        "type": "color",
+        "id": "scent_quiz_primary_color",
+        "label": "Primary color",
+        "default": "#23233a"
+      },
+      {
+        "type": "color",
+        "id": "scent_quiz_accent_color",
+        "label": "Accent color (heart / save)",
+        "default": "#b03a5b"
+      },
+      {
+        "type": "header",
+        "content": "Email capture (Klaviyo)"
+      },
+      {
+        "type": "checkbox",
+        "id": "scent_quiz_klaviyo_enabled",
+        "label": "Send saved scent boards to Klaviyo",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "scent_quiz_klaviyo_public_key",
+        "label": "Klaviyo public API key (Site ID)",
+        "info": "Klaviyo > Settings > API Keys > Public API Key. Safe to use in the browser."
+      },
+      {
+        "type": "text",
+        "id": "scent_quiz_klaviyo_list_id",
+        "label": "Klaviyo List ID",
+        "info": "The list the visitor's email should be added to. Klaviyo > Lists & Segments > open the list > List ID is in the URL."
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.logo.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings_schema.logo.settings.logo_image.label"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "default": 100,
+        "unit": "px",
+        "label": "t:settings_schema.logo.settings.logo_width.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings_schema.logo.settings.favicon.label",
+        "info": "t:settings_schema.logo.settings.favicon.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.colors.name",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "t:settings_schema.colors.settings.background.label",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "t:settings_schema.colors.settings.background_gradient.label",
+            "info": "t:settings_schema.colors.settings.background_gradient.info"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "t:settings_schema.colors.settings.text.label",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "t:settings_schema.colors.settings.button_background.label",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "t:settings_schema.colors.settings.button_label.label",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "t:settings_schema.colors.settings.secondary_button_label.label",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "shadow",
+            "label": "t:settings_schema.colors.settings.shadow.label",
+            "default": "#121212"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
+        }
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.typography.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.typography.settings.header__1.content"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_header_font",
+        "default": "assistant_n4",
+        "label": "t:settings_schema.typography.settings.type_header_font.label"
+      },
+      {
+        "type": "range",
+        "id": "heading_scale",
+        "min": 100,
+        "max": 150,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.typography.settings.heading_scale.label",
+        "default": 100
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.typography.settings.header__2.content"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "assistant_n4",
+        "label": "t:settings_schema.typography.settings.type_body_font.label"
+      },
+      {
+        "type": "range",
+        "id": "body_scale",
+        "min": 100,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.typography.settings.body_scale.label",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.layout.name",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1600,
+        "step": 100,
+        "default": 1200,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.page_width.label"
+      },
+      {
+        "type": "range",
+        "id": "spacing_sections",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.spacing_sections.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.layout.settings.header__grid.content"
+      },
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.layout.settings.paragraph__grid.content"
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_horizontal",
+        "min": 4,
+        "max": 40,
+        "step": 4,
+        "default": 8,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.spacing_grid_horizontal.label"
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_vertical",
+        "min": 4,
+        "max": 40,
+        "step": 4,
+        "default": 8,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.spacing_grid_vertical.label"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.animations.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "animations_reveal_on_scroll",
+        "label": "t:settings_schema.animations.settings.animations_reveal_on_scroll.label",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "animations_hover_elements",
+        "options": [
+          {
+            "value": "default",
+            "label": "t:settings_schema.animations.settings.animations_hover_elements.options__1.label"
+          },
+          {
+            "value": "vertical-lift",
+            "label": "t:settings_schema.animations.settings.animations_hover_elements.options__2.label"
+          },
+          {
+            "value": "3d-lift",
+            "label": "t:settings_schema.animations.settings.animations_hover_elements.options__3.label"
+          }
+        ],
+        "default": "default",
+        "label": "t:settings_schema.animations.settings.animations_hover_elements.label",
+        "info": "t:settings_schema.animations.settings.animations_hover_elements.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.buttons.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "buttons_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "buttons_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "buttons_shadow_blur",
+        "min": 0,
+        "max": 20,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.variant_pills.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.variant_pills.paragraph"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_border_thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 55
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 40
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "variant_pills_shadow_blur",
+        "min": 0,
+        "max": 20,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.inputs.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "inputs_border_thickness",
+        "min": 0,
+        "max": 12,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "inputs_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 55
+      },
+      {
+        "type": "range",
+        "id": "inputs_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_horizontal_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_vertical_offset",
+        "min": -12,
+        "max": 12,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "inputs_shadow_blur",
+        "min": 0,
+        "max": 20,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.cards.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_style",
+        "options": [
+          {
+            "value": "standard",
+            "label": "t:settings_schema.cards.settings.style.options__1.label"
+          },
+          {
+            "value": "card",
+            "label": "t:settings_schema.cards.settings.style.options__2.label"
+          }
+        ],
+        "default": "standard",
+        "label": "t:settings_schema.cards.settings.style.label"
+      },
+      {
+        "type": "range",
+        "id": "card_image_padding",
+        "min": 0,
+        "max": 20,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.image_padding.label",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "card_text_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:settings_schema.global.settings.text_alignment.options__1.label"
+          },
+          {
+            "value": "center",
+            "label": "t:settings_schema.global.settings.text_alignment.options__2.label"
+          },
+          {
+            "value": "right",
+            "label": "t:settings_schema.global.settings.text_alignment.options__3.label"
+          }
+        ],
+        "default": "left",
+        "label": "t:settings_schema.global.settings.text_alignment.label"
+      },
+      {
+        "type": "color_scheme",
+        "id": "card_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-2"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "card_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "card_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "card_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "card_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.collection_cards.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "collection_card_style",
+        "options": [
+          {
+            "value": "standard",
+            "label": "t:settings_schema.collection_cards.settings.style.options__1.label"
+          },
+          {
+            "value": "card",
+            "label": "t:settings_schema.collection_cards.settings.style.options__2.label"
+          }
+        ],
+        "default": "standard",
+        "label": "t:settings_schema.collection_cards.settings.style.label"
+      },
+      {
+        "type": "range",
+        "id": "collection_card_image_padding",
+        "min": 0,
+        "max": 20,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.image_padding.label",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "collection_card_text_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:settings_schema.global.settings.text_alignment.options__1.label"
+          },
+          {
+            "value": "center",
+            "label": "t:settings_schema.global.settings.text_alignment.options__2.label"
+          },
+          {
+            "value": "right",
+            "label": "t:settings_schema.global.settings.text_alignment.options__3.label"
+          }
+        ],
+        "default": "left",
+        "label": "t:settings_schema.global.settings.text_alignment.label"
+      },
+      {
+        "type": "color_scheme",
+        "id": "collection_card_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-2"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "collection_card_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "collection_card_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "collection_card_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "collection_card_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "collection_card_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "collection_card_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "collection_card_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.blog_cards.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "blog_card_style",
+        "options": [
+          {
+            "value": "standard",
+            "label": "t:settings_schema.blog_cards.settings.style.options__1.label"
+          },
+          {
+            "value": "card",
+            "label": "t:settings_schema.blog_cards.settings.style.options__2.label"
+          }
+        ],
+        "default": "standard",
+        "label": "t:settings_schema.blog_cards.settings.style.label"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_image_padding",
+        "min": 0,
+        "max": 20,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.image_padding.label",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "blog_card_text_alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:settings_schema.global.settings.text_alignment.options__1.label"
+          },
+          {
+            "value": "center",
+            "label": "t:settings_schema.global.settings.text_alignment.options__2.label"
+          },
+          {
+            "value": "right",
+            "label": "t:settings_schema.global.settings.text_alignment.options__3.label"
+          }
+        ],
+        "default": "left",
+        "label": "t:settings_schema.global.settings.text_alignment.label"
+      },
+      {
+        "type": "color_scheme",
+        "id": "blog_card_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-2"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "blog_card_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "blog_card_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "blog_card_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.content_containers.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "text_boxes_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.media.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "media_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "media_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "media_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "media_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.popups.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.popups.paragraph"
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "popup_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "popup_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 10
+      },
+      {
+        "type": "range",
+        "id": "popup_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "popup_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.drawers.name",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__border.content"
+      },
+      {
+        "type": "range",
+        "id": "drawer_border_thickness",
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.thickness.label",
+        "default": 1
+      },
+      {
+        "type": "range",
+        "id": "drawer_border_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 10
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.global.settings.header__shadow.content"
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_opacity",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "unit": "%",
+        "label": "t:settings_schema.global.settings.opacity.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_horizontal_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.horizontal_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_vertical_offset",
+        "min": -40,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.vertical_offset.label",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "drawer_shadow_blur",
+        "min": 0,
+        "max": 40,
+        "step": 5,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.blur.label",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.badges.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "badge_position",
+        "options": [
+          {
+            "value": "bottom left",
+            "label": "t:settings_schema.badges.settings.position.options__1.label"
+          },
+          {
+            "value": "bottom right",
+            "label": "t:settings_schema.badges.settings.position.options__2.label"
+          },
+          {
+            "value": "top left",
+            "label": "t:settings_schema.badges.settings.position.options__3.label"
+          },
+          {
+            "value": "top right",
+            "label": "t:settings_schema.badges.settings.position.options__4.label"
+          }
+        ],
+        "default": "bottom left",
+        "label": "t:settings_schema.badges.settings.position.label"
+      },
+      {
+        "type": "range",
+        "id": "badge_corner_radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "label": "t:settings_schema.global.settings.corner_radius.label",
+        "default": 40
+      },
+      {
+        "type": "color_scheme",
+        "id": "sale_badge_color_scheme",
+        "label": "t:settings_schema.badges.settings.sale_badge_color_scheme.label",
+        "default": "scheme-5"
+      },
+      {
+        "type": "color_scheme",
+        "id": "sold_out_badge_color_scheme",
+        "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label",
+        "default": "scheme-3"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.brand_information.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.brand_information.settings.paragraph.content"
+      },
+      {
+        "type": "inline_richtext",
+        "id": "brand_headline",
+        "label": "t:settings_schema.brand_information.settings.brand_headline.label"
+      },
+      {
+        "type": "richtext",
+        "id": "brand_description",
+        "label": "t:settings_schema.brand_information.settings.brand_description.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "brand_image",
+        "label": "t:settings_schema.brand_information.settings.brand_image.label"
+      },
+      {
+        "type": "range",
+        "id": "brand_image_width",
+        "min": 50,
+        "max": 550,
+        "step": 5,
+        "default": 100,
+        "unit": "px",
+        "label": "t:settings_schema.brand_information.settings.brand_image_width.label"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.social-media.name",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "t:settings_schema.social-media.settings.social_facebook_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_facebook_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "t:settings_schema.social-media.settings.social_instagram_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_instagram_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "t:settings_schema.social-media.settings.social_youtube_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_youtube_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "t:settings_schema.social-media.settings.social_tiktok_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_tiktok_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "t:settings_schema.social-media.settings.social_twitter_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_twitter_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "t:settings_schema.social-media.settings.social_snapchat_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_snapchat_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "t:settings_schema.social-media.settings.social_pinterest_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_pinterest_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "t:settings_schema.social-media.settings.social_tumblr_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_tumblr_link.info"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "t:settings_schema.social-media.settings.social_vimeo_link.label",
+        "placeholder": "t:settings_schema.social-media.settings.social_vimeo_link.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.search_input.name",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "predictive_search_enabled",
+        "default": true,
+        "label": "t:settings_schema.search_input.settings.predictive_search_enabled.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "predictive_search_show_vendor",
+        "default": false,
+        "label": "t:settings_schema.search_input.settings.predictive_search_show_vendor.label",
+        "info": "t:settings_schema.search_input.settings.predictive_search_show_vendor.info"
+      },
+      {
+        "type": "checkbox",
+        "id": "predictive_search_show_price",
+        "default": false,
+        "label": "t:settings_schema.search_input.settings.predictive_search_show_price.label",
+        "info": "t:settings_schema.search_input.settings.predictive_search_show_price.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.currency_format.name",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.currency_format.settings.paragraph"
+      },
+      {
+        "type": "checkbox",
+        "id": "currency_code_enabled",
+        "label": "t:settings_schema.currency_format.settings.currency_code_enabled.label",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.cart.name",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "t:settings_schema.cart.settings.cart_type.drawer.label"
+          },
+          {
+            "value": "page",
+            "label": "t:settings_schema.cart.settings.cart_type.page.label"
+          },
+          {
+            "value": "notification",
+            "label": "t:settings_schema.cart.settings.cart_type.notification.label"
+          }
+        ],
+        "default": "notification",
+        "label": "t:settings_schema.cart.settings.cart_type.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "t:settings_schema.cart.settings.show_vendor.label",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_cart_note",
+        "label": "t:settings_schema.cart.settings.show_cart_note.label",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "t:settings_schema.cart.settings.cart_drawer.header"
+      },
+      {
+        "type": "collection",
+        "id": "cart_drawer_collection",
+        "label": "t:settings_schema.cart.settings.cart_drawer.collection.label",
+        "info": "t:settings_schema.cart.settings.cart_drawer.collection.info"
+      },
+      {
+        "type": "color_scheme",
+        "id": "cart_color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      }
+    ]
+  },
+  {
+    "name": "Product Card",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "product_card_promo_text",
+        "label": "Product Card promo text",
+        "info": "One message per line. Leave empty to hide this text on product cards."
+      }
+    ]
+  },
+  {
+    "name": "FUEL_06 Fragrance finder",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Copy for the designer fragrance finder. The homepage band is the \"FUEL_06 Fragrance finder\" section; on product pages the finder opens from the link under the buy button. On-site copy is Swedish; the translation app handles the other markets. No prices are set here: the finder reads them from each product."
+      },
+      {
+        "type": "checkbox",
+        "id": "fuel06_pdp_enabled",
+        "label": "Show on product pages",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "fuel06_pdp_lead",
+        "label": "Product page link: lead-in",
+        "default": "Inte din doft?"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_pdp_link",
+        "label": "Product page link: link text",
+        "default": "Hitta din designerdoft för mindre"
+      },
+      {
+        "type": "header",
+        "content": "Finder copy"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_heading",
+        "label": "Band heading",
+        "default": "Hitta din designerdoft för mindre"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_heading_accent",
+        "label": "Heading word in green",
+        "info": "The first time this word appears in the band heading it is set in green italics. Leave it empty for a plain heading.",
+        "default": "mindre"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_placeholder",
+        "label": "Search placeholder",
+        "default": "t.ex. Opium, Sauvage"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_cta",
+        "label": "Band button",
+        "default": "Hitta min match"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_modal_title",
+        "label": "Finder title",
+        "default": "Hitta din designerdoft för mindre"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_search_label",
+        "label": "Search field label",
+        "default": "Sök en parfym du redan älskar"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_popular_label",
+        "label": "Popular searches label",
+        "default": "Populära sökningar"
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_popular_terms",
+        "label": "Popular searches",
+        "info": "Separated by commas. Replace with the real top search terms from the Searchanise report.",
+        "default": "Sauvage, Baccarat Rouge 540, Opium, Bleu, Le Male"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_how_label",
+        "label": "How it works label",
+        "default": "Så fungerar det"
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_steps",
+        "label": "How it works steps",
+        "info": "One step per line. They are numbered automatically.",
+        "default": "Sök en doft du redan älskar\nVi hittar den TryScent-doft som ligger närmast\nJämför doften och vad du sparar"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_suggestions_label",
+        "label": "Suggestions label",
+        "default": "Förslag"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_recent_label",
+        "label": "Recent searches label",
+        "default": "Senaste sökningar"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_clear_label",
+        "label": "Clear label",
+        "default": "Rensa"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_close_label",
+        "label": "Close button label",
+        "info": "Read out by screen readers, not shown on screen.",
+        "default": "Stäng"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_loading_title",
+        "label": "Loading title",
+        "default": "Vi letar upp din närmaste match ..."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_loading_sub",
+        "label": "Loading subtitle",
+        "default": "Vi jämför doftprofil, noter och kundfavoriter."
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_loading_note",
+        "label": "Loading footnote",
+        "default": "Vår matchningsteknik går igenom tusentals recensioner och doftdata för att hitta din perfekta match."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_result_title",
+        "label": "Result title",
+        "default": "Din bästa match"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_based_on",
+        "label": "Result subtitle prefix",
+        "info": "The fragrance the shopper searched for is added after this.",
+        "default": "Baserat på"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_inspired_prefix",
+        "label": "Inspired by prefix",
+        "info": "Never change this to a claim that our perfume is the same as the designer one.",
+        "default": "Inspirerad av"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_scent_label",
+        "label": "Scent profile label",
+        "default": "Doftprofil"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_notes_label",
+        "label": "Key notes label",
+        "default": "Nyckelnoter"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_note_labels",
+        "label": "Note row labels",
+        "info": "Three labels separated by commas, in this order: top, heart, base. Kept short so they fit the 64px label column.",
+        "default": "Topp, Mellan, Bas"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_brand_label",
+        "label": "Our column label",
+        "default": "TryScent"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_brand_note",
+        "label": "Our column note",
+        "info": "Concentration of our own bottle. It is printed after the size the variant carries, so \"100ML\" and \"Extrait de parfum\" read as \"100ML / Extrait de parfum\".",
+        "default": "Extrait de parfum"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_ref_note",
+        "label": "Designer column note",
+        "info": "Size and concentration of the designer bottle the price refers to. Change it as soon as one figure cannot stand for every fragrance.",
+        "default": "100 ml / Eau de parfum"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_save_label",
+        "label": "Savings column label",
+        "default": "Du sparar"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_less_suffix",
+        "label": "Savings percentage suffix",
+        "info": "The percentage is worked out from the product's own prices and printed before this word.",
+        "default": "billigare"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_remove_label",
+        "label": "Remove recent search label",
+        "info": "Read out by screen readers on the cross beside a remembered search, not shown on screen.",
+        "default": "Ta bort"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_similar_label",
+        "label": "Similar perfumes label",
+        "default": "Liknande parfymer du kan gilla"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_add_label",
+        "label": "Add to cart label",
+        "info": "The price is added after this, from the product itself.",
+        "default": "Lägg i kundvagnen"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_view_label",
+        "label": "View product label",
+        "default": "Visa hela produktsidan"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_again_label",
+        "label": "Search again label",
+        "default": "Inte rätt doft? Sök igen"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_added_title",
+        "label": "Added to bag title",
+        "default": "Tillagd i kundvagnen"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_also_label",
+        "label": "You may also like label",
+        "default": "Du kanske också gillar"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_bag_label",
+        "label": "View bag label",
+        "default": "Visa kundvagn"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_keep_label",
+        "label": "Keep exploring label",
+        "default": "Fortsätt handla"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_noresult_title",
+        "label": "No result title",
+        "info": "The design has no no-result frame. This wording is a placeholder for Omar and Korana to replace.",
+        "default": "Ingen match ännu"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_empty",
+        "label": "No result text",
+        "default": "Vi hittade inte den doften. Prova ett annat namn, eller välj en av de populära sökningarna."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_cart_error",
+        "label": "Add to cart error",
+        "default": "Något gick fel. Försök igen."
+      }
+    ]
+  },
+  {
+    "name": "Designer names in search",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "This theme: scents inspired by these brands (the L'Oréal and Coty houses) never show the designer bottle or the Fragrantica picture. Their \"Inspirerad av\" line (product page, cards, bundle pickers, cart, page title) uses the short name below instead of house + perfume; in search they get no line under the title. Searching the designer name still finds them. Every other scent shows its designer bottle (the stored pictures are blurred files)."
+      },
+      {
+        "type": "textarea",
+        "id": "pm_masked_brands",
+        "label": "Brands never named or shown",
+        "info": "One per line. Matched against the product's brand and its 'inspired by' name, case-insensitive. Add a brand here to strip it the same way.",
+        "default": "Emporio Armani\nGiorgio Armani\nArmani\nYves Saint Laurent\nSaint Laurent\nYSL\nLancôme\nLancome\nCreed\nMugler\nPrada\nValentino\nViktor & Rolf\nViktor&Rolf\nJoop!\nJoop"
+      },
+      {
+        "type": "textarea",
+        "id": "pm_brand_words",
+        "label": "Brand names removed from every name",
+        "info": "One per line. Removed from every perfume name in search, collections, cards, bundle builders, the product page line and the browser tab; the perfume name stays (\"Tom Ford Oud Wood\" -> \"Oud Wood\"). Put longer forms first (\"Paco Rabanne\" before \"Rabanne\"). Case-sensitive.",
+        "default": "Tom Ford\nCarolina Herrera\nVersace\nChristian Dior\nDior\nChanel\nPaco Rabanne\nRabanne\nJean Paul Gaultier\nJPG\nMaison Francis Kurkdjian\nMFK\nLouis Vuitton\nLV\nByredo\nJoop!\nJoop\nHermès\nHermes\nDolce & Gabbana\nDolce&Gabbana\nD&G\nNarciso Rodriguez\nBy Kilian\nKilian\nGuerlain\nTiziana Terenzi\nLe Labo\nXerjoff\nEscentric Molecules\nKayali\nGucci\nGivenchy\nHugo Boss\nBurberry\nCalvin Klein\nAzzaro\nMontblanc\nBvlgari\nParfums de Marly\nInitio\nNishane\nLattafa\nJo Malone\nMaison Margiela"
+      },
+      {
+        "type": "textarea",
+        "id": "pm_hidden_names",
+        "label": "Perfume names never shown",
+        "info": "One per line. These names appear nowhere on the site (no \"Inspirerad av\" line, tab, Google texts, builders); search still finds the scent when someone types the name.",
+        "default": "Aventus"
+      },
+      {
+        "type": "checkbox",
+        "id": "pm_show_collection_text",
+        "label": "Show collection SEO text",
+        "info": "The text stored on each collection (bottom of collection pages) and its FAQ data for Google. It names brands and Aventus, so it is off on this theme.",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "pm_short_names",
+        "label": "Short names",
+        "info": "One per line: MAGYX number = the name shown after \"Inspirerad av\". Listed-brand scents: one word, never the full perfume name (e.g. 221 = Aqua, 132 = Opium). Any other number listed here overrides its name; scents without a line show their perfume name without the brand. Page titles and Google texts swap the full name for this one.",
+        "default": "004 = Alien\n437 = Paradoxe\n283 = Y\n150 = She\n129 = Sì\n469 = Roma Dam\n132 = Opium\n034 = Libre\n040 = Diamonds\n260 = Code\n360 = Roma Herr\n221 = Aqua\n318 = Stronger\n140 = My Way\n101 = La Vie\n504 = Goddess\n197 = Nuit\n105 = Passione\n144 = Flowerbomb\n503 = Libre\n166 = Nova\n113 = Angel\n55 = Idôle\n367 = MYSLF\n654 = Tweed\n481 = Illicit\n661 = Vetiver\n718 = Stronger\n191 = Ocean\n211 = Homme"
+      },
+      {
+        "type": "textarea",
+        "id": "pm_home_description",
+        "label": "Homepage description for Google",
+        "info": "Replaces the homepage description from Online Store > Preferences on this theme (that one names Creed and YSL). Empty = use the Preferences text.",
+        "default": "Parfym dupes inspirerade av världens mest älskade dofter. Eau de parfum med 19–21 % parfymolja, upp till 12 timmar. Från 169,99 kr. 60 dagars garanti."
+      },
+      {
+        "type": "text",
+        "id": "pm_masked_notice",
+        "label": "Line when someone searches one of these brands",
+        "default": "Baserat på din sökning är det här de mest träffsäkra dofterna."
+      },
+      {
+        "type": "header",
+        "content": "Search: our scent, scent family and price list"
+      },
+      {
+        "type": "paragraph",
+        "content": "A search for a designer perfume (e.g. Sauvage) shows our scent in the same scent family on top, more scents of that family below, and, in Swedish (SEK) only, a price list: the searched perfume first and up to 4 others of the same family at Swedish retailers' prices (PRICE-COMPARE.md). A search for a house only (e.g. Creed) lists its scents under the related heading. Prices: the inspiration metaobject's retail_offers field, written by tools/retail-prices. {family}, {date} and {n} are filled in automatically."
+      },
+      {
+        "type": "text",
+        "id": "pm_close_heading",
+        "label": "Label over our scent",
+        "default": "TryScents egna produkter · doftfamiljen {family}"
+      },
+      {
+        "type": "text",
+        "id": "pm_family_tag",
+        "label": "Tag on our scent",
+        "default": "Samma doftfamilj: {family}"
+      },
+      {
+        "type": "text",
+        "id": "pm_hero_hint",
+        "label": "Hint under the sizes",
+        "default": "Tryck på en storlek för att lägga den i varukorgen."
+      },
+      {
+        "type": "text",
+        "id": "pm_hero_added",
+        "label": "Confirmation after adding",
+        "default": "Tillagd i varukorgen"
+      },
+      {
+        "type": "text",
+        "id": "pm_hero_cta",
+        "label": "Link to our scent",
+        "default": "Se doften"
+      },
+      {
+        "type": "text",
+        "id": "pm_family_heading",
+        "label": "Heading over more scents of the family",
+        "default": "Fler i samma doftfamilj"
+      },
+      {
+        "type": "text",
+        "id": "pm_related_heading",
+        "label": "Heading over a house's scents",
+        "default": "Relaterade dofter"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_divider",
+        "label": "Line above the price list",
+        "default": "Butikspriser för din sökning"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_title",
+        "label": "Price list title",
+        "default": "Prisinformation från återförsäljare"
+      },
+      {
+        "type": "textarea",
+        "id": "pm_price_intro",
+        "label": "Price list intro",
+        "default": "Originalprodukter från andra varumärken, sålda av fristående återförsäljare. TryScent säljer inte produkterna och har ingen koppling till varumärkena."
+      },
+      {
+        "type": "text",
+        "id": "pm_price_searched",
+        "label": "Tag on the searched perfume",
+        "default": "Din sökning"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_peers",
+        "label": "Heading over the other perfumes",
+        "default": "Andra parfymer i samma doftfamilj"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_brand",
+        "label": "Heading over the perfumes after a house search",
+        "info": "When the search names only a house (e.g. creed): up to 5 of that house's perfumes with shop prices.",
+        "default": "Parfymer som matchar din sökning"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_all_sizes",
+        "label": "Size filter: all",
+        "default": "Alla storlekar"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_sort_label",
+        "label": "Sort label",
+        "default": "Sortera"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_sort_price",
+        "label": "Sort: price",
+        "default": "Pris"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_sort_ml",
+        "label": "Sort: price per ml",
+        "default": "Pris per ml"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_sort_shop",
+        "label": "Sort: shop",
+        "default": "Butik"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_read",
+        "label": "Read date on each row",
+        "default": "Avläst {date}"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_more",
+        "label": "Show all shops",
+        "default": "Visa alla butiker ({n})"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_less",
+        "label": "Show fewer shops",
+        "default": "Visa färre"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_none",
+        "label": "No prices for the searched perfume",
+        "default": "Inga butikspriser hittades för den här parfymen."
+      },
+      {
+        "type": "text",
+        "id": "pm_frag_cta",
+        "label": "Fragrantica link in the price list",
+        "default": "Se doftprofilen på Fragrantica"
+      },
+      {
+        "type": "text",
+        "id": "pm_price_how_title",
+        "label": "How prices are read: title",
+        "default": "Så tas priserna fram"
+      },
+      {
+        "type": "textarea",
+        "id": "pm_price_how",
+        "label": "How prices are read: text",
+        "info": "Blank line = new paragraph.",
+        "default": "Priserna läses från respektive butiks offentliga produktsida vid den tidpunkt som står på varje rad. Priserna kan ha ändrats sedan dess.\n\nListan visar parfymen du sökte på och andra parfymer i samma doftfamilj. Raderna sorteras bara efter det du själv väljer: pris, pris per ml eller butik. Ingen butik betalar för att visas eller för sin placering. Staplarna visar priset per ml i förhållande till det högsta i listan.\n\nTryScents egna produkter ingår inte i jämförelsen. Butiker kan begära rättelse eller att ett pris tas bort via vår kundtjänst."
+      }
+    ]
+  }
+]

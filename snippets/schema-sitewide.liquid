@@ -1,0 +1,56 @@
+{%- comment -%}
+  SITEWIDE SCHEMA: Organization + Brand + WebSite (SEO update 2026-11-03).
+{%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ request.origin }}/#organization",
+      "name": "TryScent",
+      "url": {{ request.origin | append: routes.root_url | json }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ settings.logo | image_url: width: 600 | prepend: "https:" | json }}
+      },
+      "description": "TryScent säljer MAGYX eau de parfum: parfym dupes inspirerade av kända designerdofter, upp till 90 % billigare än designerpriset.",
+      "brand": { "@id": "{{ request.origin }}/#brand" },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "hello@tryscent.co",
+        "availableLanguage": ["sv", "da", "fi", "en"]
+      }
+      {%- if settings.social_instagram_link != blank or settings.social_tiktok_link != blank or settings.social_facebook_link != blank or settings.social_youtube_link != blank -%}
+      ,"sameAs": [
+        {%- assign socials = "" -%}
+        {%- if settings.social_instagram_link != blank -%}{{ settings.social_instagram_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_tiktok_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_tiktok_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_facebook_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_facebook_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_youtube_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_youtube_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+      ]
+      {%- endif -%}
+    },
+    {
+      "@type": "Brand",
+      "@id": "{{ request.origin }}/#brand",
+      "name": "MAGYX",
+      "description": "MAGYX eau de parfum med 19–21 % parfymolja, säljs av TryScent."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ request.origin }}/#website",
+      "url": {{ request.origin | append: routes.root_url | json }},
+      "name": "TryScent",
+      "publisher": { "@id": "{{ request.origin }}/#organization" },
+      "inLanguage": {{ request.locale.iso_code | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.origin }}{{ routes.search_url }}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>

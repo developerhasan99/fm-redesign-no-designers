@@ -1,0 +1,470 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "marquee_labels_CjAgNU": {
+      "type": "marquee-labels",
+      "blocks": {
+        "label_Qg6CjC": {
+          "type": "label",
+          "disabled": true,
+          "settings": {
+            "icon": "shopify://shop_images/fast-delivery-truck-van-svgrepo-com.svg",
+            "label": "FREE SHIPPING ON ORDERS ABOVE $50"
+          }
+        },
+        "label_h4EKbX": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/save-pound-svgrepo-com.svg",
+            "label": "SAVE UPTO 50% OFF WITH OUR BUNDLES & GIFT SETS"
+          }
+        },
+        "label_yJphg9": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/verified-svgrepo-com.svg",
+            "label": "100% AUTHENTIC"
+          }
+        },
+        "label_nYhF3R": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/achievement-svgrepo-com.svg",
+            "label": "EXPERT-CURATED COLLECTIONS"
+          }
+        },
+        "label_RqnDUx": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/money-back-business-warranty-satisfaction-marketing-guaranted-svgrepo-com.svg",
+            "label": "RISK-FREE 60 DAYS MONEY BACK GUARANTEE"
+          }
+        }
+      },
+      "block_order": [
+        "label_Qg6CjC",
+        "label_h4EKbX",
+        "label_yJphg9",
+        "label_nYhF3R",
+        "label_RqnDUx"
+      ],
+      "disabled": true,
+      "name": "Marquee Labels",
+      "settings": {}
+    },
+    "offer_announcement_cN6pMF": {
+      "type": "offer-announcement",
+      "disabled": true,
+      "name": "Offer Announcement",
+      "settings": {
+        "background_color": "#114325",
+        "prepend_text": "Valentine Offer",
+        "link_text": "Köp 4, betala för 3!",
+        "append_text": "Shop Now 👉",
+        "link": "shopify://products/tryscent-collection"
+      }
+    },
+    "offer_timebar_xLgmJd": {
+      "type": "offer-timebar",
+      "blocks": {
+        "payment_icon_6GxdtN": {
+          "type": "payment_icon",
+          "settings": {
+            "use_country_flag": false,
+            "icon": "shopify://shop_images/090e7fd71af4b4e7589642874d6cae93a0a34f77.png",
+            "label": "Snabb"
+          }
+        },
+        "payment_icon_gqazqP": {
+          "type": "payment_icon",
+          "settings": {
+            "use_country_flag": false,
+            "icon": "shopify://shop_images/65f2284e66ff1dcb1a272319f1ef543c429f73e2_1.png",
+            "label": "EU-frakt"
+          }
+        },
+        "payment_icon_cNizYM": {
+          "type": "payment_icon",
+          "settings": {
+            "use_country_flag": false,
+            "icon": "shopify://shop_images/swish_logo.webp",
+            "label": "Direkt"
+          }
+        },
+        "payment_icon_C7Etjn": {
+          "type": "payment_icon",
+          "settings": {
+            "use_country_flag": false,
+            "icon": "shopify://shop_images/777929254296c2d290f0836dc4e68451f4cfdbc4.png",
+            "label": "Flexibel"
+          }
+        }
+      },
+      "block_order": [
+        "payment_icon_6GxdtN",
+        "payment_icon_gqazqP",
+        "payment_icon_cNizYM",
+        "payment_icon_C7Etjn"
+      ],
+      "name": "Offer Timebar",
+      "settings": {
+        "style": "classic",
+        "color_scheme": "scheme-4",
+        "enable_timer": false,
+        "enable_badges": false,
+        "primary_color": "#000000",
+        "secondary_color": "#ffffff",
+        "timer_box_color": "#0b0b0b",
+        "timer_label_color": "#ffffff",
+        "top_banner_text": "BLACK WEEK-GALENSKAP",
+        "prepend_text": "UPP TILL 40 % RABATT PÅ HELA VARUKORGEN",
+        "countdown_date": "",
+        "append_text": "",
+        "link": "shopify://products/bundle-and-save",
+        "fuel04_line": "",
+        "fuel04_sub": "",
+        "goal_line_enable": true,
+        "goal_line_markets": "",
+        "goal_steps": "2:25, 4:30, 6:35, 8:40",
+        "goal_bs_handle": "bundle-and-save",
+        "goal_text_empty": "Lägg till [n] och få [pct] RABATT",
+        "goal_text_step": "Lägg till [n] till och få [pct] RABATT",
+        "goal_text_unlocked": "[rewards] upplåst",
+        "goal_text_done": "Du får [pct] RABATT",
+        "goal_label_pct": "[pct] RABATT",
+        "goal_word_one": "flaska",
+        "goal_word_many": "flaskor",
+        "goal_texts_da": "Tilføj [n] og få [pct] RABAT\nTilføj [n] mere og få [pct] RABAT\n[rewards] låst op\nDu får [pct] RABAT\n[pct] RABAT\nflaske\nflasker",
+        "goal_texts_fi": "Lisää [n] ja saat [pct] ALENNUSTA\nLisää vielä [n] ja saat [pct] ALENNUSTA\n[rewards] avattu\nSaat [pct] ALENNUKSEN\n[pct] ALENNUS\npullo\npulloa",
+        "goal_texts_no": "Legg til [n] og få [pct] RABATT\nLegg til [n] til og få [pct] RABATT\n[rewards] låst opp\nDu får [pct] RABATT\n[pct] RABATT\nflaske\nflasker",
+        "bs_primary_color": "#ffffff",
+        "bs_secondary_color": "#000000",
+        "bs_top_banner_text": "BLACK MONTH",
+        "bs_prepend_text": "UPP TILL [max]% RABATT",
+        "bs_append_text": "BARA IDAG"
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "menu_item_Presenter": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Presenter",
+            "url": "shopify://pages/presentguide"
+          }
+        },
+        "sub_menu_items_epQULd": {
+          "type": "sub_menu_items",
+          "settings": {
+            "label": "Till Honom",
+            "link_list": "herr-menu"
+          }
+        },
+        "sub_menu_items_6Yj9eC": {
+          "type": "sub_menu_items",
+          "settings": {
+            "label": "Till Henne",
+            "link_list": "dam-menu"
+          }
+        },
+        "mega_menu_item_kgEd9W": {
+          "type": "mega_menu_item",
+          "disabled": true,
+          "settings": {
+            "label": "Till Honom",
+            "collection": "top-sellers-men",
+            "slider_heading": "Popular scents"
+          }
+        },
+        "mega_menu_item_PtL8ng": {
+          "type": "mega_menu_item",
+          "disabled": true,
+          "settings": {
+            "label": "Till Henne",
+            "collection": "top-seller-women",
+            "slider_heading": "Popular scents"
+          }
+        },
+        "mega_menu_item_LAwC3B": {
+          "type": "mega_menu_item",
+          "disabled": true,
+          "settings": {
+            "label": "Unisex",
+            "collection": "unisex",
+            "slider_heading": "Popular scents"
+          }
+        },
+        "menu_item_6QUbXP": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Unisex",
+            "url": "shopify://collections/unisex"
+          }
+        },
+        "menu_item_8Yf436": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Bestsellers",
+            "url": "shopify://collections/bestseller-singles"
+          }
+        },
+        "menu_item_ValjSpara": {
+          "type": "menu_item",
+          "disabled": true,
+          "settings": {
+            "label": "Välj & spara",
+            "url": "shopify://collections/bundle-save"
+          }
+        },
+        "menu_item_JjXgCN": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Nya dofter",
+            "url": "shopify://collections/new"
+          }
+        },
+        "menu_item_xWyRaA": {
+          "type": "menu_item",
+          "settings": {
+            "label": "Gör vårt quiz",
+            "url": "/#quiz"
+          }
+        },
+        "menu_item_dLfQGR": {
+          "type": "menu_item",
+          "disabled": true,
+          "settings": {
+            "label": "Om oss",
+            "url": "shopify://pages/about-us"
+          }
+        }
+      },
+      "block_order": [
+        "menu_item_Presenter",
+        "sub_menu_items_epQULd",
+        "sub_menu_items_6Yj9eC",
+        "mega_menu_item_kgEd9W",
+        "mega_menu_item_PtL8ng",
+        "mega_menu_item_LAwC3B",
+        "menu_item_6QUbXP",
+        "menu_item_8Yf436",
+        "menu_item_ValjSpara",
+        "menu_item_JjXgCN",
+        "menu_item_xWyRaA",
+        "menu_item_dLfQGR"
+      ],
+      "settings": {
+        "logo_position": "top-center",
+        "mobile_logo_position": "center",
+        "menu": "main-menu-3-1",
+        "search_style": "icon",
+        "show_category_row": true,
+        "category_menu": "main-menu-3-1",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": false,
+        "color_scheme": "scheme-4",
+        "pm_logo_on_header": "shopify://shop_images/TryScent_Wide_Logo_white.svg",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": false,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "pm_search": {
+      "type": "pm-search-overlay",
+      "blocks": {
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "label": "Till Honom",
+            "link": "shopify://collections/man"
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "label": "Till Henne",
+            "link": "shopify://collections/woman"
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "label": "Unisex",
+            "link": "shopify://collections/unisex"
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "label": "Bestsellers",
+            "link": "shopify://collections/bestseller-singles"
+          }
+        },
+        "cat_5": {
+          "type": "category",
+          "settings": {
+            "label": "Nya dofter",
+            "link": "shopify://collections/new"
+          }
+        },
+        "term_1": {
+          "type": "term",
+          "settings": {
+            "emoji": "🍫",
+            "label": "Gourmand",
+            "query": "gourmand",
+            "color_1": "#f3e6dc",
+            "color_2": "#e8d3c3"
+          }
+        },
+        "term_2": {
+          "type": "term",
+          "settings": {
+            "emoji": "🍦",
+            "label": "Vanilj",
+            "query": "vanilj",
+            "color_1": "#fdf3dd",
+            "color_2": "#f7e7c2"
+          }
+        },
+        "term_3": {
+          "type": "term",
+          "settings": {
+            "emoji": "🌸",
+            "label": "Blommiga",
+            "query": "blommig",
+            "color_1": "#ffe0f0",
+            "color_2": "#ffc9e6"
+          }
+        },
+        "term_4": {
+          "type": "term",
+          "settings": {
+            "emoji": "🍑",
+            "label": "Fruktiga",
+            "query": "fruktig",
+            "color_1": "#ffe8d6",
+            "color_2": "#ffd2b3"
+          }
+        },
+        "term_5": {
+          "type": "term",
+          "settings": {
+            "emoji": "🌊",
+            "label": "Fräscha",
+            "query": "fräsch",
+            "color_1": "#dff3fb",
+            "color_2": "#c4e8f6"
+          }
+        },
+        "term_6": {
+          "type": "term",
+          "settings": {
+            "emoji": "🪵",
+            "label": "Träiga",
+            "query": "träig",
+            "color_1": "#ecdfd0",
+            "color_2": "#ddc9b0"
+          }
+        },
+        "term_7": {
+          "type": "term",
+          "settings": {
+            "emoji": "🍬",
+            "label": "Söta",
+            "query": "söt",
+            "color_1": "#f3e3ff",
+            "color_2": "#e6ccff"
+          }
+        },
+        "term_8": {
+          "type": "term",
+          "settings": {
+            "emoji": "🌶️",
+            "label": "Kryddiga",
+            "query": "kryddig",
+            "color_1": "#ffe3dc",
+            "color_2": "#ffcdbf"
+          }
+        },
+        "term_9": {
+          "type": "term",
+          "settings": {
+            "emoji": "🌙",
+            "label": "Orientaliska",
+            "query": "orientalisk",
+            "color_1": "#fde6cf",
+            "color_2": "#f9cfa5"
+          }
+        },
+        "set_1": {
+          "type": "product",
+          "settings": {
+            "product": "bundle-and-save",
+            "subtitle": "Begränsat Black Friday-erbjudande",
+            "badge": "-40%"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "term_1",
+        "term_2",
+        "term_3",
+        "term_4",
+        "term_5",
+        "term_6",
+        "term_7",
+        "term_8",
+        "term_9",
+        "set_1"
+      ],
+      "settings": {
+        "placeholder": "Sök doft, märke eller nummer",
+        "dialog_label": "Sök",
+        "clear_label": "Rensa",
+        "close_label": "Stäng sökningen",
+        "heading_categories": "Kategorier",
+        "heading_terms": "Doftfamiljer",
+        "heading_products": "Populära paket",
+        "hint": "",
+        "inspired_label": "Inspirerad av",
+        "from_label": "från",
+        "view_all_label": "Visa alla [count] resultat för ”[query]”",
+        "view_one_label": "Visa resultatet för ”[query]”",
+        "view_all_plain_label": "Visa alla [count] resultat",
+        "view_one_plain_label": "Visa resultatet",
+        "empty_text": "Inga träffar för ”[query]”. Prova ett märke eller ett nummer.",
+        "loading_text": "Laddar dofter …",
+        "count_text": "[count] träffar"
+      }
+    }
+  },
+  "order": [
+    "marquee_labels_CjAgNU",
+    "offer_announcement_cN6pMF",
+    "offer_timebar_xLgmJd",
+    "header",
+    "pm_search"
+  ]
+}

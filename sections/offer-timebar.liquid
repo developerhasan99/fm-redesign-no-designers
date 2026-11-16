@@ -1,0 +1,811 @@
+{%- comment -%}
+  Top bar, magicperfume.co design (port of its offer-timebar, 13.11.2026): the offer on Primary colour,
+  the countdown on Timer background. Phones stack them (offer above, timer below); from 768px they share
+  one row with a slanted join. The countdown is plain JS (no flip library): HH:MM:SS to midnight, or to
+  "End Date and Time" with days.
+
+  tryscent.co additions kept from the previous bar:
+  - Bundle & Save page (product template bundle-save): own texts and colours from the "Bundle & Save page"
+    settings, "UPP TILL [max]%" from the bundle's compare-at prices, countdown to the visitor's midnight,
+    link to the buy box. Shown with the countdown even when the countdown is switched off elsewhere.
+  - Badge blocks (Snabb / EU-frakt / Direkt / Flexibel): inside the bar from 1100px (next to the
+    countdown), as a strip under the bar below that.
+  - FUEL_04 multi-buy row (snippets/fuel04-announcement.liquid): still rendered, hidden unless its
+    A/B class is on.
+  - Countdown labels per Weglot language (sv / da / fi / no), filled by the script below.
+  - Goal line (snippets/tb-goal-line.liquid, "Goal line" settings), classic style only, not on the Bundle & Save
+    page: next goal in words + one marker per goal (discount steps, gift app's goals). After the countdown; without
+    the countdown it gets its own slot after the offer.
+
+  Colours: Primary = bar background, Secondary = bar text and button fill (the old bar used them the
+  other way round).
+{%- endcomment -%}
+{%- liquid
+  assign tb_offer_bg = section.settings.primary_color
+  assign tb_text = section.settings.secondary_color
+  assign tb_timer_bg = section.settings.timer_box_color
+  assign tb_label = section.settings.timer_label_color
+  assign tb_top = section.settings.top_banner_text
+  assign tb_prepend = section.settings.prepend_text
+  assign tb_append = section.settings.append_text
+  assign tb_link = section.settings.link
+  assign tb_date = section.settings.countdown_date
+  assign tb_timer = section.settings.enable_timer
+  assign tb_badges = false
+  if section.settings.enable_badges and section.blocks.size > 0
+    assign tb_badges = true
+  endif
+
+  assign tb_bs = false
+  if product and product.template_suffix == 'bundle-save'
+    assign tb_bs = true
+    assign tb_max = 0
+    for v in product.variants
+      if v.compare_at_price > v.price
+        assign v_pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+        if v_pct > tb_max
+          assign tb_max = v_pct
+        endif
+      endif
+    endfor
+    assign tb_offer_bg = section.settings.bs_secondary_color
+    assign tb_text = section.settings.bs_primary_color
+    assign tb_top = section.settings.bs_top_banner_text
+    assign tb_prepend = section.settings.bs_prepend_text | replace: '[max]', tb_max
+    assign tb_append = section.settings.bs_append_text
+    assign tb_link = '#pm-bs-box'
+    assign tb_date = ''
+    assign tb_timer = true
+  endif
+
+  comment
+    FM redesign: style = minimal renders one scheme-coloured line (pm-s-offer-timebar.css): top banner text,
+    prepend text, Slutar om hh:mm:ss, append text as a solid button. Same settings as the classic bar.
+    The Bundle & Save page keeps the classic bar with its own texts and colours.
+  endcomment
+  assign pm_minimal = false
+  if section.settings.style == 'minimal' and tb_bs == false
+    assign pm_minimal = true
+  endif
+-%}
+<style>
+  #shopify-section-{{ section.id }} .mgx-tb {
+    display: flex;
+    flex-direction: column;
+    background-color: {{ tb_timer_bg }};
+    color: {{ tb_text }};
+    text-decoration: none;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__offer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 10px;
+    padding: 6px 16px;
+    background-color: {{ tb_offer_bg }};
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__eyebrow {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__rule {
+    display: block;
+    width: 1px;
+    height: 14px;
+    background-color: {{ tb_text | color_modify: 'alpha', 0.35 }};
+  }
+  /* Append text as a solid button: text colour as the fill, bar colour as the label */
+  #shopify-section-{{ section.id }} .mgx-tb__deal {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-sizing: border-box;
+    min-height: 24px;
+    padding: 3px 12px;
+    border-radius: 4px;
+    background-color: {{ tb_text }};
+    color: {{ tb_offer_bg }};
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__arrow {
+    display: inline-block;
+    flex: none;
+    transition: transform 0.3s ease;
+  }
+  #shopify-section-{{ section.id }} a.mgx-tb:hover .mgx-tb__deal {
+    opacity: 0.88;
+  }
+  #shopify-section-{{ section.id }} a.mgx-tb:hover .mgx-tb__arrow {
+    transform: translateX(2px);
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__lead {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 4px 16px 5px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__ends {
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {{ tb_label | color_modify: 'alpha', 0.7 }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__clock {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__num {
+    display: block;
+    min-width: 26px;
+    padding: 2px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 6px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__cap {
+    margin-top: 2px;
+    font-size: 8px;
+    line-height: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: {{ tb_label | color_modify: 'alpha', 0.55 }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__sep {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 800;
+    color: {{ tb_offer_bg | color_lighten: 12 }};
+  }
+  /* The days tile shows only while "End Date and Time" lies in the future (the script removes it otherwise). */
+  #shopify-section-{{ section.id }} .mgx-tb__badges {
+    display: none;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb-badge__icon {
+    display: block;
+    width: auto;
+    height: 22px;
+    border-radius: 4px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb-badge__label {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 12px;
+    font-weight: 600;
+    color: {{ tb_text }};
+    white-space: nowrap;
+  }
+  /* Badge strip under the bar (phones and tablets; from 1100px the badges sit inside the bar). */
+  #shopify-section-{{ section.id }} .mgx-tb-strip {
+    padding: 10px 0;
+    border-top: 1px solid {{ tb_text | color_modify: 'alpha', 0.15 }};
+    background-color: {{ tb_offer_bg }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb-strip__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb-strip__rule {
+    display: block;
+    flex: none;
+    align-self: stretch;
+    width: 1px;
+    background-color: {{ tb_text | color_modify: 'alpha', 0.25 }};
+  }
+
+  /* Phones: copy line, CTA button and timer each on their own line (side by side fits at 430px otherwise). */
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .mgx-tb__offer {
+      flex-direction: column;
+      gap: 5px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__rule {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .mgx-tb {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__offer {
+      flex: 1 1 50%;
+      justify-content: flex-end;
+      padding: 7px 44px 7px 24px;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__lead {
+      font-size: 15px;
+      line-height: 20px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__timer {
+      flex: 1 1 50%;
+      justify-content: flex-start;
+      padding: 5px 24px 5px 22px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__ends {
+      font-size: 11px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__num {
+      min-width: 30px;
+      font-size: 16px;
+      line-height: 18px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__sep {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    /* Countdown off: the offer takes the whole bar, centred, no slanted edge. */
+    #shopify-section-{{ section.id }} .mgx-tb--no-timer .mgx-tb__offer {
+      justify-content: center;
+      padding: 7px 24px;
+      clip-path: none;
+    }
+  }
+
+  @media screen and (min-width: 1100px) {
+    #shopify-section-{{ section.id }} .mgx-tb__badges {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: 16px;
+      padding-left: 16px;
+      border-left: 1px solid {{ tb_text | color_modify: 'alpha', 0.15 }};
+    }
+    #shopify-section-{{ section.id }} .mgx-tb-strip--with-timer {
+      display: none;
+    }
+  }
+</style>
+
+{% unless product.template_suffix == 'payday-60' or collection.template_suffix == 'bundle-save' %}
+
+  {%- if pm_minimal -%}
+  {{ 'pm-s-offer-timebar.css' | asset_url | stylesheet_tag }}
+  <div id="{{ section.id }}">
+    {% render 'fuel04-announcement', section: section %}
+    <div class="pm-timebar color-{{ section.settings.color_scheme }}">
+      {%- if tb_link != blank -%}<a href="{{ tb_link }}" class="pm-timebar__link">{%- else -%}<div class="pm-timebar__link">{%- endif -%}
+        <span class="pm-timebar__info">
+          {%- if tb_top != blank -%}
+            <span class="pm-timebar__text">{{ tb_top }}</span>
+            {%- if tb_prepend != blank -%}<span class="pm-timebar__sep" aria-hidden="true">&middot;</span>{%- endif -%}
+          {%- endif -%}
+          {%- if tb_prepend != blank -%}
+            <span class="pm-timebar__text">{{ tb_prepend }}</span>
+          {%- endif -%}
+          {%- if tb_timer -%}
+            {%- if tb_top != blank or tb_prepend != blank -%}<span class="pm-timebar__sep" aria-hidden="true">&middot;</span>{%- endif -%}
+            <span class="pm-timebar__ends">{{ 'premium.announcement.ends_in' | t }} <span class="pm-timebar__clock" data-pm-countdown data-deadline="{{ tb_date | escape }}" role="timer" aria-live="off">00:00:00</span></span>
+          {%- endif -%}
+        </span>
+        {%- if tb_append != blank -%}
+          <span class="pm-timebar__cta">{{ tb_append }}{% render 'pm-icon', icon: 'arrow-right', size: 12, stroke: 2, class: 'pm-timebar__arrow' %}</span>
+        {%- endif -%}
+      {%- if tb_link != blank -%}</a>{%- else -%}</div>{%- endif -%}
+    </div>
+  </div>
+  {%- else -%}
+
+  <div id="{{ section.id }}">
+    {%- unless tb_bs -%}{% render 'fuel04-announcement', section: section %}{%- endunless -%}
+    {%- comment -%} No link set: plain banner (div, no click). {%- endcomment -%}
+    {%- if tb_link != blank -%}
+      <a href="{{ tb_link }}" class="mgx-tb{% unless tb_timer %} mgx-tb--no-timer{% endunless %}">
+    {%- else -%}
+      <div class="mgx-tb{% unless tb_timer %} mgx-tb--no-timer{% endunless %}">
+    {%- endif -%}
+
+      <div class="mgx-tb__offer">
+        {%- if tb_top != blank -%}
+          <span class="mgx-tb__eyebrow">{{ tb_top }}</span>
+          {%- if tb_prepend != blank or tb_append != blank -%}
+            <span class="mgx-tb__rule" aria-hidden="true"></span>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if tb_prepend != blank -%}
+          <span class="mgx-tb__lead">{{ tb_prepend }}</span>
+        {%- endif -%}
+        {%- if tb_append != blank -%}
+          <span class="mgx-tb__deal">{{ tb_append }}<svg class="mgx-tb__arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+        {%- endif -%}
+      </div>
+
+      {%- if tb_timer -%}
+        <div class="mgx-tb__timer">
+          <span class="mgx-tb__ends">Slutar om</span>
+          <span class="mgx-tb__clock" data-mgx-countdown data-deadline="{{ tb_date | escape }}" role="timer" aria-live="off">
+            {%- if tb_date != blank -%}
+              <span class="mgx-tb__unit" data-mgx-days><span class="mgx-tb__num" data-unit="d">00</span><span class="mgx-tb__cap" data-cap="0" data-wg-notranslate>Dag</span></span>
+              <i class="mgx-tb__sep" aria-hidden="true" data-mgx-days>:</i>
+            {%- endif -%}
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="h">00</span><span class="mgx-tb__cap" data-cap="1" data-wg-notranslate>Tim</span></span>
+            <i class="mgx-tb__sep" aria-hidden="true">:</i>
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="m">00</span><span class="mgx-tb__cap" data-cap="2" data-wg-notranslate>Min</span></span>
+            <i class="mgx-tb__sep" aria-hidden="true">:</i>
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="s">00</span><span class="mgx-tb__cap" data-cap="3" data-wg-notranslate>Sek</span></span>
+          </span>
+
+          {%- unless tb_bs -%}{% render 'tb-goal-line', section: section %}{%- endunless -%}
+
+          {%- if tb_badges -%}
+            <span class="mgx-tb__badges">
+              {%- for block in section.blocks -%}
+                <span class="mgx-tb-badge" {{ block.shopify_attributes }}>
+                  {%- if block.settings.use_country_flag -%}
+                    <img class="mgx-tb-badge__icon" src="{{ localization.country | image_url: width: 72 }}" height="22" width="" alt="{{ localization.country.name | escape }}">
+                  {%- elsif block.settings.icon != blank -%}
+                    <img class="mgx-tb-badge__icon" src="{{ block.settings.icon | image_url }}" height="22" width="" alt="{{ block.settings.label | escape }}">
+                  {%- endif -%}
+                  {%- if block.settings.label != blank -%}
+                    <span class="mgx-tb-badge__label">{{ block.settings.label }}</span>
+                  {%- endif -%}
+                </span>
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="tb-goal-slot">{% render 'tb-goal-line', section: section %}</div>
+      {%- endif -%}
+
+    {%- if tb_link != blank -%}</a>{%- else -%}</div>{%- endif %}
+  </div>
+  {%- endif -%}
+
+{% endunless %}
+
+{%- if tb_badges and pm_minimal == false -%}
+  <div class="mgx-tb-strip{% if tb_timer %} mgx-tb-strip--with-timer{% endif %}">
+    <div class="mgx-tb-strip__row">
+      {%- for block in section.blocks -%}
+        <div class="mgx-tb-badge">
+          {%- if block.settings.use_country_flag -%}
+            <img class="mgx-tb-badge__icon" src="{{ localization.country | image_url: width: 72 }}" height="25" width="" alt="{{ localization.country.name | escape }}">
+          {%- elsif block.settings.icon != blank -%}
+            <img class="mgx-tb-badge__icon" src="{{ block.settings.icon | image_url }}" height="25" width="" alt="{{ block.settings.label | escape }}">
+          {%- endif -%}
+          {%- if block.settings.label != blank -%}
+            <div class="mgx-tb-badge__label">{{ block.settings.label }}</div>
+          {%- endif -%}
+        </div>
+        {%- unless forloop.last -%}
+          <span class="mgx-tb-strip__rule" aria-hidden="true"></span>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{%- if pm_minimal and tb_timer -%}
+  <script>
+    (function () {
+      var root = document.getElementById('shopify-section-{{ section.id }}');
+      var clock = root && root.querySelector('[data-pm-countdown]');
+      if (!clock) return;
+      // "End Date and Time" when it parses and lies ahead, else the next local midnight (same rule as the classic bar)
+      var set = Date.parse((clock.dataset.deadline || '').replace(/\//g, '-').replace(' ', 'T'));
+      if (isNaN(set)) set = Date.parse(clock.dataset.deadline || '');
+      var fixed = !isNaN(set) && set > Date.now();
+      function deadline() { if (fixed) return set; var d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime(); }
+      var end = deadline();
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function tick() {
+        var left = Math.max(0, Math.floor((end - Date.now()) / 1000));
+        if (left === 0 && !fixed) { end = deadline(); left = Math.floor((end - Date.now()) / 1000); }
+        clock.textContent = pad(Math.floor(left / 3600)) + ':' + pad(Math.floor((left % 3600) / 60)) + ':' + pad(left % 60);
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+{%- endif -%}
+
+{%- if tb_timer and pm_minimal == false -%}
+  <script>
+    (function () {
+      var root = document.getElementById('shopify-section-{{ section.id }}');
+      var clock = root && root.querySelector('[data-mgx-countdown]');
+      if (!clock) return;
+      var cells = {};
+      clock.querySelectorAll('[data-unit]').forEach(function (el) { cells[el.dataset.unit] = el; });
+
+      // "End Date and Time" when it parses and lies ahead, else the next local midnight (rolls over every day)
+      var set = Date.parse((clock.dataset.deadline || '').replace(/\//g, '-').replace(' ', 'T'));
+      if (isNaN(set)) set = Date.parse(clock.dataset.deadline || '');
+      var fixed = !isNaN(set) && set > Date.now();
+      if (!fixed) {
+        clock.querySelectorAll('[data-mgx-days]').forEach(function (el) { el.remove(); });
+        delete cells.d;
+      }
+      function deadline() {
+        if (fixed) return set;
+        var midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        return midnight.getTime();
+      }
+      var end = deadline();
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function tick() {
+        var left = Math.max(0, Math.floor((end - Date.now()) / 1000));
+        if (left === 0 && !fixed) { end = deadline(); left = Math.floor((end - Date.now()) / 1000); }
+        var d = Math.floor(left / 86400);
+        var h = Math.floor(left / 3600) - (cells.d ? d * 24 : 0);
+        var values = { d: d, h: h, m: Math.floor(left / 60) % 60, s: left % 60 };
+        for (var k in cells) {
+          var text = pad(values[k]);
+          if (cells[k].textContent !== text) cells[k].textContent = text;
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+
+      // Labels under the numbers per Weglot language (as the old flip clock); falls back to Swedish
+      var caps = {
+        sv: ['Dag', 'Tim', 'Min', 'Sek'],
+        da: ['Dag', 'Timer', 'Min', 'Sek'],
+        fi: ['Päivä', 'Tunti', 'Min', 'Sek'],
+        no: ['Dag', 'Time', 'Min', 'Sek']
+      };
+      function label(lang) {
+        var set = caps[lang] || caps.sv;
+        clock.querySelectorAll('[data-cap]').forEach(function (el) { el.textContent = set[+el.dataset.cap]; });
+      }
+      function weglotLang() {
+        return (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || (document.documentElement.lang || 'sv').slice(0, 2);
+      }
+      label(weglotLang());
+      function hook() {
+        if (window.Weglot && typeof Weglot.on === 'function') {
+          label(weglotLang());
+          Weglot.on('languageChanged', label);
+          return true;
+        }
+        return false;
+      }
+      if (!hook()) document.addEventListener('DOMContentLoaded', hook);
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Offer Timebar",
+    "settings": [
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "options": [
+          { "value": "classic", "label": "Classic (offer + countdown tiles, badges)" },
+          { "value": "minimal", "label": "Minimal (FM: one line, plain countdown)" }
+        ],
+        "default": "classic",
+        "info": "Minimal uses the colour scheme below and ignores the colours and badges. The Bundle & Save page always shows the classic bar."
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Colour scheme (minimal style)",
+        "default": "scheme-4"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_timer",
+        "label": "Show countdown",
+        "info": "Off: no timer and no \"Slutar om\", the offer sits on its own, centred. The Bundle & Save page always shows its countdown.",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_badges",
+        "label": "Show badges",
+        "info": "The icon blocks below. Inside the bar from 1100px wide, as a strip under the bar on smaller screens.",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "primary_color",
+        "label": "Primary Color",
+        "info": "Background of the offer half (on phones: the top line) and of the badge strip.",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "secondary_color",
+        "label": "Secondary Color",
+        "info": "Text in the top bar and the button fill.",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "timer_box_color",
+        "label": "Timer background (the countdown half)",
+        "default": "#0B0B0B"
+      },
+      {
+        "type": "color",
+        "id": "timer_label_color",
+        "label": "Timer label color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "text",
+        "id": "top_banner_text",
+        "label": "Top Banner Text",
+        "info": "Small uppercase label before the offer. Leave empty to hide it."
+      },
+      {
+        "type": "text",
+        "id": "prepend_text",
+        "label": "Prepend Text",
+        "default": "Exclusive Offer"
+      },
+      {
+        "type": "text",
+        "id": "countdown_date",
+        "label": "End Date and Time",
+        "info": "Format: YYYY/MM/DD HH:MM:SS (e.g., 2026/12/25 23:59:59). Empty or passed: counts to the visitor's midnight."
+      },
+      {
+        "type": "text",
+        "id": "append_text",
+        "label": "Append Text",
+        "info": "Shown as the button.",
+        "default": "Shop Now"
+      },
+      {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      },
+      {
+        "type": "header",
+        "content": "Multi-buy offer row"
+      },
+      {
+        "type": "paragraph",
+        "content": "Copy for the multi-buy offer row. Hidden while the offer is switched off, and on the Swedish market only."
+      },
+      {
+        "type": "text",
+        "id": "fuel04_line",
+        "label": "Offer line",
+        "default": "KÖP 3 → GRATIS 30 ML | KÖP 5 → + GRATIS 100 ML MYSTERY SCENT"
+      },
+      {
+        "type": "text",
+        "id": "fuel04_sub",
+        "label": "Second line",
+        "info": "Empty on purpose. The bar carries one line; a second one only if the copy changes."
+      },
+      {
+        "type": "header",
+        "content": "Goal line"
+      },
+      {
+        "type": "paragraph",
+        "content": "Classic style only. One sentence about the next discount step above a track with one marker per goal: the discount steps below plus the gift app's goals (free gifts, free shipping; marker only, never in the sentence). Display only: the discount comes from the discount codes, the gifts from the gift app."
+      },
+      {
+        "type": "checkbox",
+        "id": "goal_line_enable",
+        "label": "Show the goal line",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "goal_line_markets",
+        "label": "Markets",
+        "info": "Market handles, comma separated. Empty = every market."
+      },
+      {
+        "type": "text",
+        "id": "goal_steps",
+        "label": "Discount steps",
+        "info": "bottles:percent, comma separated. Must match the discount codes. Every bottle size counts as 1.",
+        "default": "2:25, 4:30, 6:35, 8:40"
+      },
+      {
+        "type": "text",
+        "id": "goal_bs_handle",
+        "label": "Choose & Save product handle",
+        "info": "Its price per bottle places the gift app's markers on the track.",
+        "default": "bundle-and-save"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_empty",
+        "label": "Text, empty cart",
+        "info": "[n] = bottles of the first step, [pct] = its discount",
+        "default": "Lägg till [n] och få [pct] RABATT"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_step",
+        "label": "Text, next discount step",
+        "info": "[n] = bottles still needed, [pct] = that step's discount",
+        "default": "Lägg till [n] till och få [pct] RABATT"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_unlocked",
+        "label": "Text, step reached",
+        "info": "Shown for 3 seconds after the cart reaches a discount step. [rewards] = the label below",
+        "default": "[rewards] upplåst"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_done",
+        "label": "Text, every step reached",
+        "info": "[pct] = the top discount",
+        "default": "Du får [pct] RABATT"
+      },
+      {
+        "type": "text",
+        "id": "goal_label_pct",
+        "label": "Label, discount",
+        "default": "[pct] RABATT"
+      },
+      {
+        "type": "text",
+        "id": "goal_word_one",
+        "label": "Word, 1 bottle",
+        "default": "flaska"
+      },
+      {
+        "type": "text",
+        "id": "goal_word_many",
+        "label": "Word, bottles",
+        "default": "flaskor"
+      },
+      {
+        "type": "header",
+        "content": "Goal line, other languages"
+      },
+      {
+        "type": "paragraph",
+        "content": "Weglot doesn't translate the line, so Danish, Finnish and Norwegian pages use these texts. One line each, in the order of the Swedish fields above: 1 empty cart, 2 next discount step, 3 step reached, 4 every step reached, 5 discount label, 6 word for 1 bottle, 7 word for bottles. A language with fewer than 7 lines doesn't show the goal line."
+      },
+      {
+        "type": "textarea",
+        "id": "goal_texts_da",
+        "label": "Danish",
+        "default": "Tilføj [n] og få [pct] RABAT\nTilføj [n] mere og få [pct] RABAT\n[rewards] låst op\nDu får [pct] RABAT\n[pct] RABAT\nflaske\nflasker"
+      },
+      {
+        "type": "textarea",
+        "id": "goal_texts_fi",
+        "label": "Finnish",
+        "default": "Lisää [n] ja saat [pct] ALENNUSTA\nLisää vielä [n] ja saat [pct] ALENNUSTA\n[rewards] avattu\nSaat [pct] ALENNUKSEN\n[pct] ALENNUS\npullo\npulloa"
+      },
+      {
+        "type": "textarea",
+        "id": "goal_texts_no",
+        "label": "Norwegian",
+        "default": "Legg til [n] og få [pct] RABATT\nLegg til [n] til og få [pct] RABATT\n[rewards] låst opp\nDu får [pct] RABATT\n[pct] RABATT\nflaske\nflasker"
+      },
+      {
+        "type": "header",
+        "content": "Bundle & Save page"
+      },
+      {
+        "type": "paragraph",
+        "content": "Only on the product page with template bundle-save. Counts to the visitor's midnight, like the offer timer in the buy box. Links to the buy box."
+      },
+      {
+        "type": "color",
+        "id": "bs_primary_color",
+        "label": "Primary color",
+        "info": "Text and button fill",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "bs_secondary_color",
+        "label": "Secondary color",
+        "info": "Bar background",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "bs_top_banner_text",
+        "label": "Top banner text",
+        "default": "BLACK MONTH"
+      },
+      {
+        "type": "text",
+        "id": "bs_prepend_text",
+        "label": "Offer text",
+        "default": "UPP TILL [max]% RABATT",
+        "info": "[max] = the biggest saving over the bundle sizes."
+      },
+      {
+        "type": "text",
+        "id": "bs_append_text",
+        "label": "Second text",
+        "default": "BARA IDAG"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "payment_icon",
+        "name": "Payment Icon",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "use_country_flag",
+            "label": "Show the visitor's country flag",
+            "info": "Uses the flag of the country the shopper browses in, instead of the icon below.",
+            "default": false
+          },
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "label",
+            "label": "Label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Offer Timebar"
+      }
+    ]
+  }
+{% endschema %}

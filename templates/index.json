@@ -1,0 +1,1142 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "insta_story": {
+      "type": "insta-story",
+      "blocks": {
+        "story_Pk4yRN": {
+          "type": "story",
+          "settings": {
+            "title": "Tom Ford",
+            "image": "shopify://shop_images/Tom_ford.avif",
+            "link": "shopify://collections/tomford®"
+          }
+        },
+        "story_VtmG7H": {
+          "type": "story",
+          "settings": {
+            "title": "Baccarat",
+            "image": "shopify://shop_images/Baccarat_Rouge.png",
+            "link": "shopify://collections/baccarat-rouge®"
+          }
+        },
+        "story_wE66Dr": {
+          "type": "story",
+          "settings": {
+            "title": "LV",
+            "image": "shopify://shop_images/new-arribals.png",
+            "link": "shopify://collections/louis-vuitton®"
+          }
+        },
+        "story_nBtec6": {
+          "type": "story",
+          "settings": {
+            "title": "Creed",
+            "image": "shopify://shop_images/Creed.png",
+            "link": "shopify://collections/creed®"
+          }
+        },
+        "story_TRnKbC": {
+          "type": "story",
+          "settings": {
+            "title": "Dior",
+            "image": "shopify://shop_images/dior.avif",
+            "link": "shopify://collections/dior®"
+          }
+        },
+        "story_4qLwwC": {
+          "type": "story",
+          "disabled": true,
+          "settings": {
+            "title": "Xerjoff",
+            "image": "shopify://shop_images/xerjoff.avif",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "story_Pk4yRN",
+        "story_VtmG7H",
+        "story_wE66Dr",
+        "story_nBtec6",
+        "story_TRnKbC",
+        "story_4qLwwC"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "homepage_hero_GDeBtq": {
+      "type": "homepage-hero",
+      "name": "Homepage Hero",
+      "settings": {
+        "layout": "overlay",
+        "text_tone": "light",
+        "mobile_buttons": "bottom",
+        "color_scheme": "scheme-4",
+        "background_color": "#faf9f6",
+        "background_image": "shopify://shop_images/Twilight_Magyx_Perfume_on_Wet_Rocks.png",
+        "mobile_background_image": "shopify://shop_images/Midnight_Slate_Reflections_Perfume_Bottle.png",
+        "image_position": "right",
+        "mobile_height_vw": 0,
+        "mobile_image_position": "top",
+        "overlay_style": "solid",
+        "overlay_opacity": 0,
+        "mobile_overlay_opacity": 0,
+        "min_height": 480,
+        "mobile_min_height": 620,
+        "eyebrow": "",
+        "review_text": "Över 10 000 kunder har redan tagit reda på svaret.",
+        "title": "Dina favoritdofter för mindre",
+        "title_color": "#ffffff",
+        "subtitle": "Handla dina favoritdofter till ännu bättre priser! Och spara ännu mer med paketdeals!",
+        "subtitle_color": "#ebebeb",
+        "button_text": "Hitta din favoritparfym",
+        "button_link": "https://tryscent.co/#quiz",
+        "secondary_button_text": "Bästsäljare",
+        "secondary_button_link": "shopify://collections/bestseller-singles",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "mobile_padding_top": 0,
+        "mobile_padding_bottom": 0,
+        "custom_css": "@media (max-width: 767px) {\n .hero__buttons {\n padding-top: 250px;\n}\n}"
+      }
+    },
+    "home_hero_banner_qmaB3G": {
+      "type": "home-hero-banner",
+      "disabled": true,
+      "name": "Home Hero Banner",
+      "settings": {
+        "image": "shopify://shop_images/desktop_offer.png",
+        "mobile_image": "shopify://shop_images/mobile_offer.png",
+        "link": "shopify://products/4-x-30ml-perfume-bottles"
+      }
+    },
+    "marquee_labels_RLdqpN": {
+      "type": "marquee-labels",
+      "blocks": {
+        "label_idFnra": {
+          "type": "label",
+          "disabled": true,
+          "settings": {
+            "icon": "shopify://shop_images/fast-delivery-truck-van-svgrepo-com.svg",
+            "label": "FREE SHIPPING ON ORDERS ABOVE $50"
+          }
+        },
+        "label_MXGigr": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/save-pound-svgrepo-com.svg",
+            "label": "SAVE UPTO 50% OFF WITH OUR BUNDLES & GIFT SETS"
+          }
+        },
+        "label_iFULPM": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/verified-svgrepo-com.svg",
+            "label": "100% Authentic TryScent formulation"
+          }
+        },
+        "label_8KQqAa": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/achievement-svgrepo-com.svg",
+            "label": "EXPERT-CURATED COLLECTIONS"
+          }
+        },
+        "label_LMktzF": {
+          "type": "label",
+          "settings": {
+            "icon": "shopify://shop_images/money-back-business-warranty-satisfaction-marketing-guaranted-svgrepo-com.svg",
+            "label": "RISK-FREE 60 DAYS MONEY BACK GUARANTEE"
+          }
+        }
+      },
+      "block_order": [
+        "label_idFnra",
+        "label_MXGigr",
+        "label_iFULPM",
+        "label_8KQqAa",
+        "label_LMktzF"
+      ],
+      "disabled": true,
+      "name": "Marquee Labels",
+      "settings": {}
+    },
+    "custom_liquid_tstrust": {
+      "type": "custom-liquid",
+      "name": "Badges (magicperfume.co design)",
+      "settings": {
+        "custom_liquid": "<style>\n#ts-trust{\n  padding:40px 0;\n  background:#fff;\n  border-bottom:1px solid rgba(199,201,203,.5);\n}\n#ts-trust .ts-container{\n  width:min(1180px,calc(100% - 36px));\n  margin-inline:auto;\n}\n#ts-trust .ts-trust-grid{\n  display:grid;\n  grid-template-columns:repeat(4,1fr);\n  gap:0;\n}\n#ts-trust .ts-trust-item{\n  text-align:center;\n  padding:16px 24px;\n  border-right:1px solid rgba(199,201,203,.5);\n}\n#ts-trust .ts-trust-item:last-child{\n  border-right:none;\n}\n#ts-trust .ts-icon{\n  height:44px;\n  margin:0 auto 14px;\n  color:#184031;\n}\n#ts-trust .ts-icon svg{\n  width:36px;\n  height:36px;\n}\n#ts-trust h3{\n  margin:0 0 6px;\n  font-size:15px;\n  font-weight:800;\n  letter-spacing:.3px;\n  color:#100F0D;\n  line-height:1.3;\n}\n#ts-trust p{\n  margin:0;\n  font-size:13.5px;\n  line-height:1.6;\n  color:rgba(0,0,0,.55);\n}\n@media(max-width:700px){\n  #ts-trust{padding:24px 0}\n  #ts-trust .ts-trust-grid{\n    grid-template-columns:1fr 1fr;\n    gap:0;\n  }\n  #ts-trust .ts-trust-item{\n    padding:16px 12px;\n    border-right:1px solid rgba(199,201,203,.5);\n    border-bottom:1px solid rgba(199,201,203,.5);\n  }\n  #ts-trust .ts-trust-item:nth-child(2n){border-right:none}\n  #ts-trust .ts-trust-item:nth-last-child(-n+2){border-bottom:none}\n  #ts-trust h3{font-size:13px}\n  #ts-trust p{font-size:12.5px}\n}\n</style>\n\n<section id=\"ts-trust\">\n  <div class=\"ts-container\">\n    <div class=\"ts-trust-grid\">\n\n      <div class=\"ts-trust-item\">\n        <div class=\"ts-icon\" aria-hidden=\"true\">\n          <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"4\" y=\"7.5\" width=\"16\" height=\"12.5\" rx=\"1\"/><path d=\"M4 7.5 6.5 4h11L20 7.5\"/><path d=\"M12 4v3.5\"/><path d=\"M9.5 12h5\"/></svg>\n        </div>\n        <h3>Tillverkad i Europa</h3>\n        <p>Utan ftalater och parabener. Inga hormonstörande ämnen.</p>\n      </div>\n\n      <div class=\"ts-trust-item\">\n        <div class=\"ts-icon\" aria-hidden=\"true\">\n          <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3.5c3.4 4.3 5.8 7.4 5.8 10.2a5.8 5.8 0 1 1-11.6 0C6.2 10.9 8.6 7.8 12 3.5z\"/><path d=\"M9.6 14.2a2.6 2.6 0 0 0 2.3 2.5\"/></svg>\n        </div>\n        <h3>Högkoncentrerad eau de parfum</h3>\n        <p>20% parfymolja från Grasse, Frankrike, i varje doft.</p>\n      </div>\n\n      <div class=\"ts-trust-item\">\n        <div class=\"ts-icon\" aria-hidden=\"true\">\n          <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"6.5\" y=\"9.5\" width=\"11\" height=\"10.5\" rx=\"1.5\"/><path d=\"M10.5 9.5V7h3v2.5\"/><rect x=\"9.5\" y=\"3.8\" width=\"5\" height=\"3.2\" rx=\".8\"/></svg>\n        </div>\n        <h3>Utvecklad av parfymexperter</h3>\n        <p>Av personerna bakom kända varumärken. Över 90 dofter att välja mellan.</p>\n      </div>\n\n      <div class=\"ts-trust-item\">\n        <div class=\"ts-icon\" aria-hidden=\"true\">\n          <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3.5 19 6v5.4c0 4.4-2.9 7.7-7 9.1-4.1-1.4-7-4.7-7-9.1V6z\"/><path d=\"m9 11.9 2.2 2.2 3.8-4.2\"/></svg>\n        </div>\n        <h3>Testa i 60 dagar</h3>\n        <p>Inte din doft? Returnera den inom 60 dagar.</p>\n      </div>\n\n    </div>\n  </div>\n</section>",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "feature_highlights_wfUacV": {
+      "type": "feature-highlights",
+      "blocks": {
+        "perks_CBpKqp": {
+          "type": "perks",
+          "settings": {
+            "perk_image": "shopify://shop_images/icons_eu.webp",
+            "perk_title": "Ren formula",
+            "perk_content": "Utan hormonstörande ämnen och parabener."
+          }
+        },
+        "perks_Ynh4gw": {
+          "type": "perks",
+          "settings": {
+            "perk_image": "shopify://shop_images/icons_quality.webp",
+            "perk_title": "Över 100 dofter att välja mellan",
+            "perk_content": "En doft som märks och stannar kvar."
+          }
+        },
+        "perks_Cj3EAR": {
+          "type": "perks",
+          "settings": {
+            "perk_image": "shopify://shop_images/icons_guarantee.webp",
+            "perk_title": "60 dagars garanti",
+            "perk_content": "Testa parfymen hemma. Är den inte rätt för dig har du 60 dagar på dig att returnera den."
+          }
+        },
+        "perks_iX4iTY": {
+          "type": "perks",
+          "settings": {
+            "perk_image": "shopify://shop_images/icons_time.webp",
+            "perk_title": "Långvarig doft",
+            "perk_content": "Skapad för att hålla sig märkbar i upp till 12 timmar."
+          }
+        }
+      },
+      "block_order": [
+        "perks_CBpKqp",
+        "perks_Ynh4gw",
+        "perks_Cj3EAR",
+        "perks_iX4iTY"
+      ],
+      "disabled": true,
+      "name": "Feature Highlights",
+      "settings": {
+        "background_color": "#ffffff",
+        "padding_top": 32,
+        "padding_bottom": 32
+      }
+    },
+    "fuel06_finder": {
+      "type": "fuel06-finder",
+      "settings": {}
+    },
+    "custom_liquid_4rbfWw": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<!-- TryScent &#8212; Social proof (Swedish) &#8212; Custom Liquid paste block.\n     Pure HTML+CSS+JS, scoped to .ts-proof-sv. No Liquid tags (Custom Liquid editor rejects them). -->\n<style>\n.ts-proof-sv{font-family:Inter,Arial,Helvetica,sans-serif;color:#111315;background:#fff;padding:48px 0;overflow:hidden}\n.ts-proof-sv *{box-sizing:border-box;margin:0}\n.ts-proof-sv .container{width:min(860px,calc(100% - 36px));margin-inline:auto}\n.ts-proof-sv .proof-head{text-align:center;max-width:640px;margin:0 auto 30px}\n.ts-proof-sv .stars-lg,.ts-proof-sv .review-stars{display:flex;gap:3px}\n.ts-proof-sv .stars-lg{justify-content:center;margin-bottom:14px}\n.ts-proof-sv .stars-lg span,.ts-proof-sv .review-stars span{display:grid;place-items:center;background:#00b67a}\n.ts-proof-sv .stars-lg span.off,.ts-proof-sv .review-stars span.off{background:#dcdce6}\n.ts-proof-sv .stars-lg span{width:28px;height:28px}\n.ts-proof-sv .review-stars span{width:15px;height:15px}\n.ts-proof-sv svg{fill:#fff;width:76%;height:76%}\n.ts-proof-sv .kicker{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:#00b67a;margin-bottom:10px}\n.ts-proof-sv .section-title{font-size:26px;line-height:1.25;font-weight:800;color:#121212}\n.ts-proof-sv .carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px 8px}\n.ts-proof-sv .carousel::-webkit-scrollbar{display:none}\n.ts-proof-sv .review-card{flex:0 0 calc((100% - 32px) / 3);scroll-snap-align:start;display:flex;flex-direction:column;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:16px 16px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}\n.ts-proof-sv .review-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}\n.ts-proof-sv .review-card h3{margin-bottom:8px;font-size:14px;line-height:1.4;font-weight:700;color:#121212}\n.ts-proof-sv .review-card p{margin-bottom:8px;font-size:13px;line-height:1.6;color:rgba(0,0,0,.62)}\n.ts-proof-sv .review-card p.result-line{font-weight:600;color:#121212;margin-bottom:12px}\n.ts-proof-sv .person{margin-top:auto;font-size:13px;color:#121212}\n.ts-proof-sv .person strong{display:block;font-size:13px}\n.ts-proof-sv .person span{display:block;font-size:11px;line-height:1.35;color:rgba(0,0,0,.55)}\n.ts-proof-sv .nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}\n.ts-proof-sv .arrow{width:40px;height:40px;border-radius:50%;border:1px solid #d6d6d6;background:#fff;color:#121212;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 3px;transition:background .2s,color .2s,border-color .2s}\n.ts-proof-sv .arrow:hover{background:#121212;border-color:#121212;color:#fff}\n.ts-proof-sv .arrow:disabled{opacity:.35;cursor:default;background:#fff;color:#121212;border-color:#d6d6d6}\n.ts-proof-sv .dots{display:flex;gap:0}\n.ts-proof-sv .dot{box-sizing:content-box;width:8px;height:8px;border-radius:50%;border:0;padding:8px 5px;background:#d9d9d9;background-clip:content-box;cursor:pointer}\n.ts-proof-sv .dot.active{background:#00b67a;background-clip:content-box}\n@media(max-width:749px){\n  .ts-proof-sv{padding:32px 0}\n  .ts-proof-sv .container{width:100%}\n  .ts-proof-sv .proof-head{padding:0 18px;margin-bottom:22px}\n  .ts-proof-sv .stars-lg span{width:24px;height:24px}\n  .ts-proof-sv .section-title{font-size:22px}\n  .ts-proof-sv .carousel{gap:12px;padding:4px 18px 8px;scroll-padding-left:18px}\n  .ts-proof-sv .review-card{flex-basis:82%}\n  .ts-proof-sv .arrow{display:none}\n}\n</style>\n<section class=\"ts-proof-sv\">\n  <div class=\"container\">\n    <div class=\"proof-head\">\n      <div class=\"stars-lg\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n      <div class=\"kicker\">D&#228;rf&#246;r fastnade de f&#246;r TryScent</div>\n      <h2 class=\"section-title\">De s&#228;ger det b&#228;ttre &#228;n vi n&#229;gonsin skulle kunna.</h2>\n    </div>\n    <div class=\"carousel\" data-ts-carousel>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Jag har redan f&#229;tt flera komplimanger efter att ha anv&#228;nt dem.&#8221;</h3>\n        <p>Det folk m&#228;rker f&#246;rst &#228;r inte flaskan eller priset, utan hur doften f&#246;r&#228;ndrar din utstr&#229;lning.</p>\n        <p class=\"result-line\">Samma komplimanger. Ett b&#228;ttre pris.</p>\n        <div class=\"person\"><strong>Elin Lundqvist</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Den doftar EXAKT som Dior Homme Intense &#8230; n&#228;stan skr&#228;mmande likt.&#8221;</h3>\n        <p>Den m&#246;rka, kr&#228;miga och lyxiga karakt&#228;ren man f&#246;rv&#228;ntar sig fanns d&#228;r redan fr&#229;n f&#246;rsta sprayen.</p>\n        <p class=\"result-line\">Den v&#228;lbekanta doftupplevelsen, utan designerpriset.</p>\n        <div class=\"person\"><strong>Johan Bergstr&#246;m</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;B&#228;ttre &#228;n n&#229;gra av de dyraste parfymerna du kan k&#246;pa.&#8221;</h3>\n        <p>Doften &#246;vertr&#228;ffade f&#246;rv&#228;ntningarna och levererade den kvalitet man vanligtvis f&#246;rknippar med ett betydligt h&#246;gre pris.</p>\n        <p class=\"result-line\">Expensive presence. Unexpected price.</p>\n        <div class=\"person\"><strong>Moa</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Till en b&#246;rjan var jag skeptisk &#8230;&#8221;</h3>\n        <p>Men n&#228;r jag gjorde min f&#246;rsta best&#228;llning uppt&#228;ckte jag att parfymerna &#228;r fantastiska och mycket lika originalparfymerna. Dessutom &#228;r priset verkligen riktigt bra. Jag kommer definitivt att forts&#228;tta handla fr&#229;n TryScent i framtiden.</p>\n        <div class=\"person\"><strong>Ahmad Ismail</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Dofter som verkligen luktar som originalet.&#8221;</h3>\n        <p>Sitter kvar s&#229; l&#228;nge som det utlovas. Snabba leveranser och l&#229;ga priser. Kan bara s&#228;ga k&#246;p k&#246;p!</p>\n        <div class=\"person\"><strong>Ingela</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Parfymerna h&#229;ller l&#228;nge och v&#228;ldigt identiska &#10084;&#65039;&#8221;</h3>\n        <p>Fick min f&#246;rsta best&#228;llning som var 6 olika parfymer, nu har jag best&#228;llt 8 stycken och ser fram emot n&#228;r dem kommer.</p>\n        <div class=\"person\"><strong>Samer Najmadin</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Deras parfymer &#228;r som &#228;kta.&#8221;</h3>\n        <p>Try Scent gillar jag faktiskt, dom &#228;r fantastiskt. Jag har minst 20 flaskor TryScent-parfymer och anv&#228;nder bara dem &#128536;</p>\n        <div class=\"person\"><strong>Nermina</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;St&#228;mmer bra in p&#229; originaldoften &#128077;&#8221;</h3>\n        <p>Dock h&#229;ller den inte i hela dagen men kommer inte ih&#229;g om originalet gjorde det heller. Har best&#228;llt 6 nya dofter och &#229;terkommer med betyg p&#229; dom &#128077;</p>\n        <div class=\"person\"><strong>Dan Lindau</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;V&#228;ldigt bra service.&#8221;</h3>\n        <p>Fick en flaska som l&#228;ckte lite i kragen, p&#229;talade detta, och utan tvekan skickades en ny flaska samt tv&#229; &#246;verraskningsdofter som kompensation! Mkt tacksam!</p>\n        <div class=\"person\"><strong>Viktor Matsenius</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Mer tillm&#246;tesg&#229;ende finns nog inte!&#8221;</h3>\n        <p>H&#246;rde av mig ang&#229;ende ett problem jag st&#246;tte p&#229;! Fick prata med n&#229;n som hette Eric! De hj&#228;lpte mig smidigt och var v&#228;ldigt serviceminded! Rekommenderar Tryscent.co! Stort tack!</p>\n        <div class=\"person\"><strong>Tomas Ternemar</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Fantastisk respons.&#8221;</h3>\n        <p>Det hade uppst&#229;tt en liten olycka med en av parfymerna jag best&#228;llt och jag mejlade f&#246;retaget. Jag fick ett snabbt svar fr&#229;n Ed och det l&#246;ste sig p&#229; b&#228;sta s&#228;tt. &#196;r s&#229; n&#246;jd med hur dom hanterade saken.</p>\n        <div class=\"person\"><strong>Teresa</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;439 kr inklusive frakt f&#246;r 330 ml parfym. Inte illa.&#8221;</h3>\n        <p>V&#228;ldigt bra pris, 380 kr f&#246;r 6 styck 50 ml parfymflaskor och fick &#228;ven med en gratis mysteryflaska i 30 ml.</p>\n        <div class=\"person\"><strong>Sadek Abduljalil</strong><span>Kundrecension</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n        </div>\n        <h3>&#8221;Mycket n&#246;jd med hur de doftar.&#8221;</h3>\n        <p>Har nu f&#229;tt mina varor. Det var v&#228;l paketerat och fick bra information kring hur det gick med leveransen.</p>\n        <div class=\"person\"><strong>Christian Edvardsson</strong><span>Kundrecension</span></div>\n      </article>\n    </div>\n    <div class=\"nav\">\n      <button type=\"button\" class=\"arrow\" data-ts-prev aria-label=\"F&#246;reg&#229;ende recension\">&#8249;</button>\n      <div class=\"dots\" data-ts-dots></div>\n      <button type=\"button\" class=\"arrow\" data-ts-next aria-label=\"N&#228;sta recension\">&#8250;</button>\n    </div>\n  </div>\n</section>\n\n<script>\n(function(){\n  var roots = document.querySelectorAll('.ts-proof-sv');\n  Array.prototype.forEach.call(roots, function(root){\n    var track = root.querySelector('[data-ts-carousel]');\n    var dotsWrap = root.querySelector('[data-ts-dots]');\n    var prev = root.querySelector('[data-ts-prev]');\n    var next = root.querySelector('[data-ts-next]');\n    if (!track || !dotsWrap || !prev || !next) return;\n    var cards = Array.prototype.slice.call(track.children);\n    if (!cards.length) return;\n\n    function step(){ return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }\n    function positions(){ return Math.max(1, cards.length - Math.round(track.clientWidth / step()) + 1); }\n    function current(){\n      var max = track.scrollWidth - track.clientWidth;\n      if (track.scrollLeft >= max - 2) return positions() - 1;\n      return Math.round(track.scrollLeft / step());\n    }\n    function go(i){ track.scrollTo({left: i * step(), behavior: 'smooth'}); }\n\n    function buildDots(){\n      dotsWrap.innerHTML = '';\n      for (var i = 0; i < positions(); i++) {\n        var d = document.createElement('button');\n        d.type = 'button';\n        d.className = 'dot';\n        d.setAttribute('aria-label', 'Recension ' + (i + 1));\n        d.addEventListener('click', go.bind(null, i));\n        dotsWrap.appendChild(d);\n      }\n      update();\n    }\n    function update(){\n      var c = current(), n = positions();\n      Array.prototype.forEach.call(dotsWrap.children, function(d, i){ d.classList.toggle('active', i === c); });\n      prev.disabled = c <= 0;\n      next.disabled = c >= n - 1;\n    }\n\n    prev.addEventListener('click', function(){ go(Math.max(0, current() - 1)); });\n    next.addEventListener('click', function(){ go(Math.min(positions() - 1, current() + 1)); });\n    var t;\n    track.addEventListener('scroll', function(){ clearTimeout(t); t = setTimeout(update, 60); });\n    window.addEventListener('resize', buildDots);\n    buildDots();\n  });\n})();\n</script>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "fm_home_tabs": {
+      "type": "fm-home-tabs",
+      "blocks": {
+        "tab_best": {
+          "type": "collection",
+          "settings": {
+            "tab_title": "Bästsäljare",
+            "collection": "bestseller-singles",
+            "button_text": "Visa alla"
+          }
+        },
+        "tab_new": {
+          "type": "collection",
+          "settings": {
+            "tab_title": "Nya dofter",
+            "collection": "new",
+            "button_text": "Visa alla"
+          }
+        },
+        "tab_her": {
+          "type": "collection",
+          "settings": {
+            "tab_title": "Dam",
+            "collection": "woman",
+            "button_text": "Visa alla"
+          }
+        },
+        "tab_him": {
+          "type": "collection",
+          "settings": {
+            "tab_title": "Herr",
+            "collection": "man",
+            "button_text": "Visa alla"
+          }
+        }
+      },
+      "block_order": [
+        "tab_best",
+        "tab_new",
+        "tab_her",
+        "tab_him"
+      ],
+      "settings": {
+        "heading": "En doft för varje sida av dig",
+        "subheading": "Välj en doftriktning och upptäck dofter som passar dig.",
+        "products_per_tab": 6,
+        "card_button": "Se doften",
+        "background_color": "#f6f6f6",
+        "show_ugc_row": true,
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    },
+    "home_category_pm": {
+      "type": "home-category",
+      "blocks": {
+        "category_him": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Magyx_Website_01.webp",
+            "image_position": "center",
+            "text": "Till Honom",
+            "descriptor": "Dofter för honom",
+            "link": "shopify://collections/man"
+          }
+        },
+        "category_her": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Magyx_Website_02.webp",
+            "image_position": "center",
+            "text": "Till Henne",
+            "descriptor": "Dofter för henne",
+            "link": "shopify://collections/woman"
+          }
+        },
+        "category_unisex": {
+          "type": "category",
+          "settings": {
+            "image": "shopify://shop_images/Magyx_Website_03.webp",
+            "image_position": "center",
+            "text": "Unisex",
+            "descriptor": "Dofter för alla",
+            "link": "shopify://collections/unisex"
+          }
+        }
+      },
+      "block_order": [
+        "category_him",
+        "category_her",
+        "category_unisex"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "background_color": "#ffffff",
+        "title": "Välj kategori",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "tabs_family": {
+      "type": "home-product-tabs",
+      "blocks": {
+        "tab_floral": {
+          "type": "tab",
+          "settings": {
+            "title": "Blommiga",
+            "collection": "all",
+            "filter": "Blommig"
+          }
+        },
+        "tab_oriental": {
+          "type": "tab",
+          "settings": {
+            "title": "Orientaliska",
+            "collection": "all",
+            "filter": "Orientalisk"
+          }
+        },
+        "tab_woody": {
+          "type": "tab",
+          "settings": {
+            "title": "Träiga",
+            "collection": "all",
+            "filter": "Träig"
+          }
+        },
+        "tab_gourmand": {
+          "type": "tab",
+          "settings": {
+            "title": "Gourmand",
+            "collection": "all",
+            "filter": "Gourmand"
+          }
+        },
+        "tab_spicy": {
+          "type": "tab",
+          "settings": {
+            "title": "Kryddiga",
+            "collection": "all",
+            "filter": "Kryddig"
+          }
+        },
+        "tab_fresh": {
+          "type": "tab",
+          "settings": {
+            "title": "Fräscha",
+            "collection": "all",
+            "filter": "Fräsch"
+          }
+        },
+        "tab_fruity": {
+          "type": "tab",
+          "settings": {
+            "title": "Fruktiga",
+            "collection": "all",
+            "filter": "Fruktig"
+          }
+        },
+        "tab_sweet": {
+          "type": "tab",
+          "settings": {
+            "title": "Söta",
+            "collection": "all",
+            "filter": "Söt"
+          }
+        },
+        "tab_vanilla": {
+          "type": "tab",
+          "settings": {
+            "title": "Vanilj",
+            "collection": "all",
+            "filter": "Vanilj"
+          }
+        }
+      },
+      "block_order": [
+        "tab_floral",
+        "tab_oriental",
+        "tab_woody",
+        "tab_gourmand",
+        "tab_spicy",
+        "tab_fresh",
+        "tab_fruity",
+        "tab_sweet",
+        "tab_vanilla"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Välj doftfamilj",
+        "subheading": "Välj en doftfamilj och upptäck dofterna som passar dig.",
+        "products_per_tab": 12,
+        "cards_desktop": "6",
+        "cards_mobile": "2.2",
+        "button_text": "Se alla",
+        "button_link": "",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "popular_products_XDHbay": {
+      "type": "popular-products",
+      "disabled": true,
+      "name": "New Products",
+      "settings": {
+        "background_color": "#fcfbf9",
+        "title": "🔥Senaste dofterna",
+        "description": "",
+        "collection": "new",
+        "button_text": "Visa alla",
+        "button_link": "shopify://collections/new",
+        "padding_top": 72,
+        "padding_bottom": 40
+      }
+    },
+    "image_and_text": {
+      "type": "image-and-text",
+      "blocks": {
+        "heading_ax7WWJ": {
+          "type": "heading",
+          "settings": {
+            "content": "Vad innebär det att en doft tillverkas i EU?",
+            "heading_type": "h2",
+            "font_size": 32,
+            "mobile_font_size": 24
+          }
+        },
+        "text_gzPVkb": {
+          "type": "text",
+          "settings": {
+            "content": "<p>Vi tillverkar alla våra parfymer enligt EU:s strikta kosmetikastandarder. Det betyder att du får en produkt som är lika säker för din hud som den är lyxig för dina sinnen.</p><ul><li><strong>Strikta säkerhetskrav:</strong> Vi använder uteslutande ingredienser godkända av IFRA, vilket garanterar att doften är skonsam och säker att bära.</li><li><strong>Inga billigagenvägar:</strong> Inga billiga utspädningar eller tveksamma kemikalier från gråzoner utanför Europa.</li><li><strong>Certifierade anläggningar:</strong> Varje flaska blandas och fylls i kontrollerade, europeiska laboratorier med full spårbarhet.</li></ul>",
+            "mobile_content": "",
+            "font_size": 18
+          }
+        }
+      },
+      "block_order": [
+        "heading_ax7WWJ",
+        "text_gzPVkb"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "image": "shopify://shop_images/MAGYX_Site_02.webp",
+        "video": "shopify://files/videos/MAGYX-SITE02.mp4",
+        "rounded_image": true,
+        "image_placement": "1",
+        "mobile_image_placement": "under_heading",
+        "button_text": "",
+        "button_url": "",
+        "columns_gap": 40,
+        "rows_gap": 20,
+        "content_alignment": "center",
+        "blocks_gap": 24,
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40
+      }
+    },
+    "makes_different_pm": {
+      "type": "makes-different-list",
+      "blocks": {
+        "list_item_icons": {
+          "type": "list_item",
+          "settings": {
+            "title": "Inspirerad av lyxikoner",
+            "description": "utan de uppblåsta prislapparna"
+          }
+        },
+        "list_item_clean": {
+          "type": "list_item",
+          "settings": {
+            "title": "Inga hårda kemikalier",
+            "description": "vegansk, ftalatfri och utan parabener."
+          }
+        },
+        "list_item_lasting": {
+          "type": "list_item",
+          "settings": {
+            "title": "Sitter i över 12 timmar",
+            "description": "även under dina mest aktiva dagar."
+          }
+        },
+        "list_item_size": {
+          "type": "list_item",
+          "settings": {
+            "title": "Testa i mindre storlek först",
+            "description": "känn doften på huden innan du väljer en större flaska."
+          }
+        },
+        "list_item_guarantee": {
+          "type": "list_item",
+          "settings": {
+            "title": "60 dagars nöjdhetsgaranti",
+            "description": "ifall det inte är kärlek vid första doften."
+          }
+        }
+      },
+      "block_order": [
+        "list_item_icons",
+        "list_item_clean",
+        "list_item_lasting",
+        "list_item_size",
+        "list_item_guarantee"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "background_color": "#ffffff",
+        "makes_diferent_title": "Vad gör TryScent annorlunda?",
+        "makes-different-image": "shopify://shop_images/Magyx_Website_05.webp",
+        "makes-different-btn-text": "Se våra paket",
+        "makes-different-btn-link": "shopify://collections/bundle",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "home_occasions_BUcQ8i": {
+      "type": "home-occasions",
+      "blocks": {
+        "occasion_En4TzG": {
+          "type": "occasion",
+          "settings": {
+            "image": "shopify://shop_images/288.webp",
+            "eyebrow": "01 · Presence",
+            "title": "Attraction",
+            "description": "Leave a lasting impression.",
+            "link_text": "Find Your Scent",
+            "link": ""
+          }
+        },
+        "occasion_QEiwYC": {
+          "type": "occasion",
+          "settings": {
+            "image": "shopify://shop_images/520w_try.png",
+            "eyebrow": "02 · Composure",
+            "title": "Confidence",
+            "description": "Feel your best wherever the day takes you.",
+            "link_text": "Wear Confidence",
+            "link": ""
+          }
+        },
+        "occasion_tGyXzt": {
+          "type": "occasion",
+          "settings": {
+            "image": "shopify://shop_images/Best-Cologne-For-Older-Men.jpg",
+            "eyebrow": "03 · Occasion",
+            "title": "Special Occasions",
+            "description": "For the moments that deserve something extra.",
+            "link_text": "Make It Memorable",
+            "link": ""
+          }
+        },
+        "occasion_aMPdA4": {
+          "type": "occasion",
+          "settings": {
+            "image": "shopify://shop_images/How_do_you_find_new_fragrances.webp",
+            "eyebrow": "04 · Signature",
+            "title": "Everyday",
+            "description": "Your signature scent people will remember you by.",
+            "link_text": "Find Your Everyday",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "occasion_En4TzG",
+        "occasion_QEiwYC",
+        "occasion_tGyXzt",
+        "occasion_aMPdA4"
+      ],
+      "disabled": true,
+      "name": "Home Occasions",
+      "settings": {
+        "background_color": "#f5f2ec",
+        "eyebrow": "Build Your Collection",
+        "heading": "A fragrance for every occasion.",
+        "description": "<p>We are here to help you build a personalized and elite fragrance collection designed specifically for the most important occasions in life.</p>",
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
+    "massive_review_section": {
+      "type": "pm-bs-massive-review",
+      "blocks": {
+        "review_sv_01": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Ärligt talat blev jag förvånad över hur bra den här är. Kvaliteten är imponerande, doften sitter i flera timmar och den ligger otroligt nära originalet. Hade ingen sagt något hade jag aldrig märkt skillnad. Det som gör det ännu bättre är priset. Att få så här bra parfym utan att betala för lyxmärket känns helt rimligt. Klart värt det, och jag kommer att beställa igen.\"</p>",
+            "author": "Luciana R.",
+            "date": "för 7 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_02": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Blev positivt överraskad av kvaliteten på dofterna. De håller mycket längre än jag trodde och flaskorna är snygga också. Jag har redan fått flera komplimanger när jag haft dem på mig. Beställningen gick smidigt och jag är jättenöjd med köpet. Jag kommer absolut att testa fler dofter framöver!\"</p>",
+            "author": "Alina M.",
+            "date": "för 4 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_03": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag köpte och testade Jean Paul Gaultier-doften. Jag är otroligt imponerad!! Doften är helt klockren och den håller hela dagen. Jag har 55 olika originaldofter i min samling, men ingen av dem kan mäta sig med den här. Wow.\"</p>",
+            "author": "Steen J.",
+            "date": "för 6 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_04": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag blev förvånad över hur länge parfymerna håller, det hade jag inte väntat mig för det priset. Jag tar på mig den på morgonen och när jag drar av mig skjortan på kvällen känner jag fortfarande doften. Rekommenderas om du letar efter alternativ till lyxparfymer.\"</p>",
+            "author": "Maria F.",
+            "date": "för 5 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_05": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Blev riktigt förvånad över hur bra parfymen är, och den håller bra. Jag har handlat två gånger hittills och kommer tillbaka när förrådet tar slut 😀\"</p>",
+            "author": "Pernille O.",
+            "date": "för 5 månader sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_06": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Kvaliteten på doften överraskade mig positivt. Den luktar väldigt likt lyxparfymer men kostar mycket mindre. Den håller länge och känns elegant, jag tycker verkligen om att använda den varje dag. Ett riktigt bra alternativ om du älskar exklusiva dofter men inte vill betala de höga priserna.\"</p>",
+            "author": "Tetiana H.",
+            "date": "för 7 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_07": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag har använt Acqua di Giò i flera år och den här fångar exakt samma fräscha havskänsla. Krispig citrus, salta marina toner och en träig botten, ärligt talat kan jag inte känna någon skillnad. Bäst av allt? Priset. Nu kan jag äntligen spraya hur mycket jag vill utan att oroa mig.\"</p>",
+            "author": "Michael D.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_08": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag blev faktiskt riktigt överraskad av hur bra den här parfymen är. Doften är välbalanserad, mjuk och långvarig utan att bli för stark. Den har en ren och elegant känsla som funkar både till vardags och till finare tillfällen. Jag märkte också att den utvecklas fint efter ett tag, vilket gör den ännu roligare att ha på sig. Allt som allt är jag jättenöjd och rekommenderar den gärna till alla som letar efter något unikt och av hög kvalitet.\"</p>",
+            "author": "Zein H.",
+            "date": "för 7 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_09": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Min dejt trodde på allvar att det var Tom Ford. Den håller dessutom kanske en timme eller två längre, vilket är otroligt, särskilt för det här priset.\"</p>",
+            "author": "Nick D.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_10": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Håller längre än jag trodde. Den sitter i stabila 6 till 7 timmar på mig, vilket är bättre än originalet för min del. Den märks lagom mycket, varken för stark eller för svag.\"</p>",
+            "author": "Peter S.",
+            "date": "för 1 år sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_11": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag älskade verkligen min doft! Jag testade den som är inspirerad av YSL Libre, och jag gillade den faktiskt mycket mer än originalet från YSL!\"</p>",
+            "author": "A'Miracle F.",
+            "date": "för 9 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_12": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Ett riktigt fynd! Har du jämfört med Imagination sida vid sida är det knappt någon skillnad, och alla andra säger bara ”fan vad gott du luktar”. Önskar att jag hade hittat den här tidigare!!!\"</p>",
+            "author": "Eric M.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_13": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag är såååå nöjd med allt, dofterna är fantastiska och väldigt lika originalen. De håller riktigt länge!\"</p>",
+            "author": "Lena A.",
+            "date": "för 4 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_14": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag letade efter en viss parfym och fick hjälp att hitta den. Den var precis vad jag ville ha och sitter i över 12 timmar! Jag får bara komplimanger. Tack!\"</p>",
+            "author": "Rozhin D.",
+            "date": "för 2 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_15": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Lite räcker långt. Första gången sprayade jag alldeles för mycket, den här är stark! Nu kör jag max två sprut och den håller hela dagen. Kanel och amber gör den mysig men ändå vuxen.\"</p>",
+            "author": "Kevin O.",
+            "date": "för 1 år sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_16": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag har älskat Black Opium i flera år och den här är faktiskt nästan identisk. Älskar de varma tonerna av vanilj och kaffe. Den är mysig men känns ändå sofistikerad.\"</p>",
+            "author": "Emily C.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_17": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag har köpt parfym till både mig själv och min fru och de luktar riktigt gott. Precis som de dofter de är inspirerade av. Rekommenderas.\"</p>",
+            "author": "Mattias E.",
+            "date": "för 2 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_18": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Den luktar exakt som originalet. Rosen känns fräsch och naturlig, och hållbarheten är fantastisk, lätt över 12 timmar.\"</p>",
+            "author": "Kiara B.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_19": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Underbart och ärligt företag. REKOMMENDERAS 10/10, riktigt fina parfymer som luktar precis som originalet, och verkligen ärliga priser. Har beställt två gånger.\"</p>",
+            "author": "Ayham A.",
+            "date": "för 2 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_20": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Ett bra val för oudälskare. Gillar du djupa, träiga dofter med kryddighet och värme så träffar den här rätt. Inte exakt som Alexandria II, men ett riktigt bra alternativ.\"</p>",
+            "author": "Jason C.",
+            "date": "för 1 år sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_21": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Parfymer av riktigt bra kvalitet till lågt pris!! Jag kommer absolut att beställa mer. Jag sprayade en gång på armen bara för att testa och kunde känna doften i flera timmar!!!! Riktigt bra service. Rekommenderar!!\"</p>",
+            "author": "Julia P.",
+            "date": "för 3 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_22": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Luktar otroligt likt originalet, L'Immensité från Louis Vuitton. Fräsch citrus och ingefära blandas perfekt med diskreta örttoner. Rekommenderas varmt.\"</p>",
+            "author": "John M.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_23": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Inte bara för män. Jag är tjej och var orolig att den skulle vara för maskulin, men den är faktiskt perfekt. Ambern mjukar upp lädret och kanelen gör den intressant.\"</p>",
+            "author": "Priya S.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_24": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag har handlat flera gånger och är supernöjd! Bra kvalitet, tillverkad så att man vet vad den innehåller, och doften håller i många timmar!\"</p>",
+            "author": "René V.",
+            "date": "för 4 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_25": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Det är den jag tar på mig de kvällar jag stannar hemma och bara vill skämma bort mig själv. Värmen och sötman gör den så mysig.\"</p>",
+            "author": "Emily S.",
+            "date": "för 1 år sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_26": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag beställde två parfymer och är riktigt imponerad. Dofterna är väldigt lika originalen och kvaliteten överträffade mina förväntningar. Dessutom var servicen snabb och proffsig. Jag är jättenöjd med köpet och kan varmt rekommendera er till andra. Tack för en fantastisk upplevelse.\"</p>",
+            "author": "Amran T.",
+            "date": "för 3 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_27": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag har haft L'Eau d'Issey tidigare och den här träffar helt rätt. De träiga tonerna och citrusen sitter perfekt, och den håller lika länge.\"</p>",
+            "author": "Brian O.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_28": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Det här är andra gången jag beställer! Bra parfymer som luktar gott och håller länge. Min favorit är körsbärsparfymen, den luktar supergott!\"</p>",
+            "author": "Tina H.",
+            "date": "för 2 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_29": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Klockrent. Är det här ens lagligt? Så nära originalet man kan komma. Doften håller länge och det svider knappt i plånboken att beställa. Rekommenderas varmt! 👍🏻\"</p>",
+            "author": "Håcan A.",
+            "date": "för 6 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_30": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag jobbar sena kvällar och behövde något att fräscha upp mig med innan jag går ut. Den här gör susen: ren, inte påträngande och den håller.\"</p>",
+            "author": "Malik J.",
+            "date": "för 1 år sedan",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_31": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Älskar parfymerna, de luktar som originalen och håller länge 😍 Jag har beställt 10 parfymer och älskar alla.\"</p>",
+            "author": "Christina T.",
+            "date": "för 4 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_32": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Blev faktiskt förvånad över hur lyxigt den här luktar. Den håller längre än de flesta designerdofter jag testat, och jag har sparat massor av pengar.\"</p>",
+            "author": "Adam G.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_33": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Parfymerna är riktigt bra! Det är nästan ingen skillnad mot originalen och jag är faktiskt jättenöjd med köpet. Bra pris.\"</p>",
+            "author": "Rimuska B.",
+            "date": "för 2 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_34": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Till skillnad från en del andra alternativ luktar den här inte billigt eller kemiskt. Jag gillar blandningen och den sitter kvar länge i kläderna.\"</p>",
+            "author": "Claire H.",
+            "date": "för 1 år sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_35": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Doften överraskade mig verkligen, den är helt enastående! Jag älskar den, och förpackningen är också väldigt elegant.\"</p>",
+            "author": "Silvana R.",
+            "date": "för 6 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_sv_36": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Jag älskade den här parfymen, doften är otrolig och den sitter i länge. Ärligt talat är det ett smart val till ett lågt pris, jag köper den absolut igen. Jag blev helt förtjust 😍❤️\"</p>",
+            "author": "Daniela B.",
+            "date": "för 7 månader sedan",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_sv_01",
+        "review_sv_02",
+        "review_sv_03",
+        "review_sv_04",
+        "review_sv_05",
+        "review_sv_06",
+        "review_sv_07",
+        "review_sv_08",
+        "review_sv_09",
+        "review_sv_10",
+        "review_sv_11",
+        "review_sv_12",
+        "review_sv_13",
+        "review_sv_14",
+        "review_sv_15",
+        "review_sv_16",
+        "review_sv_17",
+        "review_sv_18",
+        "review_sv_19",
+        "review_sv_20",
+        "review_sv_21",
+        "review_sv_22",
+        "review_sv_23",
+        "review_sv_24",
+        "review_sv_25",
+        "review_sv_26",
+        "review_sv_27",
+        "review_sv_28",
+        "review_sv_29",
+        "review_sv_30",
+        "review_sv_31",
+        "review_sv_32",
+        "review_sv_33",
+        "review_sv_34",
+        "review_sv_35",
+        "review_sv_36"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "background_color": "#ffffff",
+        "heading": "Älskad av över 10 000 doftälskare",
+        "review_text": "Över 10 000 verifierade doftälskare",
+        "verified_text": "Verifierad köpare",
+        "initial_count": 26,
+        "columns_desktop": "3",
+        "columns_mobile": "1",
+        "button_text": "Visa fler recensioner",
+        "loading_text": "Laddar recensioner...",
+        "button_link": "shopify://collections/all",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "people_are_lovin_VGanra": {
+      "type": "people-are-lovin",
+      "blocks": {
+        "video_3Wzdbd": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/Perfume REV 2 UGC 15-6-25.mp4",
+            "video_poster": "shopify://shop_images/videoframe_715.png"
+          }
+        },
+        "video_NXWkmR": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/Perfume 2nd 21-06-25.mp4",
+            "video_poster": "shopify://shop_images/videoframe_5651.png"
+          }
+        },
+        "video_Fy6ytd": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/Perfume rev 2  2nd  UGC 15-6-25.mp4",
+            "video_poster": "shopify://shop_images/videoframe_5040.png"
+          }
+        }
+      },
+      "block_order": [
+        "video_3Wzdbd",
+        "video_NXWkmR",
+        "video_Fy6ytd"
+      ],
+      "disabled": true,
+      "name": "People Are Loving",
+      "settings": {
+        "background_color": "#f0f2ec",
+        "makes_diferent_title": "People Are Loving",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "insta_story",
+    "homepage_hero_GDeBtq",
+    "home_hero_banner_qmaB3G",
+    "marquee_labels_RLdqpN",
+    "custom_liquid_tstrust",
+    "feature_highlights_wfUacV",
+    "fuel06_finder",
+    "custom_liquid_4rbfWw",
+    "fm_home_tabs",
+    "home_category_pm",
+    "tabs_family",
+    "popular_products_XDHbay",
+    "image_and_text",
+    "makes_different_pm",
+    "home_occasions_BUcQ8i",
+    "massive_review_section",
+    "people_are_lovin_VGanra"
+  ]
+}

@@ -1,0 +1,158 @@
+{%- comment -%}
+  Search index (JSON) for the search overlay and the search results page. Rendered by
+  templates/collection.pm-search-index.liquid (/collections/all?view=pm-search-index, fetched by
+  assets/pm-search.js) and inline on the search page (sections/pm-search-results.liquid).
+
+  {"v":1,"items":[{"id","url","title","number","inspiration","brand","d","m","k","kb","fu","family","image","price","varies",
+  "compare","bestseller","available","tags"}, ...]}
+  - Single scents only: products whose title has a scent number ("No. 248"). Bundles and offers come
+    from the set cards in the overlay instead (most bundles are price-test copies of each other).
+    Products tagged hidden or giftbox_ghost_product are left out.
+  - number: the digits after "No." in the title, leading zeros stripped ("No. 004" -> "4", "No. 270M"
+    -> "270").
+  - inspiration: name of the custom.inspiration metaobject; brand: custom.brand; family:
+    custom.fragrance_family (text or list), comma separated.
+  - d: the DISPLAY name of the designer perfume, brand removed ("Tom Ford Oud Wood" -> "Oud Wood"; snippets/
+    pm-designer-short.liquid). The only designer field the overlay prints. inspiration / brand / k / kb keep the
+    full names for matching only and are never shown (NO-DESIGNERS.md).
+  - fu: the inspiration's Fragrantica link (custom.inspiration -> fragrantica_url), "" when blank. Kept for
+    masked scents too: the overlay prints it only as the Fragrantica card's link (FRAGRANTICA-SEARCH.md).
+  - price / compare: as on the product card (first available variant and its compare-at; compare ""
+    unless higher), so search and cards never disagree. varies: always false for now (the overlay would
+    put its translated "från" label in front).
+  - tags: every tag except the internal ones listed below (case and _/- ignored).
+  Every string goes through | json.
+{%- endcomment -%}
+{%- liquid
+  assign digits = '0123456789'
+  assign item_sep = ''
+  assign skip_tags = ',en,onsale,bestseller,new,hidden,giftbox-ghost-product,bundle,bundle-banner,bundle-price-show,hide-bundle,bundle-no-show,voids-exclude,special-offer,no-vip-discount,ignore,local-image,shoptok,searchanise-ignore,fuer-maenner,fuer-frauen,50,50ml,'
+-%}
+{"v":1,"items":[
+{%- paginate collections.all.products by 250 -%}
+  {%- for product in collections.all.products -%}
+    {%- liquid
+      assign tags_dc = product.tags | join: ',' | downcase | replace: '_', '-' | prepend: ',' | append: ','
+      if tags_dc contains ',hidden,' or tags_dc contains ',giftbox-ghost-product,'
+        continue
+      endif
+      unless product.title contains 'No.'
+        continue
+      endunless
+
+      assign number = ''
+      assign after = product.title | split: 'No.' | last | strip
+      assign after_chars = after | split: ''
+      for c in after_chars
+        if digits contains c
+          assign number = number | append: c
+        else
+          break
+        endif
+      endfor
+      if number == ''
+        continue
+      endif
+      assign number = number | plus: 0 | append: ''
+
+      assign inspiration = ''
+      assign fu = ''
+      if product.metafields.custom.inspiration.value
+        assign inspiration = product.metafields.custom.inspiration.value.name | default: ''
+        assign fu = product.metafields.custom.inspiration.value.fragrantica_url.value | default: '' | append: ''
+      endif
+      assign brand = product.metafields.custom.brand.value | default: ''
+
+      comment
+        Designer not named in search (theme settings > Designer names in search): the names move to the
+        match-only fields k (inspiration) and kb (brand), which the overlay never prints; m = 1 marks the row.
+      endcomment
+      capture pm_masked
+        render 'pm-designer-masked', product: product
+      endcapture
+      capture pm_display
+        render 'pm-designer-short', product: product
+      endcapture
+      assign pm_display = pm_display | strip
+      assign masked = 0
+      assign k = ''
+      assign kb = ''
+      if pm_masked == '1'
+        assign masked = 1
+        assign k = inspiration
+        assign kb = brand
+        assign inspiration = ''
+        assign brand = ''
+        comment
+          No Fragrantica picture (it shows the designer bottle) for these houses: NO-DESIGNERS.md.
+        endcomment
+        assign fu = ''
+      endif
+
+      assign family = ''
+      assign family_mf = product.metafields.custom.fragrance_family
+      if family_mf != blank
+        if family_mf.type contains 'list.'
+          assign family = family_mf.value | join: ', '
+        else
+          assign family = family_mf.value | append: ''
+        endif
+      endif
+
+      assign bestseller = false
+      if tags_dc contains ',bestseller,'
+        assign bestseller = true
+      endif
+
+      assign image = ''
+      assign pm_fm = product.metafields.custom.fm_images.value | first
+      if pm_fm != blank
+        assign image = pm_fm.preview_image | image_url: width: 160
+        assign image_head = image | slice: 0, 2
+        if image_head == '//'
+          assign image = 'https:' | append: image
+        endif
+      elsif product.featured_image
+        assign image = product.featured_image | image_url: width: 160
+        assign image_head = image | slice: 0, 2
+        if image_head == '//'
+          assign image = 'https:' | append: image
+        endif
+      endif
+
+      comment
+        Price as on the product card (snippets/product-card.liquid): the first available variant, else the
+        first variant; compare-at of that same variant.
+      endcomment
+      assign card_variant = nil
+      for v in product.variants
+        if v.available
+          assign card_variant = v
+          break
+        endif
+      endfor
+      if card_variant == nil
+        assign card_variant = product.selected_or_first_available_variant | default: product.variants.first
+      endif
+      assign card_price = card_variant.price | default: product.price
+      assign card_compare = card_variant.compare_at_price | default: 0
+      assign price = card_price | money | strip_html
+      assign compare = ''
+      if card_compare > card_price
+        assign compare = card_compare | money | strip_html
+      endif
+    -%}
+    {{- item_sep -}}
+    {"id":{{ product.id }},"url":{{ product.url | json }},"title":{{ product.title | json }},"number":{{ number | json }},"inspiration":{{ inspiration | json }},"brand":{{ brand | json }},"d":{{ pm_display | json }},"m":{{ masked }},"k":{{ k | json }},"kb":{{ kb | json }},"fu":{{ fu | json }},"family":{{ family | json }},"image":{{ image | json }},"price":{{ price | json }},"varies":false,"compare":{{ compare | json }},"bestseller":{{ bestseller }},"available":{{ product.available }},"tags":[
+    {%- assign tag_sep = '' -%}
+    {%- for t in product.tags -%}
+      {%- assign tn = t | downcase | replace: '_', '-' | strip | prepend: ',' | append: ',' -%}
+      {%- if skip_tags contains tn -%}{%- continue -%}{%- endif -%}
+      {{- tag_sep -}}{{- t | json -}}
+      {%- assign tag_sep = ',' -%}
+    {%- endfor -%}
+    ]}
+    {%- assign item_sep = ',' -%}
+  {%- endfor -%}
+{%- endpaginate -%}
+]}

@@ -1,0 +1,337 @@
+{%- comment -%}
+  Liquid twin of pmFrag.detect() in assets/pm-frag.js for the /search page (sections/main-search.liquid): decides the
+  mode ('perfume' | 'brand' | none) and the hero (our scent made after the searched perfume) over this page of
+  Shopify results. The family list and the price ids need every scent, which this page does not have, so
+  assets/pm-frag-search-related.js runs pmFrag.detect() itself on the header panel's index. Contract: PRICE-COMPARE.md.
+  Keep the word lists and rules identical to pm-frag.js (FILLER, GENERIC, BRAND_GROUPS, wordHit, perfumeHit, brandHit,
+  the "le male" strictness and the sort). Text is folded by pm-frag-search-fold.
+
+  A render can't return values, so each step prints its result for a capture:
+  - step: 'query', query: search.terms
+      prints the folded query, or nothing when it can't match (empty, only numbers / ignored words, under 2 letters).
+  - step: 'exact', q: <folded query>, titles: <" " + folded titles of the results, space-separated>
+      prints the terms that must be whole words (exactTerms in pm-frag.js): one letter, a number, or 2-3 letters that
+      also start a word of one of our titles or an ignored word. Pad the result with spaces again after strip.
+  - step: 'item', q: <folded query>, product: <product>, exact: <padded output of the 'exact' step>
+      perfume hit -> "<name with _ for spaces>^<product id>"; brand hit -> "b"; otherwise nothing.
+  - step: 'pick', q: <folded query>, entries: <perfume-hit strings joined by spaces>
+      prints the close product ids, comma-separated, in detect()'s order (exact name first, then the shorter name,
+      then A-Z): the first one is the hero.
+{%- endcomment -%}
+{%- liquid
+  assign pfs_filler = ' no nr n de du di da del the by for pour la le les l of och and from herr herre dam '
+  assign pfs_generic = ' intense intensely parfum perfume elixir eau homme femme her him men women man woman edp edt cologne absolu extrait extreme black noir rouge blanc gold oud pure sport night nuit fresh original new red white rose vanilla vanilj '
+  assign pfs_brand_groups = 'jean paul gaultier,jpgaultier,jp gaultier,jpg,gaultier;yves saint laurent,ysl,saint laurent;maison francis kurkdjian,maison francis,mfk,kurkdjian;dolce gabbana,dolce and gabbana,dg;louis vuitton,lv;thierry mugler,mugler;paco rabanne,rabanne;giorgio armani,emporio armani,armani;christian dior,dior;carolina herrera,herrera;tom ford,tomford;escentric molecules,molecules;by kilian,kilian;tiziana terenzi,terenzi;le labo,lelabo;viktor rolf,viktor and rolf,viktorrolf'
+
+  case step
+    when 'query'
+      capture pfs_folded
+        render 'pm-frag-search-fold', text: query
+      endcapture
+      assign pfs_folded = pfs_folded | strip
+      assign pfs_terms = pfs_folded | split: ' '
+      assign pfs_compact = ''
+      assign pfs_word_found = false
+      for pfs_t in pfs_terms
+        assign pfs_tp = ' ' | append: pfs_t | append: ' '
+        if pfs_filler contains pfs_tp
+          continue
+        endif
+        assign pfs_compact = pfs_compact | append: pfs_t
+        assign pfs_letters = pfs_t | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+        if pfs_letters != ''
+          assign pfs_word_found = true
+        endif
+      endfor
+      if pfs_word_found and pfs_compact.size >= 2
+        echo pfs_folded
+      endif
+
+    when 'exact'
+      assign pfs_terms = q | split: ' '
+      assign pfs_out = ''
+      for pfs_t in pfs_terms
+        assign pfs_letters = pfs_t | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+        assign pfs_start = ' ' | append: pfs_t
+        assign pfs_is_exact = false
+        if pfs_t.size < 2 or pfs_letters == ''
+          assign pfs_is_exact = true
+        elsif pfs_t.size <= 3
+          if titles contains pfs_start or pfs_filler contains pfs_start
+            assign pfs_is_exact = true
+          endif
+        endif
+        if pfs_is_exact
+          assign pfs_out = pfs_out | append: ' ' | append: pfs_t
+        endif
+      endfor
+      echo pfs_out
+
+    when 'item'
+      assign pfs_terms = q | split: ' '
+      assign pfs_compact = ''
+      for pfs_t in pfs_terms
+        assign pfs_tp = ' ' | append: pfs_t | append: ' '
+        unless pfs_filler contains pfs_tp
+          assign pfs_compact = pfs_compact | append: pfs_t
+        endunless
+      endfor
+
+      assign pfs_name_raw = ''
+      if product.metafields.custom.inspiration.value
+        assign pfs_name_raw = product.metafields.custom.inspiration.value.name | default: ''
+      endif
+      assign pfs_brand_raw = product.metafields.custom.brand.value | default: ''
+      assign pfs_name = ''
+      if pfs_name_raw != blank
+        capture pfs_name
+          render 'pm-frag-search-fold', text: pfs_name_raw
+        endcapture
+        assign pfs_name = pfs_name | strip
+      endif
+      assign pfs_brand = ''
+      if pfs_brand_raw != blank
+        capture pfs_brand
+          render 'pm-frag-search-fold', text: pfs_brand_raw
+        endcapture
+        assign pfs_brand = pfs_brand | strip
+      endif
+
+      assign pfs_phrases = pfs_brand
+      assign pfs_hot = ''
+      if pfs_brand != ''
+        assign pfs_key = ' ' | append: pfs_brand | append: ' '
+        assign pfs_all_group_words = pfs_brand_groups | replace: ';', ' ' | replace: ',', ' ' | prepend: ' ' | append: ' '
+        assign pfs_key_words = pfs_brand | split: ' '
+        for pfs_w in pfs_key_words
+          assign pfs_wp = ' ' | append: pfs_w | append: ' '
+          if pfs_all_group_words contains pfs_wp
+            assign pfs_hot = pfs_hot | append: pfs_wp
+          endif
+        endfor
+      endif
+      if pfs_hot != ''
+        assign pfs_hot_words = pfs_hot | split: ' '
+        assign pfs_groups = pfs_brand_groups | split: ';'
+        for pfs_group in pfs_groups
+          assign pfs_group_words = pfs_group | replace: ',', ' ' | prepend: ' ' | append: ' '
+          assign pfs_in_group = false
+          for pfs_w in pfs_hot_words
+            assign pfs_wp = ' ' | append: pfs_w | append: ' '
+            if pfs_group_words contains pfs_wp
+              assign pfs_in_group = true
+              break
+            endif
+          endfor
+          unless pfs_in_group
+            continue
+          endunless
+          assign pfs_group_list = pfs_group | split: ','
+          assign pfs_in_group = false
+          for pfs_p in pfs_group_list
+            assign pfs_pp = ' ' | append: pfs_p | append: ' '
+            if pfs_key contains pfs_pp
+              assign pfs_in_group = true
+              break
+            endif
+          endfor
+          if pfs_in_group
+            for pfs_p in pfs_group_list
+              assign pfs_have = ',' | append: pfs_phrases | append: ','
+              assign pfs_pc = ',' | append: pfs_p | append: ','
+              unless pfs_have contains pfs_pc
+                assign pfs_phrases = pfs_phrases | append: ',' | append: pfs_p
+              endunless
+            endfor
+          endif
+        endfor
+      endif
+      assign pfs_words = ' ' | append: pfs_phrases | replace: ',', ' ' | append: ' '
+      assign pfs_compacts = ',' | append: pfs_phrases | remove: ' ' | append: ','
+
+      assign pfs_hit = ''
+      if pfs_name != ''
+        # The name without its house words (same as pm-frag.js): "Carolina Herrera Very Good Girl" must not match "herr".
+        assign pfs_padded_name = ' '
+        assign pfs_pn_words = pfs_name | split: ' '
+        for pfs_pn in pfs_pn_words
+          assign pfs_pnp = ' ' | append: pfs_pn | append: ' '
+          unless pfs_words contains pfs_pnp
+            assign pfs_padded_name = pfs_padded_name | append: pfs_pn | append: ' '
+          endunless
+        endfor
+        assign pfs_needles = ''
+        assign pfs_strong = false
+        assign pfs_in_name = true
+        for pfs_t in pfs_terms
+          assign pfs_tp = ' ' | append: pfs_t | append: ' '
+          if pfs_filler contains pfs_tp or pfs_words contains pfs_tp
+            continue
+          endif
+          # Exact terms match whole words; any other term matches a word start, and the start of a generic word
+          # ("int" for "intense") counts as generic (isGeneric in pm-frag.js).
+          assign pfs_start = ' ' | append: pfs_t
+          if exact contains pfs_tp
+            assign pfs_needle = pfs_tp
+            unless pfs_generic contains pfs_tp
+              assign pfs_strong = true
+            endunless
+          else
+            assign pfs_needle = pfs_start
+            unless pfs_generic contains pfs_start
+              assign pfs_strong = true
+            endunless
+          endif
+          assign pfs_needles = pfs_needles | append: pfs_needle | append: '|'
+          unless pfs_padded_name contains pfs_needle
+            assign pfs_in_name = false
+          endunless
+        endfor
+        if pfs_needles != '' and pfs_strong and pfs_in_name
+          capture pfs_title
+            render 'pm-frag-search-fold', text: product.title
+          endcapture
+          assign pfs_padded_title = pfs_title | strip | prepend: ' ' | append: ' '
+          assign pfs_in_title = true
+          assign pfs_needle_list = pfs_needles | split: '|'
+          for pfs_needle in pfs_needle_list
+            if pfs_needle == ''
+              continue
+            endif
+            unless pfs_padded_title contains pfs_needle
+              assign pfs_in_title = false
+              break
+            endunless
+          endfor
+          unless pfs_in_title
+            assign pfs_hit = 'perfume'
+          endunless
+        endif
+
+        if pfs_hit == ''
+          assign pfs_full = pfs_name | remove: ' '
+          assign pfs_core = ''
+          assign pfs_name_words = pfs_name | split: ' '
+          for pfs_w in pfs_name_words
+            assign pfs_wp = ' ' | append: pfs_w | append: ' '
+            unless pfs_words contains pfs_wp
+              assign pfs_core = pfs_core | append: pfs_w
+            endunless
+          endfor
+          assign pfs_candidates = pfs_full | append: ',' | append: pfs_core | split: ','
+          for pfs_c in pfs_candidates
+            assign pfs_letters = pfs_c | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+            if pfs_c.size >= 6 and pfs_letters != '' and pfs_compact contains pfs_c
+              assign pfs_hit = 'perfume'
+              break
+            endif
+          endfor
+        endif
+      endif
+
+      if pfs_hit == '' and pfs_brand != ''
+        assign pfs_any = false
+        assign pfs_all = true
+        for pfs_t in pfs_terms
+          assign pfs_tp = ' ' | append: pfs_t | append: ' '
+          if pfs_filler contains pfs_tp
+            continue
+          endif
+          assign pfs_any = true
+          if exact contains pfs_tp
+            assign pfs_needle = pfs_tp
+          else
+            assign pfs_needle = ' ' | append: pfs_t
+          endif
+          unless pfs_words contains pfs_needle
+            assign pfs_all = false
+            break
+          endunless
+        endfor
+        assign pfs_cq = ',' | append: pfs_compact | append: ','
+        if pfs_any and pfs_all
+          assign pfs_hit = 'brand'
+        elsif pfs_compact != '' and pfs_compacts contains pfs_cq
+          assign pfs_hit = 'brand'
+        endif
+      endif
+
+      if pfs_hit == 'perfume'
+        echo pfs_name | replace: ' ', '_' | append: '^' | append: product.id
+      elsif pfs_hit == 'brand'
+        echo 'b'
+      endif
+
+    when 'pick'
+      assign pfs_terms = q | split: ' '
+      assign pfs_wanted = ''
+      assign pfs_fillers = ''
+      for pfs_t in pfs_terms
+        assign pfs_tp = ' ' | append: pfs_t | append: ' '
+        if pfs_filler contains pfs_tp
+          assign pfs_fillers = pfs_fillers | append: pfs_tp
+        else
+          assign pfs_wanted = pfs_wanted | append: ' ' | append: pfs_t
+        endif
+      endfor
+      assign pfs_wanted = pfs_wanted | strip
+      assign pfs_entries = entries | strip | split: ' '
+
+      if pfs_fillers != ''
+        assign pfs_filler_list = pfs_fillers | strip | split: ' '
+        assign pfs_strict = ''
+        for pfs_e in pfs_entries
+          assign pfs_n = pfs_e | split: '^' | first | replace: '_', ' '
+          assign pfs_pn = ' ' | append: pfs_n | append: ' '
+          assign pfs_ok = true
+          for pfs_f in pfs_filler_list
+            if pfs_f == ''
+              continue
+            endif
+            assign pfs_fp = ' ' | append: pfs_f | append: ' '
+            unless pfs_pn contains pfs_fp
+              assign pfs_ok = false
+              break
+            endunless
+          endfor
+          if pfs_ok
+            assign pfs_strict = pfs_strict | append: ' ' | append: pfs_e
+          endif
+        endfor
+        if pfs_strict != ''
+          assign pfs_entries = pfs_strict | strip | split: ' '
+        endif
+      endif
+
+      assign pfs_keys = ''
+      for pfs_e in pfs_entries
+        assign pfs_n = pfs_e | split: '^' | first | replace: '_', ' '
+        assign pfs_exact = '1'
+        if pfs_n == pfs_wanted
+          assign pfs_exact = '0'
+        else
+          assign pfs_sn = ' ' | append: pfs_n
+          if pfs_wanted.size > pfs_sn.size
+            assign pfs_neg = pfs_sn.size | times: -1
+            assign pfs_tail = pfs_wanted | slice: pfs_neg, pfs_sn.size
+            if pfs_tail == pfs_sn
+              assign pfs_exact = '0'
+            endif
+          endif
+        endif
+        assign pfs_len = pfs_n.size | plus: 10000
+        assign pfs_index = forloop.index0 | plus: 1000
+        assign pfs_keys = pfs_keys | append: '|' | append: pfs_exact | append: pfs_len | append: pfs_n | append: '^' | append: pfs_index
+      endfor
+      assign pfs_keys = pfs_keys | remove_first: '|' | split: '|' | sort
+
+      assign pfs_ids = ''
+      for pfs_k in pfs_keys
+        assign pfs_i = pfs_k | split: '^' | last | minus: 1000
+        assign pfs_e = pfs_entries[pfs_i]
+        assign pfs_id = pfs_e | split: '^' | last
+        assign pfs_ids = pfs_ids | append: ',' | append: pfs_id
+      endfor
+      echo pfs_ids | remove_first: ','
+  endcase
+-%}

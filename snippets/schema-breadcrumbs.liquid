@@ -1,0 +1,21 @@
+{%- comment -%}
+  Breadcrumb schema (SEO update 2026-11-03: home crumb is "Hem" and points to the market root).
+{%- endcomment -%}
+{%- capture home_item -%}{"@type":"ListItem","position":1,"name":"Hem","item":{{ request.origin | append: routes.root_url | json }}}{%- endcapture -%}
+{%- if template.name == 'product' -%}
+  {%- assign pos = 2 -%}
+  {%- capture citem -%}{%- endcapture -%}
+  {%- if collection and collection.handle != blank -%}
+    {%- capture citem -%},{"@type":"ListItem","position":2,"name":{{ collection.title | json }},"item":{{ request.origin | append: collection.url | json }}}{%- endcapture -%}
+    {%- assign pos = 3 -%}
+  {%- endif -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{ home_item }}{{ citem }},{"@type":"ListItem","position":{{ pos }},"name":{{ product.title | json }},"item":{{ request.origin | append: product.url | json }}}]}</script>
+{%- elsif template.name == 'collection' -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{ home_item }},{"@type":"ListItem","position":2,"name":{{ collection.title | json }},"item":{{ request.origin | append: collection.url | json }}}]}</script>
+{%- elsif template.name == 'blog' -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{ home_item }},{"@type":"ListItem","position":2,"name":{{ blog.title | json }},"item":{{ request.origin | append: blog.url | json }}}]}</script>
+{%- elsif template.name == 'article' -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{ home_item }},{"@type":"ListItem","position":2,"name":{{ blog.title | json }},"item":{{ request.origin | append: blog.url | json }}},{"@type":"ListItem","position":3,"name":{{ article.title | json }},"item":{{ request.origin | append: article.url | json }}}]}</script>
+{%- elsif template.name == 'page' -%}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{{ home_item }},{"@type":"ListItem","position":2,"name":{{ page.title | json }},"item":{{ request.origin | append: page.url | json }}}]}</script>
+{%- endif -%}

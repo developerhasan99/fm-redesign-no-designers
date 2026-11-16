@@ -1,0 +1,46 @@
+{%- comment -%}
+  Texts + URLs for the search comparator (assets/pm-frag.js, PRICE-COMPARE.md): our scent on top, more scents of the
+  same scent family, and the retailer price list. Printed once per page from layout/theme.liquid as hidden page text,
+  so Weglot translates them on DK / FI / NO. Edit in Theme settings > Designer names in search.
+{%- endcomment -%}
+<div
+  class="pm-frag-texts"
+  hidden
+  data-pm-price-feed="{{ routes.all_products_collection_url }}?view=pm-price-feed"
+  data-pm-retail-offers="{{ 'pm-retail-offers.json' | asset_url }}"
+  data-pm-gg-core="{{ 'gg-core.js' | asset_url }}"
+>
+  <div data-pm-frag-text="cta">{{ settings.pm_frag_cta | escape }}</div>
+  <div data-pm-frag-text="closeHeading">{{ settings.pm_close_heading | escape }}</div>
+  <div data-pm-frag-text="familyTag">{{ settings.pm_family_tag | escape }}</div>
+  <div data-pm-frag-text="heroHint">{{ settings.pm_hero_hint | escape }}</div>
+  <div data-pm-frag-text="heroAdded">{{ settings.pm_hero_added | escape }}</div>
+  <div data-pm-frag-text="heroCta">{{ settings.pm_hero_cta | escape }}</div>
+  {%- comment -%} Same words as the product cards' line ("Inspirerad av:"), so Weglot uses the same translation. {%- endcomment -%}
+  <div data-pm-frag-text="inspired">Inspirerad av</div>
+  <div data-pm-frag-text="familyHeading">{{ settings.pm_family_heading | escape }}</div>
+  <div data-pm-frag-text="relatedHeading">{{ settings.pm_related_heading | escape }}</div>
+  <div data-pm-frag-text="priceDivider">{{ settings.pm_price_divider | escape }}</div>
+  <div data-pm-frag-text="priceTitle">{{ settings.pm_price_title | escape }}</div>
+  <div data-pm-frag-text="priceIntro">{{ settings.pm_price_intro | escape }}</div>
+  <div data-pm-frag-text="priceSearched">{{ settings.pm_price_searched | escape }}</div>
+  <div data-pm-frag-text="pricePeers">{{ settings.pm_price_peers | escape }}</div>
+  <div data-pm-frag-text="priceBrand">{{ settings.pm_price_brand | escape }}</div>
+  <div data-pm-frag-text="priceAllSizes">{{ settings.pm_price_all_sizes | escape }}</div>
+  <div data-pm-frag-text="priceSortLabel">{{ settings.pm_price_sort_label | escape }}</div>
+  <div data-pm-frag-text="priceSortPrice">{{ settings.pm_price_sort_price | escape }}</div>
+  <div data-pm-frag-text="priceSortMl">{{ settings.pm_price_sort_ml | escape }}</div>
+  <div data-pm-frag-text="priceSortShop">{{ settings.pm_price_sort_shop | escape }}</div>
+  <div data-pm-frag-text="priceRead">{{ settings.pm_price_read | escape }}</div>
+  <div data-pm-frag-text="priceMore">{{ settings.pm_price_more | escape }}</div>
+  <div data-pm-frag-text="priceLess">{{ settings.pm_price_less | escape }}</div>
+  <div data-pm-frag-text="priceNone">{{ settings.pm_price_none | escape }}</div>
+  <div data-pm-frag-text="priceHowTitle">{{ settings.pm_price_how_title | escape }}</div>
+  {%- assign pm_how = settings.pm_price_how | default: '' | newline_to_br | split: '<br />' -%}
+  {%- for line in pm_how -%}
+    {%- assign line_text = line | strip -%}
+    {%- if line_text != blank -%}
+      <div data-pm-frag-how>{{ line_text | escape }}</div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>

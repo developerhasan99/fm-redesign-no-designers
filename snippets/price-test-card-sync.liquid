@@ -1,0 +1,160 @@
+{%- comment -%}
+  The price test app rewrites only the spots on its own selector list, so card prices are synced
+  here from the app's group prices. Visitors outside a test have no group data and nothing changes.
+  Two card types:
+  - older cards carry the variant behind their printed price (data-variant-id on the card wrapper);
+  - the cards in use since Oct 2026 (collection, search, "you may like") and the video row's pills
+    show .ab-current-price / .fuel05-ugc__pill-price next to a link to one product and no variant id.
+    They print the product's lowest price, so they get the lowest price of the visitor's group.
+  The side cart's size menus (its "you'll love these" picks) print a price per size and are synced too.
+{%- endcomment -%}
+<style>
+  .price-test-compare-under {
+    display: none !important;
+  }
+</style>
+<script>
+  (() => {
+    if (document.documentElement.dataset.priceTestCardSync) return;
+    document.documentElement.dataset.priceTestCardSync = '1';
+
+    const testPrices = () => {
+      const groups = window.absolutely?.testGroups;
+      const tests = window.absolutelyConfig?.priceTests;
+      if (!groups || !tests) return null;
+      const prices = new Map();
+      const lowest = new Map();
+      for (const test of tests) {
+        const group = (test.groups || []).find(item => item.id === groups[test.id]);
+        for (const variant of group?.variants || []) {
+          const price = Number(variant.price);
+          prices.set(String(variant.variantId), price);
+          const handle = variant.productHandle;
+          if (handle && !(lowest.get(handle) <= price)) lowest.set(handle, price);
+        }
+      }
+      return { prices, lowest };
+    };
+
+    // Card prices outside the product page's own price box: collection and search cards, the
+    // "you may like" slider, the video row's product pills.
+    const linkCardLabels = () =>
+      [...document.querySelectorAll('.ab-current-price, .fuel05-ugc__pill-price')].filter(
+        label => !label.closest('#product-price, [id^="ProductInfo-"], product-info')
+      );
+
+    const handleFromLink = link => {
+      const handle = link.getAttribute('href').split('/products/')[1]?.split(/[/?#]/)[0];
+      return handle ? decodeURIComponent(handle) : null;
+    };
+
+    // The card is the closest ancestor that links to a product; it must link to one product only.
+    const handleOf = label => {
+      for (let element = label, depth = 0; element && depth < 7; element = element.parentElement, depth += 1) {
+        const links = element.matches('a[href*="/products/"]')
+          ? [element]
+          : element.querySelectorAll('a[href*="/products/"]');
+        const handles = new Set();
+        for (const link of links) {
+          const handle = handleFromLink(link);
+          if (handle) handles.add(handle);
+        }
+        if (handles.size === 1) return [...handles][0];
+        if (handles.size > 1) return null;
+      }
+      return null;
+    };
+
+    const setAmount = (label, price) => {
+      const text = label.textContent.replace(/\d[\d.,]*/, asNumber(price));
+      if (label.textContent !== text) label.textContent = text;
+    };
+
+    const asNumber = amount => {
+      const [whole, cents] = amount.toFixed(2).split('.');
+      return `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${cents}`;
+    };
+
+    const amountOf = text => {
+      const match = text.replace(/\s/g, '').match(/\d[\d.]*,\d{2}|\d[\d.]*/);
+      return match ? Number(match[0].replace(/\./g, '').replace(',', '.')) : null;
+    };
+
+    // A crossed out price only makes sense above the price. A test price can climb past the
+    // shop's compare at price on a product that is on sale, and then the strike through would
+    // sit under the price; those spots hide it, and show it again as soon as it is above.
+    const guardCompare = () => {
+      const blocks = new Set(document.querySelectorAll('#product-price, .card-information'));
+      for (const label of linkCardLabels()) blocks.add(label.parentElement);
+      for (const block of blocks) {
+        const compare = block.querySelector('.compare-price, .line-through, s, del');
+        const current = block.querySelector('.current-price, .ab-current-price');
+        if (!compare || !current) continue;
+        const was = amountOf(compare.textContent);
+        const now = amountOf(current.textContent);
+        if (was === null || now === null) continue;
+        compare.classList.toggle('price-test-compare-under', was <= now);
+      }
+    };
+
+    const sync = () => {
+      guardCompare();
+      const data = testPrices();
+      if (!data?.prices.size) return;
+      // [data-ts-variant-id]: collection cards with size chips (snippets/product-card.liquid with atc) print the
+      // price of the chosen size, so they sync like the older variant cards.
+      for (const card of document.querySelectorAll('.product-card-wrapper[data-variant-id], [data-ts-variant-id]')) {
+        const price = data.prices.get(card.dataset.variantId || card.dataset.tsVariantId);
+        const label = card.querySelector('.ab-current-price');
+        if (price && label) setAmount(label, price);
+      }
+      for (const label of linkCardLabels()) {
+        if (label.closest('.product-card-wrapper[data-variant-id], [data-ts-variant-id]')) continue;
+        const handle = handleOf(label);
+        const price = handle && data.lowest.get(handle);
+        if (price) setAmount(label, price);
+      }
+      // The side cart's picks print each size's price in their size menu (option value = variant id).
+      for (const option of document.querySelectorAll('cart-drawer select[name="id"] option[value]')) {
+        const price = data.prices.get(option.value);
+        if (!price) continue;
+        const amount = asNumber(price);
+        const text = option.textContent.replace(/\d[\d.]*,\d{2}(?=\s*kr)/, amount);
+        if (option.textContent !== text) option.textContent = text;
+        if (option.dataset.price && option.dataset.price !== amount) option.dataset.price = amount;
+      }
+      guardCompare();
+    };
+
+    // The page changes several times a second on its own (app scripts, the countdown timer), so
+    // waiting for a quiet moment can wait forever. Crossed out prices are checked on every change,
+    // before the browser paints, and the cards sync at most 150 ms after the first change.
+    // The app rewrites a price's text in place, so text changes count as changes too.
+    let timer = null;
+    const schedule = () => {
+      guardCompare();
+      if (timer) return;
+      timer = setTimeout(() => {
+        timer = null;
+        sync();
+      }, 150);
+    };
+
+    // The app fills its price data after load without an event, and grids add cards on scroll.
+    new MutationObserver(schedule).observe(document.documentElement, { childList: true, characterData: true, subtree: true });
+    sync();
+    window.addEventListener('load', schedule);
+
+    // The price data usually lands a few hundred milliseconds in, before the page has finished
+    // loading and on a collection page often without touching the DOM, so neither hook above
+    // sees it and the cards keep the base price until the load event. Look for it directly
+    // until it is there, then stop.
+    let looks = 0;
+    const lookForPrices = setInterval(() => {
+      looks += 1;
+      const found = Boolean(testPrices()?.prices.size);
+      if (found || looks >= 100) clearInterval(lookForPrices);
+      if (found) sync();
+    }, 200);
+  })();
+</script>

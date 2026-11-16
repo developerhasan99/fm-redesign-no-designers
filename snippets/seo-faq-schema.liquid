@@ -1,0 +1,22 @@
+{%- comment -%}
+  SEO 2026-11-03: FAQPage schema from the custom.faq_json metafield on collections and pages.
+  Format: [{"q":"Fråga","a":"Svar"}, ...]
+{%- endcomment -%}
+{%- liquid
+  assign faq = blank
+  comment
+    NO-DESIGNERS.md: collection pages hide their stored text (and its FAQ) unless "Show collection SEO text" is on, so
+    their FAQ data for Google goes with it.
+  endcomment
+  if template.name == 'collection' and settings.pm_show_collection_text and collection.metafields.custom.faq_json != blank
+    assign faq = collection.metafields.custom.faq_json.value
+  elsif template.name == 'page' and page.metafields.custom.faq_json != blank
+    assign faq = page.metafields.custom.faq_json.value
+  endif
+-%}
+{%- comment -%} House names of Theme settings > pm_masked_brands are removed from questions and answers (NO-DESIGNERS.md). {%- endcomment -%}
+{%- if faq != blank and faq.size > 0 -%}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{%- for f in faq -%}{%- capture faq_q -%}{%- render 'pm-designer-short', text: f.q -%}{%- endcapture -%}{%- capture faq_a -%}{%- render 'pm-designer-short', text: f.a -%}{%- endcapture -%}{"@type":"Question","name":{{ faq_q | json }},"acceptedAnswer":{"@type":"Answer","text":{{ faq_a | json }}}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]}
+</script>
+{%- endif -%}

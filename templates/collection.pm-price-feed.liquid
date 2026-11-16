@@ -1,0 +1,140 @@
+{%- layout none -%}
+{%- comment -%}
+  Price comparator feed (PRICE-COMPARE.md), JSON only, at /collections/all?view=pm-price-feed. Fetched by
+  assets/pm-frag.js only when a search names a designer perfume, cached in sessionStorage for 30 minutes.
+
+  {"v":1,"cur":"SEK","p":{"<product id>":{"u","t","img","fam","d","di","nt":[..],"v":[[variant id, ml, price, price per ml, available], ..],
+  "o":{"n","b","fu"}}}}
+  - One entry per scent made after a designer perfume (custom.inspiration set), single scents only ("No." in the title),
+    hidden / giftbox_ghost_product left out.
+  - u / t / img / fam / nt / v describe OUR scent (the hero card): url, title, picture (as the search index), scent family
+    (custom.fragrance_family, first value), up to 6 note names (custom.top_notes / middle_notes / base_notes headings),
+    sizes with prices formatted in the visitor's currency. d / di = "Inspirerad av" name (brand-free) and designer
+    bottle picture, both "" for the L'Oréal houses and for a hidden name (Aventus).
+  - o = the designer original, printed ONLY inside the price list (NO-DESIGNERS.md exception, Adrian 15.11): n = name,
+    b = house, fu = Fragrantica link. The shop prices are not in this feed: pm-frag.js adds them from the snapshot file
+    assets/pm-retail-offers.json (tools/retail-prices), keyed by the same product id.
+{%- endcomment -%}
+{%- liquid
+  assign digits = '0123456789'
+  assign sep = ''
+-%}
+{"v":1,"cur":{{ cart.currency.iso_code | json }},"p":{
+{%- paginate collections.all.products by 250 -%}
+  {%- for product in collections.all.products -%}
+    {%- liquid
+      assign insp = product.metafields.custom.inspiration.value
+      if insp == blank
+        continue
+      endif
+      unless product.title contains 'No.'
+        continue
+      endunless
+      assign tags_dc = product.tags | join: ',' | downcase | replace: '_', '-' | prepend: ',' | append: ','
+      if tags_dc contains ',hidden,' or tags_dc contains ',giftbox-ghost-product,'
+        continue
+      endif
+
+      assign family = ''
+      assign family_mf = product.metafields.custom.fragrance_family
+      if family_mf != blank
+        if family_mf.type contains 'list.'
+          assign family = family_mf.value | first | append: ''
+        else
+          assign family = family_mf.value | append: '' | split: ',' | first | strip
+        endif
+      endif
+
+      assign image = ''
+      assign pm_fm = product.metafields.custom.fm_images.value | first
+      if pm_fm != blank
+        assign image = pm_fm.preview_image | image_url: width: 400
+      elsif product.featured_image
+        assign image = product.featured_image | image_url: width: 400
+      endif
+      assign image_head = image | slice: 0, 2
+      if image_head == '//'
+        assign image = 'https:' | append: image
+      endif
+
+      assign notes_raw = ''
+      assign tiers = 'top,middle,base' | split: ','
+      for tier in tiers
+        assign key = tier | append: '_notes'
+        assign heading = product.metafields.custom[key].value.heading | default: '' | strip_html | strip
+        if heading != blank
+          assign notes_raw = notes_raw | append: '|' | append: heading
+        endif
+      endfor
+      assign notes_raw = notes_raw | replace: '·', '|' | replace: ',', '|' | replace: '/', '|'
+      assign note_list = notes_raw | split: '|'
+
+      assign brand = product.metafields.custom.brand.value | default: '' | strip
+      assign fu = insp.fragrantica_url.value | default: '' | strip
+
+      # "Inspirerad av" on our scent's card, as on the product cards: brand-free name + designer bottle. Not for the
+      # L'Oréal houses (pm-designer-masked) and not when the name is hidden (Aventus: short name blank).
+      assign d = ''
+      assign di = ''
+      capture pm_feed_masked
+        render 'pm-designer-masked', product: product
+      endcapture
+      if pm_feed_masked != '1'
+        capture d
+          render 'pm-designer-short', product: product
+        endcapture
+        assign d = d | strip
+        if d != blank and insp.image != blank
+          assign di = insp.image | image_url: width: 90, height: 90
+          assign di_head = di | slice: 0, 2
+          if di_head == '//'
+            assign di = 'https:' | append: di
+          endif
+        endif
+      endif
+    -%}
+    {{- sep -}}
+    {{- product.id | append: '' | json -}}:{"u":{{ product.url | json }},"t":{{ product.title | json }},"img":{{ image | json }},"fam":{{ family | json }},"d":{{ d | json }},"di":{{ di | json }},"nt":[
+    {%- assign note_sep = '' -%}
+    {%- assign note_seen = '|' -%}
+    {%- assign note_count = 0 -%}
+    {%- for note in note_list -%}
+      {%- assign n = note | strip -%}
+      {%- if n == blank or note_count >= 6 -%}{%- continue -%}{%- endif -%}
+      {%- assign n_key = n | downcase | prepend: '|' | append: '|' -%}
+      {%- if note_seen contains n_key -%}{%- continue -%}{%- endif -%}
+      {%- assign note_seen = note_seen | append: n_key -%}
+      {{- note_sep -}}{{- n | json -}}
+      {%- assign note_sep = ',' -%}
+      {%- assign note_count = note_count | plus: 1 -%}
+    {%- endfor -%}
+    ],"v":[
+    {%- assign v_sep = '' -%}
+    {%- for v in product.variants -%}
+      {%- liquid
+        assign ml = ''
+        assign chars = v.title | split: ''
+        for c in chars
+          if digits contains c
+            assign ml = ml | append: c
+          elsif ml != ''
+            break
+          endif
+        endfor
+        if ml == ''
+          continue
+        endif
+        assign ml = ml | plus: 0
+        assign pml = ''
+        if ml > 0
+          assign pml = v.price | divided_by: ml | money | strip_html
+        endif
+      -%}
+      {{- v_sep -}}[{{ v.id }},{{ ml }},{{ v.price | money | strip_html | json }},{{ pml | json }},{{ v.available }}]
+      {%- assign v_sep = ',' -%}
+    {%- endfor -%}
+    ],"o":{"n":{{ insp.name | default: '' | strip | json }},"b":{{ brand | json }},"fu":{{ fu | json }}}}
+    {%- assign sep = ',' -%}
+  {%- endfor -%}
+{%- endpaginate -%}
+}}

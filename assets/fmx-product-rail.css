@@ -1,0 +1,148 @@
+/* fmx-product-rail.css: product carousel on the product page (sections/fmx-product-rail.liquid), from FM's
+   pm-s-pairs.css. Heading left, arrows right (from 750); Swiper 2.2 (edge to edge on phones) / 3.2 / 4 cards,
+   12 / 16 / 20px gaps. Slides carry the collection card (snippets/product-card.liquid with atc), so every slide is a
+   flex column: the card takes the spare height and the Add to cart buttons sit on one line. */
+.premium .fmx-rail {
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.premium .fmx-rail__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 20px;
+}
+
+.premium .fmx-rail__heading {
+  min-width: 0;
+  margin: 0;
+}
+
+.premium .fmx-rail__nav {
+  display: none;
+  flex: none;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.premium .fmx-rail__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--pm-ink, #232323);
+  border-radius: var(--pm-radius-sm, 4px);
+  background: transparent;
+  color: var(--pm-ink, #232323);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color 200ms ease, color 200ms ease, opacity 200ms ease;
+}
+
+.premium .fmx-rail__arrow:hover {
+  background: var(--pm-ink, #232323);
+  color: #fff;
+}
+
+.premium .fmx-rail__arrow:focus-visible {
+  outline: 2px solid var(--pm-ink, #232323);
+  outline-offset: 2px;
+}
+
+.premium .fmx-rail__arrow--prev .pm-icon,
+.premium .fmx-rail__arrow--prev > svg {
+  transform: scaleX(-1);
+}
+
+.premium .fmx-rail__arrow.swiper-button-disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.premium .fmx-rail__arrow.swiper-button-disabled:hover {
+  background: transparent;
+  color: var(--pm-ink, #232323);
+}
+
+.premium .fmx-rail__arrow.swiper-button-lock {
+  display: none;
+}
+
+.premium .fmx-rail__swiper {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.premium .fmx-rail__slide {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: auto;
+}
+
+.premium .fmx-rail__slide > a {
+  flex: 1 1 auto;
+  height: auto;
+}
+
+/* Until Swiper starts (its script and stylesheet load deferred): the cards already sit in a row at their final
+   width, so nothing jumps when it starts. */
+.premium .fmx-rail__swiper:not(.swiper-initialized) .swiper-wrapper {
+  display: flex;
+  gap: 12px;
+}
+
+.premium .fmx-rail__swiper:not(.swiper-initialized) .fmx-rail__slide {
+  flex: 0 0 calc((100% - 24px) / 2.2);
+}
+
+/* Phones: edge to edge, so 2.2 cards are as wide as the collection grid's 2; the script turns the gutter into the
+   offset before the first card and after the last */
+@media (max-width: 749px) {
+  .premium .fmx-rail__swiper {
+    width: auto;
+    margin-right: calc(-1 * var(--pm-gutter, 16px));
+    margin-left: calc(-1 * var(--pm-gutter, 16px));
+  }
+
+  .premium .fmx-rail__swiper:not(.swiper-initialized) .swiper-wrapper {
+    padding-left: var(--pm-gutter, 16px);
+  }
+}
+
+@media (min-width: 750px) {
+  .premium .fmx-rail__head {
+    margin-bottom: 24px;
+  }
+
+  .premium .fmx-rail__nav {
+    display: flex;
+  }
+
+  .premium .fmx-rail__swiper:not(.swiper-initialized) .swiper-wrapper {
+    gap: 16px;
+  }
+
+  .premium .fmx-rail__swiper:not(.swiper-initialized) .fmx-rail__slide {
+    flex-basis: calc((100% - 48px) / 3.2);
+  }
+}
+
+@media (min-width: 990px) {
+  .premium .fmx-rail__swiper:not(.swiper-initialized) .swiper-wrapper {
+    gap: 20px;
+  }
+
+  .premium .fmx-rail__swiper:not(.swiper-initialized) .fmx-rail__slide {
+    flex-basis: calc((100% - 60px) / 4);
+  }
+}

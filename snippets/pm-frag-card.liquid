@@ -1,0 +1,37 @@
+{%- comment -%}
+  One Fragrantica card (same markup as pmFrag.cardsHtml in assets/pm-frag.js, styles in assets/pm-frag.css).
+  Prints nothing unless `url` is a Fragrantica perfume page ending in -<digits>.html.
+  The picture is Fragrantica's Swedish share image; assets/pm-frag.js swaps it to English on Weglot DK / FI / NO.
+  Usage: {% render 'pm-frag-card', url: product.metafields.custom.inspiration.value.fragrantica_url.value %}
+  Wrap several cards in <div class="pm-frag"><div class="pm-frag__cards[ is-multi]"> ... </div></div>.
+  Contract: FRAGRANTICA-SEARCH.md.
+{%- endcomment -%}
+{%- liquid
+  assign pf_url = url | default: '' | strip
+  assign pf_id = pf_url | split: '-' | last | split: '.html' | first
+  assign pf_num = pf_id | plus: 0
+  assign pf_num_text = pf_num | append: ''
+  assign pf_ok = false
+  # Same rule as pm-frag.js LINK_RE: https://, a Fragrantica /perfume/ page, ending in -<digits>.html.
+  assign pf_head = pf_url | slice: 0, 8
+  assign pf_tail = pf_url | slice: -5, 5
+  if pf_head == 'https://' and pf_tail == '.html' and pf_url contains 'fragrantica.' and pf_url contains '/perfume/' and pf_num > 0 and pf_num_text == pf_id
+    assign pf_ok = true
+  endif
+-%}
+{%- if pf_ok -%}
+  <a class="pm-frag-card" href="{{ pf_url | escape }}" target="_blank" rel="noopener nofollow" data-pm-frag-id="{{ pf_id }}">
+    {%- comment -%} Width / height set the box before the picture loads (CLS); CSS keeps it fluid. {%- endcomment -%}
+    <img
+      class="pm-frag-card__img"
+      src="https://fimgs.net/mdimg/perfume-social-cards/sv-social-{{ pf_id }}.jpeg"
+      alt="{{ settings.pm_frag_alt | escape }}"
+      width="1200"
+      height="628"
+      loading="lazy"
+      decoding="async"
+      data-pm-frag-img
+      data-pm-frag-id="{{ pf_id }}">
+    <span class="pm-frag-card__cta"><span>{{ settings.pm_frag_cta | escape }}</span><span class="pm-frag-card__arrow" aria-hidden="true">↗</span></span>
+  </a>
+{%- endif -%}

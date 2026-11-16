@@ -1,0 +1,154 @@
+{% comment %}
+  Homepage UGC video row ("Älskad av tusentals"), rendered by sections/fm-home-tabs.liquid (setting "Show the UGC
+  video row") and on live's homepage by the "Senaste dofterna" popular-products section.
+
+  Copy theme, 15.11.2026: the reels mirror the ones on the bestseller page (/collections/bestseller-singles, template
+  collection.collection-lander-v3, product-grid blocks fuel05_td_1-7 desktop / fuel05_tm_1-7 mobile, as on the live
+  theme that day). Like the bestseller page there is a desktop build and a phone build, each shown only at its own
+  widths (.fuel05-ugc--home-desktop / --home-mobile in fuel05-ugc.css, the same 750px switch as the PDP and grid
+  builds). A hidden build never comes on screen, so fuel05-ugc.js never arms it and its clips never load.
+
+  Desktop, in grid order: 03_Nathalie-Erickson (No. 438W), brand_EmelieS (No. 469W), 08_Joacim-Erickson (No. 372),
+  brand_NathalieE (No. 469W), 06_Amanda-Eklund (no product), Ebba_Wernlund_LeMale247 (Cherry Vanilla),
+  brand_JoacimE (No. 360M).
+  Phone: brand_SofiaK _sdr (No. 437W), Ebba_Wernlund_LeMale247 (Bergamot Pepper Ambroxan), brand_EmelieS (No. 360M),
+  brand_NathalieE (No. 469W), brand_SofiaK _sdr (4x 100 ml), brand_EbbaW (Cherry Vanilla), brand_JoacimE (No. 360M).
+  Cherry Vanilla, No. 437W and Bergamot Pepper Ambroxan are unpublished (15.11), so those tiles show no product pill,
+  exactly as on the bestseller page; the pill comes back by itself if the product is published again.
+
+  A snippet has no settings to hold a video pick, so the URLs are hard-coded: the transcodes live renders for those
+  Files videos (480p where the clip has a 480p rendition, else its smallest). The SofiaK clips are the _sdr Files
+  entries (the originals were iPhone HLG HDR and blew out on iOS). If the bestseller tiles change, refresh these from
+  that page.
+
+  Usage:
+  {% render 'fuel05-ugc-home-row' %}
+{% endcomment %}
+
+{{ 'fuel05-ugc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fuel05-ugc.js' | asset_url }}" defer="defer"></script>
+
+{%- capture fuel05_home_header -%}
+    <div class="fuel05-ugc__header">
+      <h2 class="fuel05-ugc__heading">Älskad av tusentals</h2>
+      <div class="fuel05-ugc__nav">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+{%- endcapture -%}
+
+<div
+  class="fuel05-ugc fuel05-ugc--home fuel05-ugc--home-desktop"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32">
+  <div class="fuel05-ugc__inner">
+    {{ fuel05_home_header }}
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {%- comment -%} 1. 03_Nathalie-Erickson_tryscent-co {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/c3b03801053c4557bff0ed5ee2ce5eb7/c3b03801053c4557bff0ed5ee2ce5eb7.SD-480p-1.5Mbps-100942583.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/c3b03801053c4557bff0ed5ee2ce5eb7.thumbnail.0000000000.jpg?v=1794441829&width=600',
+          product_item: all_products['magic-perfume-no-438w']
+        %}
+        {%- comment -%} 2. brand_EmelieS {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600',
+          product_item: all_products['magic-perfume-no-469w']
+        %}
+        {%- comment -%} 3. 08_Joacim-Erickson_tryscent-co {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/f3b5b0b968074394b50deb866074fbb2/f3b5b0b968074394b50deb866074fbb2.SD-480p-0.9Mbps-100942580.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/f3b5b0b968074394b50deb866074fbb2.thumbnail.0000000000.jpg?v=1794441518&width=600',
+          product_item: all_products['doftar-som-le-male-elixir-no-372']
+        %}
+        {%- comment -%} 4. brand_NathalieE {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600',
+          product_item: all_products['magic-perfume-no-469w']
+        %}
+        {%- comment -%} 5. 06_Amanda-Eklund_tryscent-co {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/44d2a1a231fa4e3cbdc072a12b0e045e/44d2a1a231fa4e3cbdc072a12b0e045e.SD-480p-1.5Mbps-100942579.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/44d2a1a231fa4e3cbdc072a12b0e045e.thumbnail.0000000000.jpg?v=1794441711&width=600'
+        %}
+        {%- comment -%} 6. Ebba_Wernlund_LeMale247 {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b384fc443c73404a9829d306d4d5da9e/b384fc443c73404a9829d306d4d5da9e.SD-480p-0.9Mbps-97375664.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b384fc443c73404a9829d306d4d5da9e.thumbnail.0000000000.jpg?v=1791932016&width=600',
+          product_item: all_products['sweet-cherry-vanilla-50-ml-1-7-fl-oz']
+        %}
+        {%- comment -%} 7. brand_JoacimE {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.SD-480p-0.9Mbps-92843391.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600',
+          product_item: all_products['magic-perfume-no-360m']
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="fuel05-ugc fuel05-ugc--home fuel05-ugc--home-mobile"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32">
+  <div class="fuel05-ugc__inner">
+    {{ fuel05_home_header }}
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {%- comment -%} 1. brand_SofiaK_6df4295a_sdr {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/baa8d6ccc21d4d4683ac5ee1a7ac4100/baa8d6ccc21d4d4683ac5ee1a7ac4100.SD-480p-1.5Mbps-93044583.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/baa8d6ccc21d4d4683ac5ee1a7ac4100.thumbnail.0000000000.jpg?v=1788153263&width=600',
+          product_item: all_products['magic-perfume-no-437w']
+        %}
+        {%- comment -%} 2. Ebba_Wernlund_LeMale247 {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b384fc443c73404a9829d306d4d5da9e/b384fc443c73404a9829d306d4d5da9e.SD-480p-0.9Mbps-97375664.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b384fc443c73404a9829d306d4d5da9e.thumbnail.0000000000.jpg?v=1791932016&width=600',
+          product_item: all_products['bergamot-pepper-ambroxan']
+        %}
+        {%- comment -%} 3. brand_EmelieS {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600',
+          product_item: all_products['magic-perfume-no-360m']
+        %}
+        {%- comment -%} 4. brand_NathalieE {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600',
+          product_item: all_products['magic-perfume-no-469w']
+        %}
+        {%- comment -%} 5. brand_SofiaK_c199046e_sdr {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/5a878e22b12744d19421b651e8d4a241/5a878e22b12744d19421b651e8d4a241.SD-480p-1.5Mbps-93044584.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/5a878e22b12744d19421b651e8d4a241.thumbnail.0000000000.jpg?v=1788153261&width=600',
+          product_item: all_products['4x-100ml-perfume-bottles']
+        %}
+        {%- comment -%} 6. brand_EbbaW {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/818572396d674cd5910b24ef0fe6a1a3/818572396d674cd5910b24ef0fe6a1a3.SD-480p-1.5Mbps-92843389.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/818572396d674cd5910b24ef0fe6a1a3.thumbnail.0000000000.jpg?v=1787894737&width=600',
+          product_item: all_products['sweet-cherry-vanilla-50-ml-1-7-fl-oz']
+        %}
+        {%- comment -%} 7. brand_JoacimE {%- endcomment -%}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.SD-480p-0.9Mbps-92843391.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600',
+          product_item: all_products['magic-perfume-no-360m']
+        %}
+      </div>
+    </div>
+  </div>
+</div>

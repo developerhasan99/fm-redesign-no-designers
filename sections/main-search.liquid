@@ -1,0 +1,681 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-search.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+  {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- comment -%} No <main-search> on this page any more (see .template-search__search), so main-search.js is not loaded. {%- endcomment -%}
+
+<style>
+  .template-search__header {
+    margin-bottom: 3rem;
+  }
+
+  .template-search__search {
+    margin: 0 auto 3.5rem;
+    max-width: 74.1rem;
+  }
+
+  .template-search__search .search {
+    margin-top: 3rem;
+  }
+
+  .template-search--empty {
+    padding-bottom: 18rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .template-search__header {
+      margin-bottom: 5rem;
+    }
+  }
+
+  .search__button .icon {
+    height: 1.8rem;
+  }
+
+  .template-search__header .pm-masked-notice {
+    margin: 1.5rem 0 0;
+    font-size: 1.4rem;
+  }
+
+  /* Search comparator (PRICE-COMPARE.md): our scent on top, the heading over the results, the retailer price list
+     under them. Their inside look is assets/pm-frag.css; here only width and outer spacing. */
+  .template-search__header .pm-search-hero,
+  .pm-search-price {
+    max-width: 74.1rem;
+    margin: 2rem auto 0;
+  }
+
+  .pm-search-price {
+    margin-top: 3rem;
+  }
+
+  .template-search__header .pm-frag__heading {
+    margin: 1.5rem 0 0;
+    text-align: center;
+  }
+</style>
+
+{%- liquid
+  assign sort_by = search.sort_by | default: search.default_sort_by
+  assign terms = search.terms | escape
+  assign search_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{% paginate search.results by 24 %}
+  <div class="template-search{% unless search.performed and search.results_count > 0 %} template-search--empty{% endunless %} section-{{ section.id }}-padding">
+    <div class="template-search__header page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      <h1 class="h2 center">
+        {%- if search.performed -%}
+          {{- 'templates.search.title' | t -}}
+        {%- else -%}
+          {{- 'general.search.search' | t -}}
+        {%- endif -%}
+      </h1>
+      <div class="template-search__search">
+        {%- comment -%}
+          Not live's form: its input (name="q") is the one the Searchanise app takes over with its own dropdown.
+          This field opens the search overlay (sections/pm-search-overlay.liquid) with the query in it, as the
+          header field does; styles in assets/pm-s-search.css (.pm-sr__field, scoped to .premium).
+          Without JS it is a plain link to the search page.
+        {%- endcomment -%}
+        <div class="premium">
+          <a
+            href="{{ routes.search_url }}"
+            class="pm-sr__field{% if search.terms == blank %} pm-sr__field--empty{% endif %}"
+            data-pm-search-open
+            data-pm-search-query="{{ search.terms | escape }}"
+            aria-haspopup="dialog"
+            aria-controls="PmSearch">
+            <span class="pm-sr__field-text">
+              {%- if search.terms != blank -%}{{ search.terms | escape }}{%- else -%}{{ 'general.search.search' | t }}{%- endif -%}
+            </span>
+            {%- render 'pm-icon', icon: 'search', size: 18, stroke: 1.5 -%}
+          </a>
+        </div>
+      </div>
+      {%- if search.performed -%}
+        {%- unless section.settings.enable_filtering or section.settings.enable_sorting -%}
+          {%- if search.results_count > 0 -%}
+            <p role="status">
+              {{ 'templates.search.results_with_count_and_term' | t: terms: search.terms, count: search.results_count }}
+            </p>
+          {%- endif -%}
+        {%- endunless -%}
+        {%- if search.results_count == 0 and search.filters == empty -%}
+          <p role="status">{{ 'templates.search.no_results' | t: terms: search.terms }}</p>
+        {%- endif -%}
+        {%- comment -%}
+          Search comparator (PRICE-COMPARE.md): the Liquid twin of pmFrag.detect() over this page of results
+          (snippets/pm-frag-search-match.liquid) sets
+          - pm_frag_mode: 'perfume' | 'brand' | blank;
+          - pm_frag_hero_id: perfume mode, our scent made after the searched perfume (the card on top);
+          - pm_frag_list_ids: perfume mode, ",id,id," of the other close matches on this page (max 5): the list until
+            assets/pm-frag-search-related.js puts detect()'s list in its place (other close matches + our scents of
+            the hero's scent family; that needs every scent, not only this page);
+          - pm_frag_price_ids: perfume mode, "hero,close,close" for the price list until the script adds the family;
+          - pm_frag_house_ids: brand mode, ",id,id," of the house's scents on this page.
+        {%- endcomment -%}
+        {%- liquid
+          assign pm_frag_mode = ''
+          assign pm_frag_hero_id = ''
+          assign pm_frag_list_ids = ','
+          assign pm_frag_price_ids = ''
+          capture pm_frag_q
+            render 'pm-frag-search-match', step: 'query', query: search.terms
+          endcapture
+          assign pm_frag_q = pm_frag_q | strip
+          if pm_frag_q != blank
+            assign pm_frag_entries = ''
+            assign pm_frag_brand = false
+            assign pm_frag_house_ids = ','
+            # Words of 2-3 letters that start one of our own titles stay whole words ("an" for "Ananas").
+            assign pm_frag_titles = ''
+            for pm_item in search.results
+              if pm_item.object_type != 'product' or pm_item.tags contains 'Bundle_no_show'
+                continue
+              endif
+              capture pm_frag_t
+                render 'pm-frag-search-fold', text: pm_item.title
+              endcapture
+              assign pm_frag_t = pm_frag_t | strip
+              assign pm_frag_titles = pm_frag_titles | append: ' ' | append: pm_frag_t
+            endfor
+            capture pm_frag_exact
+              render 'pm-frag-search-match', step: 'exact', q: pm_frag_q, titles: pm_frag_titles
+            endcapture
+            assign pm_frag_exact = pm_frag_exact | strip | prepend: ' ' | append: ' '
+            for pm_item in search.results
+              if pm_item.object_type != 'product' or pm_item.tags contains 'Bundle_no_show'
+                continue
+              endif
+              capture pm_frag_hit
+                render 'pm-frag-search-match', step: 'item', q: pm_frag_q, product: pm_item, exact: pm_frag_exact
+              endcapture
+              assign pm_frag_hit = pm_frag_hit | strip
+              if pm_frag_hit contains '^'
+                assign pm_frag_entries = pm_frag_entries | append: ' ' | append: pm_frag_hit
+              elsif pm_frag_hit == 'b'
+                assign pm_frag_brand = true
+                assign pm_frag_house_ids = pm_frag_house_ids | append: pm_item.id | append: ','
+              endif
+            endfor
+            if pm_frag_entries != blank
+              capture pm_frag_pick
+                render 'pm-frag-search-match', step: 'pick', q: pm_frag_q, entries: pm_frag_entries
+              endcapture
+              assign pm_frag_close = pm_frag_pick | strip | split: ','
+              assign pm_frag_mode = 'perfume'
+              assign pm_frag_hero_id = pm_frag_close.first
+              for pm_frag_id in pm_frag_close offset: 1 limit: 5
+                assign pm_frag_list_ids = pm_frag_list_ids | append: pm_frag_id | append: ','
+              endfor
+              comment
+                Price list until the script adds the family: the searched perfume only (Liquid has no family data, and
+                a close match from another family must not be listed as "same family").
+              endcomment
+              assign pm_frag_price_ids = pm_frag_hero_id
+            elsif pm_frag_brand
+              assign pm_frag_mode = 'brand'
+            endif
+          endif
+        -%}
+        {%- liquid
+          assign pm_show_notice = false
+          assign pm_q = search.terms | downcase | strip
+          if pm_q != blank and pm_frag_mode == blank
+            assign pm_q_words = pm_q | split: ' '
+            for pm_item in search.results
+              if pm_item.object_type != 'product'
+                continue
+              endif
+              capture pm_masked
+                render 'pm-designer-masked', product: pm_item
+              endcapture
+              if pm_masked != '1'
+                continue
+              endif
+              assign pm_item_name = ''
+              if pm_item.metafields.custom.inspiration.value
+                assign pm_item_name = pm_item.metafields.custom.inspiration.value.name | default: ''
+              endif
+              assign pm_item_brand = pm_item.metafields.custom.brand.value | default: ''
+              assign pm_item_hay = pm_item_brand | append: ' ' | append: pm_item_name | downcase
+              assign pm_item_title = pm_item.title | downcase
+              if pm_item_hay contains pm_q
+                assign pm_show_notice = true
+              else
+                for pm_word in pm_q_words
+                  if pm_word.size >= 3 and pm_item_hay contains pm_word
+                    unless pm_item_title contains pm_word
+                      assign pm_show_notice = true
+                      break
+                    endunless
+                  endif
+                endfor
+              endif
+              if pm_show_notice
+                break
+              endif
+            endfor
+          endif
+        -%}
+        {%- if pm_frag_mode == 'perfume' -%}
+          {%- comment -%}
+            Perfume mode (PRICE-COMPARE.md): our scent on top (pmFrag.renderHero), the family heading over the results,
+            the price list under them ([data-pm-search-price] below the grid). assets/pm-frag-search-related.js fills
+            both and swaps the list for detect()'s (other close matches + our scents of the same family, max 5, no
+            badge). The heading shows only over a non-empty list; the script keeps that in step.
+          {%- endcomment -%}
+          <div class="pm-search-hero" data-pm-search-hero data-product-id="{{ pm_frag_hero_id }}" hidden></div>
+          <p class="pm-frag__heading" data-pm-search-family-heading{% if pm_frag_list_ids == ',' %} hidden{% endif %}>
+            {{- settings.pm_family_heading | escape -}}
+          </p>
+          <div hidden data-pm-frag-related data-pm-frag-query="{{ search.terms | escape }}"></div>
+          <script src="{{ 'pm-frag-search-related.js' | asset_url }}" defer="defer"></script>
+        {%- elsif pm_frag_mode == 'brand' -%}
+          <p class="pm-frag__heading">{{ settings.pm_related_heading | escape }}</p>
+          {%- comment -%} House search: the same script fills only the price list (up to 5 of the house's originals). {%- endcomment -%}
+          <div hidden data-pm-frag-related data-pm-frag-mode="brand" data-pm-frag-query="{{ search.terms | escape }}"></div>
+          <script src="{{ 'pm-frag-search-related.js' | asset_url }}" defer="defer"></script>
+        {%- elsif pm_show_notice -%}
+          <p class="pm-masked-notice center">{{ settings.pm_masked_notice | escape }}</p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+    {%- if search.performed -%}
+      {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' and search.filters != empty
+      -%}
+        <facet-filters-form class="facets facets-vertical-sort page-width small-hide">
+          <form class="facets-vertical-form" id="FacetSortForm">
+            <div class="facet-filters sorting caption">
+              <div class="facet-filters__field">
+                <h2 class="facet-filters__label caption-large text-body">
+                  <label for="SortBy">{{ 'products.facets.sort_by_label' | t }}</label>
+                </h2>
+                <div class="select">
+                  {%- assign sort_by = search.sort_by | default: search.default_sort_by -%}
+                  <select
+                    name="sort_by"
+                    class="facet-filters__sort select__select caption-large"
+                    id="SortBy"
+                    aria-describedby="a11y-refresh-page-message">
+                    {%- for option in search.sort_options -%}
+                      <option
+                        value="{{ option.value | escape }}"
+                        {% if option.value == sort_by %}
+                        selected="selected"
+                        {% endif %}>
+                        {{ option.name | escape }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                  <span class="svg-wrapper">
+                    {{- 'icon-caret.svg' | inline_asset_content -}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="product-count-vertical light" role="status">
+              <h2 class="product-count__text text-body">
+                <span id="ProductCountDesktop">
+                  {%- if search.results_count -%}
+                    {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+                  {%- elsif search.products_count == search.all_products_count -%}
+                    {{ 'products.facets.product_count_simple' | t: count: search.products_count }}
+                  {%- else -%}
+                    {{
+                      'products.facets.product_count' | t: product_count: search.products_count, count: search.all_products_count
+                    }}
+                  {%- endif -%}
+                </span>
+              </h2>
+              {%- render 'loading-spinner' -%}
+            </div>
+          </form>
+        </facet-filters-form>
+      {%- endif -%}
+      <div
+        {% if section.settings.filter_type == 'vertical' %}
+        class="facets-vertical page-width"
+        {% endif %}>
+        {%- if search.filters != empty -%}
+          {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+            <aside
+              aria-labelledby="verticalTitle"
+              class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              id="main-search-filters"
+              data-id="{{ section.id }}">
+              {% render 'facets'
+                , results: search
+                , enable_filtering: section.settings.enable_filtering
+                , enable_sorting: section.settings.enable_sorting
+                , filter_type: section.settings.filter_type
+                , paginate: paginate
+              %}
+            </aside>
+          {%- endif -%}
+        {%- endif -%}
+        <div class="product-grid-container" id="ProductGridContainer">
+          {%- if search.results.size == 0 and search.filters != empty -%}
+            <div
+              class="template-search__results collection collection--empty{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              id="product-grid"
+              data-id="{{ section.id }}">
+              <div class="loading-overlay gradient"></div>
+              <div class="title-wrapper center">
+                <h2 class="title title--primary">
+                  {{ 'sections.collection_template.empty' | t -}}
+                  <br>
+                  {{
+                    'sections.collection_template.use_fewer_filters_html' | t: link: search_url, class: 'underlined-link link'
+                  }}
+                </h2>
+              </div>
+            </div>
+          {%- else -%}
+            <div
+              class="template-search__results collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
+              id="product-grid"
+              data-id="{{ section.id }}">
+              <div class="loading-overlay gradient"></div>
+              <ul
+                style="display: flex !important;"
+                class="grid product-grid  grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop"
+                role="list">
+                {%- assign skip_card_product_styles = false -%}
+                {%- assign pm_masked_terms = settings.pm_masked_brands | newline_to_br | split: '<br />' -%}
+                {%- for item in search.results -%}
+                  {% if item.tags contains 'Bundle_no_show' %}
+                    {% continue %}
+                  {% endif %}
+                  {%- comment -%} Articles and pages named after a brand from Theme settings > Designer names in search stay out of the results. {%- endcomment -%}
+                  {%- comment -%} Comparator modes (PRICE-COMPARE.md): only the scents under the heading (perfume: the other
+                    close matches, the hero is the card on top; brand: that house's scents), like the header panel; other
+                    products, articles and pages stay out. {%- endcomment -%}
+                  {%- comment -%} The searched scent's own card stays in the grid, hidden: assets/pm-frag-search-related.js
+                    removes it once the card on top is drawn, or shows it when that card cannot be drawn. {%- endcomment -%}
+                  {%- assign pm_frag_is_hero = false -%}
+                  {%- if pm_frag_mode != blank -%}
+                    {%- assign pm_frag_keep = false -%}
+                    {%- if item.object_type == 'product' -%}
+                      {%- assign pm_frag_key = ',' | append: item.id | append: ',' -%}
+                      {%- assign pm_frag_hero_key = ',' | append: pm_frag_hero_id | append: ',' -%}
+                      {%- if pm_frag_mode == 'perfume' and pm_frag_list_ids contains pm_frag_key -%}{%- assign pm_frag_keep = true -%}{%- endif -%}
+                      {%- if pm_frag_mode == 'perfume' and pm_frag_hero_id != blank and pm_frag_key == pm_frag_hero_key -%}{%- assign pm_frag_keep = true -%}{%- assign pm_frag_is_hero = true -%}{%- endif -%}
+                      {%- if pm_frag_mode == 'brand' and pm_frag_house_ids contains pm_frag_key -%}{%- assign pm_frag_keep = true -%}{%- endif -%}
+                    {%- endif -%}
+                    {%- unless pm_frag_keep -%}{%- continue -%}{%- endunless -%}
+                  {%- endif -%}
+                  {%- if item.object_type == 'article' or item.object_type == 'page' -%}
+                    {%- assign pm_x = item.title | downcase -%}{%- assign pm_hide = false -%}{%- for pm_term in pm_masked_terms -%}{%- assign pm_term_clean = pm_term | strip | downcase -%}{%- if pm_term_clean != blank and pm_x contains pm_term_clean -%}{%- assign pm_hide = true -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- if pm_hide -%}{%- continue -%}{%- endif -%}
+                  {%- endif -%}
+                  {% assign lazy_load = false %}
+                  {%- if forloop.index > 2 -%}
+                    {%- assign lazy_load = true -%}
+                  {%- endif -%}
+
+                  <li
+                    class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                    {% if item.object_type == 'product' %}data-pm-pid="{{ item.id }}"{% endif %}
+                    {% if pm_frag_is_hero %}data-pm-hero-card hidden{% endif %}
+                    {% if settings.animations_reveal_on_scroll %}
+                    data-cascade
+                    {% endif %}>
+                    {%- case item.object_type -%}
+                      {%- when 'product' -%}
+                        {%- capture product_settings -%}{%- if section.settings.product_show_vendor -%}vendor,{%- endif -%}title,price{%- endcapture -%}
+                        {% render 'card-product'
+                          , card_product: item
+                          , media_aspect_ratio: section.settings.image_ratio
+                          , image_shape: section.settings.image_shape
+                          , show_secondary_image: section.settings.show_secondary_image
+                          , show_vendor: section.settings.show_vendor
+                          , show_rating: section.settings.show_rating
+                          , lazy_load: lazy_load
+                          , skip_styles: skip_card_product_styles
+                        %}
+                        {%- assign skip_card_product_styles = true -%}
+                      {%- when 'article' -%}
+                        {% render 'article-card'
+                          , article: item
+                          , show_image: true
+                          , show_date: section.settings.article_show_date
+                          , show_author: section.settings.article_show_author
+                          , show_badge: true
+                          , media_aspect_ratio: 1
+                          , lazy_load: lazy_load
+                        %}
+                      {%- when 'page' -%}
+                        <div class="article-card-wrapper card-wrapper underline-links-hover">
+                          <div class="card card--card card--text ratio color-{{ settings.blog_card_color_scheme }}" style="--ratio-percent: 100%;">
+                            <div class="card__content">
+                              <div class="card__information">
+                                <h3 class="card__heading">
+                                  <a href="{{ item.url }}" class="full-unstyled-link">
+                                    {{ item.title | truncate: 50 | escape }}
+                                  </a>
+                                </h3>
+                              </div>
+                              <div class="card__badge {{ settings.badge_position }}">
+                                <span class="badge color-{{ settings.color_schemes | first }}">
+                                  {{- 'templates.search.page' | t -}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    {%- endcase -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+              {%- comment -%} Perfume mode lists detect()'s scents (max 5), not pages of Shopify results: no page links. {%- endcomment -%}
+              {%- if paginate.pages > 1 and pm_frag_mode != 'perfume' -%}
+                {% render 'pagination'
+                  , paginate: paginate %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if pm_frag_mode == 'perfume' or pm_frag_mode == 'brand' -%}
+        {%- comment -%}
+          Retailer price list (PRICE-COMPARE.md): pmFrag.renderPrices shows it (SEK + Swedish page only) or keeps it
+          hidden. Perfume: data-ids = our scent first; assets/pm-frag-search-related.js replaces them with detect()'s
+          priceIds (searched first, then the family) before rendering. House: data-ids = the house's scents on this
+          page, replaced by detect()'s list (every scent of the house).
+        {%- endcomment -%}
+        {%- liquid
+          if pm_frag_mode == 'brand'
+            assign pm_frag_price_ids = pm_frag_house_ids
+          endif
+        -%}
+        <div class="page-width">
+          <div class="pm-search-price" data-pm-search-price data-ids="{{ pm_frag_price_ids }}" hidden></div>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+{% endpaginate %}
+{% if section.settings.image_shape == 'arch' %}
+  {{ 'mask-arch.svg' | inline_asset_content }}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "t:sections.main-search.name",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "range",
+        "id": "columns_desktop",
+        "min": 1,
+        "max": 6,
+        "step": 1,
+        "default": 4,
+        "label": "t:sections.main-search.settings.columns_desktop.label"
+      },
+      {
+        "type": "select",
+        "id": "columns_mobile",
+        "default": "2",
+        "label": "t:sections.main-search.settings.columns_mobile.label",
+        "options": [
+          {
+            "value": "1",
+            "label": "t:sections.main-search.settings.columns_mobile.options__1.label"
+          },
+          {
+            "value": "2",
+            "label": "t:sections.main-search.settings.columns_mobile.options__2.label"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "t:sections.main-search.settings.header__1.content"
+      },
+      {
+        "type": "select",
+        "id": "image_ratio",
+        "options": [
+          {
+            "value": "adapt",
+            "label": "t:sections.main-search.settings.image_ratio.options__1.label"
+          },
+          {
+            "value": "portrait",
+            "label": "t:sections.main-search.settings.image_ratio.options__2.label"
+          },
+          {
+            "value": "square",
+            "label": "t:sections.main-search.settings.image_ratio.options__3.label"
+          }
+        ],
+        "default": "adapt",
+        "label": "t:sections.main-search.settings.image_ratio.label"
+      },
+      {
+        "type": "select",
+        "id": "image_shape",
+        "options": [
+          {
+            "value": "default",
+            "label": "t:sections.all.image_shape.options__1.label"
+          },
+          {
+            "value": "arch",
+            "label": "t:sections.all.image_shape.options__2.label"
+          },
+          {
+            "value": "blob",
+            "label": "t:sections.all.image_shape.options__3.label"
+          },
+          {
+            "value": "chevronleft",
+            "label": "t:sections.all.image_shape.options__4.label"
+          },
+          {
+            "value": "chevronright",
+            "label": "t:sections.all.image_shape.options__5.label"
+          },
+          {
+            "value": "diamond",
+            "label": "t:sections.all.image_shape.options__6.label"
+          },
+          {
+            "value": "parallelogram",
+            "label": "t:sections.all.image_shape.options__7.label"
+          },
+          {
+            "value": "round",
+            "label": "t:sections.all.image_shape.options__8.label"
+          }
+        ],
+        "default": "default",
+        "label": "t:sections.all.image_shape.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_secondary_image",
+        "default": false,
+        "label": "t:sections.main-search.settings.show_secondary_image.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "default": false,
+        "label": "t:sections.main-search.settings.show_vendor.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_rating",
+        "default": false,
+        "label": "t:sections.main-search.settings.show_rating.label",
+        "info": "t:sections.main-search.settings.show_rating.info"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_filtering",
+        "default": true,
+        "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+        "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+      },
+      {
+        "type": "select",
+        "id": "filter_type",
+        "options": [
+          {
+            "value": "horizontal",
+            "label": "t:sections.main-collection-product-grid.settings.filter_type.options__1.label"
+          },
+          {
+            "value": "vertical",
+            "label": "t:sections.main-collection-product-grid.settings.filter_type.options__2.label"
+          },
+          {
+            "value": "drawer",
+            "label": "t:sections.main-collection-product-grid.settings.filter_type.options__3.label"
+          }
+        ],
+        "default": "horizontal",
+        "label": "t:sections.main-collection-product-grid.settings.filter_type.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_sorting",
+        "default": true,
+        "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.main-search.settings.header__2.content"
+      },
+      {
+        "type": "checkbox",
+        "id": "article_show_date",
+        "default": true,
+        "label": "t:sections.main-search.settings.article_show_date.label"
+      },
+      {
+        "type": "checkbox",
+        "id": "article_show_author",
+        "default": false,
+        "label": "t:sections.main-search.settings.article_show_author.label"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,7 @@
+{%- layout none -%}
+{%- comment -%}
+  Search index for the search overlay (sections/pm-search-overlay.liquid, assets/pm-search.js): JSON
+  only, at /collections/all?view=pm-search-index. The overlay fetches it on first intent (pointer or
+  focus on a search trigger, or on open), so no other page pays for it. Content: snippets/pm-search-index.liquid.
+{%- endcomment -%}
+{%- render 'pm-search-index' -%}

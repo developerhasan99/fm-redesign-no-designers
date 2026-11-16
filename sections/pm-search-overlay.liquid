@@ -1,0 +1,488 @@
+{%- comment -%}
+  Search overlay, ported from magicperfume.co (mgx-search, after qcollectionparfums.nl) in the FM look.
+  docs/SEARCH-PLAN.md has the whole picture. One instance lives in the header group, so it is on every
+  page. Hidden until a trigger (any [data-pm-search-open], e.g. the header field .pm-hsearch) opens it;
+  assets/pm-search.js runs it, matching comes from assets/pm-search-core.js and the scents from
+  /collections/all?view=pm-search-index (snippets/pm-search-index.liquid), fetched on first intent.
+
+  Before typing: category pills (links), scent family pills (type their word into the field), set cards
+  and a hint. While typing: up to 20 scent rows plus a link to the full results page (/search?q=...),
+  which Enter opens as well unless a row was picked with the arrow keys. The set cards come back on top of
+  the results when the query asks for a bundle (paket, flaskor, 50 ml ...). A designer perfume search shows our
+  scent on top, more scents of its family as rows and a retailer price list under them (PRICE-COMPARE.md).
+
+  Every text the script shows sits in this file (the [data-pm-search-text] divs), so Weglot translates it
+  with the page. The rows themselves carry only the scent number, the inspiration name and the price.
+  The input has no name attribute, so search apps that bind to name="q" (Searchanise) leave it alone.
+{%- endcomment -%}
+{{ 'pm-s-search.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'pm-search-core.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'pm-search.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign sid = section.id
+  assign category_blocks = section.blocks | where: 'type', 'category'
+  assign term_blocks = section.blocks | where: 'type', 'term'
+  assign product_blocks = section.blocks | where: 'type', 'product'
+-%}
+
+{%- capture pm_set_cards -%}
+  {%- for block in product_blocks -%}
+    {%- assign card_product = block.settings.product -%}
+    {%- if card_product != blank -%}
+      <a class="pm-search__card" href="{{ card_product.url }}" {{ block.shopify_attributes }}>
+        <span class="pm-search__card-media">
+          {%- if card_product.featured_image -%}
+            <img
+              src="{{ card_product.featured_image | image_url: width: 160 }}"
+              alt=""
+              width="64"
+              height="64"
+              loading="lazy"
+              decoding="async"
+            >
+          {%- endif -%}
+        </span>
+        <span class="pm-search__card-text">
+          <span class="pm-search__card-head">
+            <span class="pm-search__card-title">{{ card_product.title | escape }}</span>
+            {%- if block.settings.badge != blank -%}
+              <span class="pm-badge pm-search__card-badge">{{ block.settings.badge | escape }}</span>
+            {%- endif -%}
+          </span>
+          {%- if block.settings.subtitle != blank -%}
+            <span class="pm-search__card-sub">{{ block.settings.subtitle | escape }}</span>
+          {%- endif -%}
+          <span class="pm-search__card-price">
+            <span class="pm-search__card-now">
+              {%- if card_product.price_varies %}{{ section.settings.from_label | escape }} {% endif -%}
+              {{- card_product.price | money -}}
+            </span>
+            {%- if card_product.compare_at_price > card_product.price -%}
+              <s class="pm-search__card-was">{{ card_product.compare_at_price | money }}</s>
+            {%- endif -%}
+          </span>
+        </span>
+      </a>
+    {%- elsif request.design_mode -%}
+      <div class="pm-search__card pm-search__card--empty" {{ block.shopify_attributes }}>
+        <span class="pm-search__card-media"></span>
+        <span class="pm-search__card-text">
+          <span class="pm-search__card-title">Välj en produkt</span>
+          {%- if block.settings.subtitle != blank -%}
+            <span class="pm-search__card-sub">{{ block.settings.subtitle | escape }}</span>
+          {%- endif -%}
+        </span>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div
+  id="PmSearch"
+  class="pm-search"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="PmSearchLabel-{{ sid }}"
+  data-pm-search
+  data-index-url="{{ routes.all_products_collection_url }}?view=pm-search-index"
+  data-search-url="{{ routes.search_url }}"
+>
+  <h2 class="visually-hidden" id="PmSearchLabel-{{ sid }}">{{ section.settings.dialog_label | escape }}</h2>
+  <div class="pm-search__head">
+    <div class="pm-search__bar">
+      <div class="pm-search__field">
+        {%- render 'pm-icon', icon: 'search', size: 18, stroke: 1.5, class: 'pm-search__glass' -%}
+        <input
+          id="PmSearchInput-{{ sid }}"
+          class="pm-search__input"
+          type="search"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded="false"
+          aria-controls="PmSearchList-{{ sid }}"
+          aria-label="{{ section.settings.placeholder | escape }}"
+          placeholder="{{ section.settings.placeholder | escape }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          enterkeyhint="search"
+        >
+        <button type="button" class="pm-search__clear" data-pm-search-clear aria-label="{{ section.settings.clear_label | escape }}" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M6 6 18 18M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <button type="button" class="pm-search__close" data-pm-search-close aria-label="{{ section.settings.close_label | escape }}">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M5.5 5.5 18.5 18.5M18.5 5.5 5.5 18.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="pm-search__body">
+    <div class="pm-search__start" data-pm-search-start>
+      {%- if category_blocks.size > 0 -%}
+        <h3 class="pm-search__label">{{ section.settings.heading_categories | escape }}</h3>
+        <div class="pm-search__pills">
+          {%- for block in category_blocks -%}
+            {%- if block.settings.link != blank -%}
+              <a class="pm-search__cat" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+                {{- block.settings.label | escape -}}
+              </a>
+            {%- elsif request.design_mode -%}
+              <span class="pm-search__cat pm-search__cat--nolink" {{ block.shopify_attributes }}>
+                {{- block.settings.label | escape -}}
+              </span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if term_blocks.size > 0 -%}
+        <h3 class="pm-search__label">{{ section.settings.heading_terms | escape }}</h3>
+        <div class="pm-search__pills">
+          {%- for block in term_blocks -%}
+            {%- liquid
+              assign term_query = block.settings.query | strip
+              if term_query == blank
+                assign term_query = block.settings.label | strip
+              endif
+              assign term_style = ''
+              if block.settings.color_1 != blank
+                assign term_style = term_style | append: '--pm-term-1: ' | append: block.settings.color_1 | append: ';'
+              endif
+              if block.settings.color_2 != blank
+                assign term_style = term_style | append: '--pm-term-2: ' | append: block.settings.color_2 | append: ';'
+              endif
+            -%}
+            <button
+              type="button"
+              class="pm-search__term"
+              data-pm-search-term="{{ term_query | escape }}"
+              {% if term_style != '' %}
+                style="{{ term_style }}"
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {%- if block.settings.emoji != blank -%}
+                <span class="pm-search__emoji" aria-hidden="true">{{ block.settings.emoji | escape }}</span>
+              {%- endif -%}
+              <span>{{ block.settings.label | escape }}</span>
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if product_blocks.size > 0 -%}
+        <h3 class="pm-search__label">{{ section.settings.heading_products | escape }}</h3>
+        <div class="pm-search__cards">{{ pm_set_cards }}</div>
+      {%- endif -%}
+
+      {%- if section.settings.hint != blank -%}
+        <p class="pm-search__hint">{{ section.settings.hint | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="pm-search__results" data-pm-search-results hidden>
+      {%- if product_blocks.size > 0 -%}
+        <div class="pm-search__sets" data-pm-search-sets hidden>
+          <div class="pm-search__cards">{{ pm_set_cards }}</div>
+        </div>
+      {%- endif -%}
+      <p class="pm-search__msg" data-pm-search-msg hidden></p>
+      {%- comment -%}
+        Search comparator (assets/pm-frag.js, PRICE-COMPARE.md), filled by pm-search.js: the hero (our scent made
+        after the searched designer perfume) above the rows, the retailer price list after them.
+      {%- endcomment -%}
+      <div class="pm-search__frag" data-pm-search-frag hidden></div>
+      <ul
+        id="PmSearchList-{{ sid }}"
+        class="pm-search__list"
+        role="listbox"
+        aria-label="{{ section.settings.placeholder | escape }}"
+        data-pm-search-list
+      ></ul>
+      <div class="pm-search__price" data-pm-search-price hidden></div>
+      <a class="pm-search__all" href="{{ routes.search_url }}" data-pm-search-all hidden></a>
+      {%- if category_blocks.size > 0 -%}
+        <div class="pm-search__pills pm-search__pills--empty" data-pm-search-empty hidden>
+          {%- for block in category_blocks -%}
+            {%- if block.settings.link != blank -%}
+              <a class="pm-search__cat" href="{{ block.settings.link }}">{{ block.settings.label | escape }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <p class="pm-search__status visually-hidden" role="status" aria-live="polite" data-pm-search-status></p>
+  </div>
+
+  {%- comment -%} Texts for the script, one element each so Weglot translates them one by one. {%- endcomment -%}
+  <div class="pm-search__texts" hidden>
+    <div data-pm-search-text="inspired">{{ section.settings.inspired_label | escape }}</div>
+    <div data-pm-search-text="from">{{ section.settings.from_label | escape }}</div>
+    <div data-pm-search-text="soldOut">{{ 'products.product.sold_out' | t }}</div>
+    <div data-pm-search-text="viewAll">{{ section.settings.view_all_label | escape }}</div>
+    <div data-pm-search-text="viewOne">{{ section.settings.view_one_label | escape }}</div>
+    <div data-pm-search-text="empty">{{ section.settings.empty_text | escape }}</div>
+    <div data-pm-search-text="loading">{{ section.settings.loading_text | escape }}</div>
+    <div data-pm-search-text="count">{{ section.settings.count_text | escape }}</div>
+    {%- comment -%} Designer not named in search: theme settings > Designer names in search. {%- endcomment -%}
+    <div data-pm-search-text="notice">{{ settings.pm_masked_notice | escape }}</div>
+    <div data-pm-search-text="viewAllPlain">{{ section.settings.view_all_plain_label | escape }}</div>
+    <div data-pm-search-text="viewOnePlain">{{ section.settings.view_one_plain_label | escape }}</div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Sökning",
+  "tag": "div",
+  "class": "pm-search-section",
+  "limit": 1,
+  "max_blocks": 24,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Full-screen search, opened by the search field in the header and the field on the search page. Results come from every single scent (title with No.); typing needs no page load."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Field placeholder",
+      "default": "Sök doft, märke eller nummer"
+    },
+    {
+      "type": "text",
+      "id": "dialog_label",
+      "label": "Dialog name (screen readers)",
+      "default": "Sök"
+    },
+    {
+      "type": "text",
+      "id": "clear_label",
+      "label": "Clear button (screen readers)",
+      "default": "Rensa"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "Close button (screen readers)",
+      "default": "Stäng sökningen"
+    },
+    {
+      "type": "header",
+      "content": "Before typing"
+    },
+    {
+      "type": "text",
+      "id": "heading_categories",
+      "label": "Heading above the categories",
+      "default": "Kategorier"
+    },
+    {
+      "type": "text",
+      "id": "heading_terms",
+      "label": "Heading above the scent families",
+      "default": "Doftfamiljer"
+    },
+    {
+      "type": "text",
+      "id": "heading_products",
+      "label": "Heading above the set cards",
+      "default": "Populära paket"
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "label": "Hint line",
+      "default": "Skriv en doft, ett märke eller ett nummer."
+    },
+    {
+      "type": "header",
+      "content": "While typing"
+    },
+    {
+      "type": "text",
+      "id": "inspired_label",
+      "label": "Text before the inspiration name",
+      "default": "Inspirerad av"
+    },
+    {
+      "type": "text",
+      "id": "from_label",
+      "label": "Text before a price that varies",
+      "default": "från"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Link to the results page",
+      "info": "[query] = the typed text, [count] = the number of matches.",
+      "default": "Visa alla [count] resultat för ”[query]”"
+    },
+    {
+      "type": "text",
+      "id": "view_one_label",
+      "label": "Link to the results page, one match",
+      "default": "Visa resultatet för ”[query]”"
+    },
+    {
+      "type": "text",
+      "id": "view_all_plain_label",
+      "label": "Link to the results page, designer search",
+      "info": "Used when the search hits a brand from Theme settings > Designer names in search, so the query is not repeated. [count] = number of scents.",
+      "default": "Visa alla [count] resultat"
+    },
+    {
+      "type": "text",
+      "id": "view_one_plain_label",
+      "label": "Link to the results page, designer search, one match",
+      "default": "Visa resultatet"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "No results",
+      "info": "[query] = the typed text. The category pills follow it.",
+      "default": "Inga träffar för ”[query]”. Prova ett märke eller ett nummer."
+    },
+    {
+      "type": "text",
+      "id": "loading_text",
+      "label": "While the scents load",
+      "default": "Laddar dofter …"
+    },
+    {
+      "type": "text",
+      "id": "count_text",
+      "label": "Result count (screen readers)",
+      "info": "[count] = the number of matches.",
+      "default": "[count] träffar"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Till honom"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Usually a collection. Without a link the pill is not shown."
+        }
+      ]
+    },
+    {
+      "type": "term",
+      "name": "Scent family pill",
+      "settings": [
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji",
+          "default": "🌸"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Blommiga"
+        },
+        {
+          "type": "text",
+          "id": "query",
+          "label": "Search word",
+          "info": "Typed into the field on tap. Empty = the label.",
+          "default": "blommig"
+        },
+        {
+          "type": "color",
+          "id": "color_1",
+          "label": "Colour 1 (top left)",
+          "default": "#ffe0f0"
+        },
+        {
+          "type": "color",
+          "id": "color_2",
+          "label": "Colour 2 (bottom right)",
+          "default": "#ffc9e6"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Set card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Line under the title",
+          "default": "6 dofter du väljer själv, 50 ml styck"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge next to the title",
+          "info": "Red badge, e.g. -40%. Leave empty for no badge."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sökning",
+      "blocks": [
+        { "type": "category", "settings": { "label": "Till honom" } },
+        { "type": "category", "settings": { "label": "Till henne" } },
+        { "type": "category", "settings": { "label": "Unisex" } },
+        { "type": "category", "settings": { "label": "Bästsäljare" } },
+        { "type": "category", "settings": { "label": "Nya dofter" } },
+        {
+          "type": "term",
+          "settings": { "emoji": "🌸", "label": "Blommiga", "query": "blommig", "color_1": "#ffe0f0", "color_2": "#ffc9e6" }
+        },
+        {
+          "type": "term",
+          "settings": { "emoji": "🌙", "label": "Orientaliska", "query": "orientalisk", "color_1": "#fde6cf", "color_2": "#f9cfa5" }
+        },
+        {
+          "type": "term",
+          "settings": { "emoji": "🪵", "label": "Vedartade", "query": "vedartad", "color_1": "#ecdfd0", "color_2": "#ddc9b0" }
+        },
+        {
+          "type": "term",
+          "settings": { "emoji": "🍦", "label": "Gourmand", "query": "gourmand", "color_1": "#fdf3dd", "color_2": "#f7e7c2" }
+        },
+        {
+          "type": "term",
+          "settings": { "emoji": "🌶️", "label": "Kryddiga", "query": "kryddad", "color_1": "#ffe3dc", "color_2": "#ffcdbf" }
+        },
+        { "type": "product", "settings": { "subtitle": "6 dofter du väljer själv, 50 ml styck" } },
+        { "type": "product", "settings": { "subtitle": "3 dofter du väljer själv, 50 ml styck" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

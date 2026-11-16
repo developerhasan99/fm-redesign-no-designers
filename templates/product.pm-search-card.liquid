@@ -1,0 +1,22 @@
+{%- layout none -%}
+{%- comment -%}
+  One /search grid card for this product, exactly as the search page prints it (PRICE-COMPARE.md): "Inspirerad av"
+  line and designer bottle, the L'Oréal houses the search page's masked label (pm_frag_role 'search').
+  Loaded by assets/pm-frag-search-related.js as /products/<handle>?view=pm-search-card: on a designer perfume
+  search the results page lists pmFrag.detect()'s scents (other close matches + our scents of the hero's scent
+  family) under "Fler i samma doftfamilj", and the ones not in the Shopify results come from here.
+  Card settings = the search page's (templates/search.json, section "main"); keep them in step if those change.
+{%- endcomment -%}
+<li class="grid__item" data-pm-pid="{{ product.id }}">
+  {% render 'card-product'
+    , card_product: product
+    , media_aspect_ratio: 'adapt'
+    , image_shape: 'default'
+    , show_secondary_image: false
+    , show_vendor: false
+    , show_rating: true
+    , lazy_load: true
+    , skip_styles: true
+    , pm_frag_role: 'search'
+  %}
+</li>

@@ -1,0 +1,28 @@
+{%- comment -%}
+  NO-DESIGNERS.md: the stored product description of a listed-brand scent still names the perfume in many spellings
+  ("Acqua Di Gio No. 221 är…"). In the product's structured data, every "description" value is swapped for the cleaned
+  Google description, so Google never reads the full perfume name.
+  {% render 'pm-ld-description', json: <product | structured_data>, description: <cleaned text> %}
+  The swap runs only when description is not blank; otherwise json comes back unchanged.
+{%- endcomment -%}
+{%- liquid
+  if description == blank
+    echo json
+  else
+    assign pld_new = description | strip_html | strip_newlines | strip | json
+    assign pld_src = json | replace: '\"', '~PLDQ~'
+    assign pld_parts = pld_src | split: '"description":"'
+    assign pld_out = pld_parts[0]
+    for pld_part in pld_parts offset: 1
+      assign pld_bits = pld_part | split: '"'
+      assign pld_old = pld_bits[0] | default: ''
+      if pld_old == ''
+        assign pld_after = pld_part | remove_first: '"'
+      else
+        assign pld_after = pld_part | remove_first: pld_old | remove_first: '"'
+      endif
+      assign pld_out = pld_out | append: '"description":' | append: pld_new | append: pld_after
+    endfor
+    echo pld_out | replace: '~PLDQ~', '\"'
+  endif
+-%}

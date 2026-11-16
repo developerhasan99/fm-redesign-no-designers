@@ -1,0 +1,594 @@
+/* pm-s-search.css: search overlay (sections/pm-search-overlay.liquid, assets/pm-search.js) and the search
+   results page (sections/pm-search-results.liquid). Layout from magicperfume.co (mgx-search), colours
+   and type from the FM tokens in pm-base.css; only the scent family pills keep the pastel gradients.
+   Rows are the shared .pm-card--row (pm-card.css). Sizes in px (root font-size is 10px). Visibility is
+   toggled with [hidden] (rule at the end of this file).
+
+   z-index 99999: above the sticky header, the cart drawer and the floating app layers (Klaviyo, chat,
+   quiz button) that sit over page content. */
+
+.premium .pm-search {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  background: var(--pm-white, #ffffff);
+  color: var(--pm-ink, #232323);
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.premium .pm-search.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium .pm-search {
+    transition: none;
+  }
+}
+
+/* ---------- head: field + close ---------- */
+.premium .pm-search__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 14px 16px;
+  padding-top: max(14px, env(safe-area-inset-top));
+  background: var(--pm-white, #ffffff);
+  border-bottom: 1px solid var(--pm-line, #e7e7e7);
+}
+
+/* Same 728px column as the body below (760px minus its 16px side padding), so the field and the close
+   button line up with the pills and rows. */
+.premium .pm-search__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 728px;
+  margin: 0 auto;
+}
+
+/* Same look as the header field (.pm-hsearch): grey fill, thin line, small radius. */
+.premium .pm-search__field {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 46px;
+  padding: 0 4px 0 16px;
+  border: 1px solid rgba(35, 35, 35, 0.16);
+  border-radius: var(--pm-radius-sm, 4px);
+  background: var(--pm-surface, #f6f6f6);
+  cursor: text;
+}
+
+.premium .pm-search__field:focus-within {
+  border-color: var(--pm-ink, #232323);
+}
+
+.premium .pm-search__glass {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--pm-ink, #232323);
+}
+
+.premium .pm-search .pm-search__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--pm-ink, #232323);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.2;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.premium .pm-search .pm-search__input::placeholder {
+  color: var(--pm-muted, #707070);
+  opacity: 1;
+}
+
+.premium .pm-search .pm-search__input:focus,
+.premium .pm-search .pm-search__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.premium .pm-search .pm-search__input::-webkit-search-cancel-button,
+.premium .pm-search .pm-search__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.premium .pm-search__clear,
+.premium .pm-search__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.premium .pm-search__clear {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--pm-muted, #707070);
+}
+
+.premium .pm-search__clear:hover {
+  color: var(--pm-ink, #232323);
+}
+
+.premium .pm-search__close {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--pm-radius-sm, 4px);
+  background: var(--pm-surface, #f6f6f6);
+  color: var(--pm-ink, #232323);
+}
+
+.premium .pm-search__close:hover {
+  background: var(--pm-line, #e7e7e7);
+}
+
+.premium .pm-search__clear svg,
+.premium .pm-search__close svg {
+  display: block;
+}
+
+.premium .pm-search__clear:focus-visible,
+.premium .pm-search__close:focus-visible {
+  outline: 2px solid var(--pm-ink, #232323);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+/* ---------- body ---------- */
+.premium .pm-search__body {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+.premium .pm-search .pm-search__label {
+  margin: 24px 0 12px;
+  color: var(--pm-muted, #707070);
+  font-family: inherit;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.premium .pm-search .pm-search__start > .pm-search__label:first-child {
+  margin-top: 4px;
+}
+
+.premium .pm-search__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Category pills: links. */
+.premium .pm-search__cat {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid rgba(35, 35, 35, 0.16);
+  border-radius: var(--pm-radius-pill, 999px);
+  background: var(--pm-white, #ffffff);
+  color: var(--pm-ink, #232323);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.premium .pm-search__cat:hover,
+.premium .pm-search__cat:focus-visible {
+  border-color: var(--pm-ink, #232323);
+  background: var(--pm-ink, #232323);
+  color: var(--pm-white, #ffffff);
+}
+
+.premium .pm-search__cat--nolink {
+  opacity: 0.45;
+}
+
+/* Scent family pills: buttons in a pastel gradient, one pair of colours per block (inline custom
+   properties from the block settings). */
+.premium .pm-search__term {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: var(--pm-radius-pill, 999px);
+  background: var(--pm-surface, #f6f6f6);
+  background: linear-gradient(135deg, var(--pm-term-1, #f6f6f6), var(--pm-term-2, var(--pm-term-1, #f6f6f6)));
+  color: var(--pm-ink, #232323);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: box-shadow 120ms ease;
+}
+
+.premium .pm-search__term:hover {
+  box-shadow: inset 0 0 0 1px rgba(35, 35, 35, 0.16);
+}
+
+.premium .pm-search__term:focus-visible {
+  outline: 2px solid var(--pm-ink, #232323);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.premium .pm-search__emoji {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Set cards: stacked on phones, side by side from 600px. */
+.premium .pm-search__cards {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .premium .pm-search__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.premium .pm-search__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 88px;
+  padding: 12px;
+  border: 1px solid var(--pm-line, #e7e7e7);
+  border-radius: var(--pm-radius-md, 8px);
+  background: var(--pm-white, #ffffff);
+  color: var(--pm-ink, #232323);
+  text-decoration: none;
+  transition: border-color 120ms ease;
+}
+
+.premium a.pm-search__card:hover {
+  border-color: var(--pm-ink, #232323);
+}
+
+.premium .pm-search__card-media {
+  display: block;
+  flex: none;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: var(--pm-radius-sm, 4px);
+  background: var(--pm-surface, #f6f6f6);
+}
+
+.premium .pm-search__card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.premium .pm-search__card-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.premium .pm-search__card-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 18px;
+  text-transform: uppercase;
+}
+
+/* Title + optional red badge (block setting "badge", e.g. -40%) on one line */
+.premium .pm-search__card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.premium .pm-badge.pm-search__card-badge {
+  padding: 3px 6px;
+  border-color: var(--pm-sale, #e0201b);
+  background: var(--pm-sale, #e0201b);
+  color: var(--pm-white, #ffffff);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.premium .pm-search__card-sub {
+  color: var(--pm-muted, #707070);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.premium .pm-search__card-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.premium .pm-search__card-now {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.premium .pm-search__card-was {
+  color: var(--pm-muted, #707070);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.premium .pm-search__card--empty {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.premium .pm-search__hint {
+  margin: 28px 0 0;
+  color: var(--pm-muted, #707070);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ---------- results ---------- */
+.premium .pm-search__sets {
+  margin-bottom: 16px;
+}
+
+.premium .pm-search__msg {
+  margin: 0;
+  padding: 10px 0 4px;
+  color: var(--pm-charcoal, #232323);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.premium .pm-search__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The sticky head is about 75px tall; keep a highlighted row clear of it when arrow keys scroll. */
+.premium .pm-search__row {
+  margin: 0;
+  scroll-margin-top: 90px;
+  scroll-margin-bottom: 16px;
+}
+
+.premium .pm-search .pm-search__link {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--pm-line, #e7e7e7);
+}
+
+/* One row lit at a time: the arrow keys set .is-active, the mouse .is-hover. */
+.premium .pm-search__row.is-active > .pm-search__link,
+.premium .pm-search__row.is-hover > .pm-search__link {
+  background: var(--pm-surface, #f6f6f6);
+}
+
+.premium .pm-search .pm-search__meta {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.premium .pm-search__meta b {
+  color: var(--pm-ink, #232323);
+  font-weight: 600;
+}
+
+
+/* Search comparator (assets/pm-frag.js, PRICE-COMPARE.md): the hero slot above the rows and the price list
+   after them. Outer spacing only; how the hero and the price list look comes from pm-frag.css (both size
+   themselves to the 343px column of a 375px phone through their own container queries). */
+.premium .pm-search__frag {
+  padding-top: 8px;
+}
+
+/* 24px under the last row; the "Visa alla" button keeps its own 18px below. */
+.premium .pm-search__price .pm-price {
+  margin: 24px 0 0;
+}
+
+/* "Fler i samma doftfamilj" / "Relaterade dofter" over the related rows: a list item without a row. First in
+   the list it sits 8px under what is above (under the hero, the hero's own 16px wins). */
+.premium .pm-search .pm-search__subhead {
+  list-style: none;
+}
+
+.premium .pm-search .pm-search__subhead .pm-frag__heading {
+  margin: 16px 0 2px;
+}
+
+.premium .pm-search .pm-search__list > .pm-search__subhead:first-child .pm-frag__heading {
+  margin-top: 8px;
+}
+
+.premium .pm-search__sold {
+  margin-left: 8px;
+  color: var(--pm-muted, #707070);
+  font-size: 12px;
+}
+
+.premium .pm-search mark,
+.premium .pm-sr mark {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-weight: 700;
+}
+
+.premium .pm-search__all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 18px;
+  padding: 12px 20px;
+  border: 1px solid var(--pm-ink, #232323);
+  border-radius: var(--pm-radius-sm, 4px);
+  background: var(--pm-ink, #232323);
+  color: var(--pm-white, #ffffff);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 120ms ease;
+}
+
+.premium .pm-search__all:hover,
+.premium .pm-search__all:focus-visible {
+  opacity: 0.88;
+}
+
+.premium .pm-search__pills--empty {
+  margin-top: 16px;
+}
+
+/* Dawn hides empty <p>; the live region must stay in the accessibility tree while it is empty, or the
+   first count is not announced. It is visually hidden by .visually-hidden. */
+.premium .pm-search .pm-search__status:empty {
+  display: block;
+}
+
+/* ---------- results page (/search) ---------- */
+.premium .pm-sr {
+  padding-top: 28px;
+  padding-bottom: 56px;
+}
+
+.premium .pm-sr__head {
+  max-width: 728px;
+  margin: 0 auto 24px;
+  text-align: center;
+}
+
+.premium .pm-sr__title {
+  margin: 0 0 16px;
+  font-size: var(--pm-fs-h2, 24px);
+  line-height: var(--pm-lh-h2, 1.2);
+}
+
+/* The field on the results page opens the overlay with the query in it; same look as .pm-hsearch. */
+.premium .pm-sr__field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 48px;
+  padding: 0 14px 0 16px;
+  border: 1px solid rgba(35, 35, 35, 0.16);
+  border-radius: var(--pm-radius-sm, 4px);
+  background: var(--pm-surface, #f6f6f6);
+  color: var(--pm-ink, #232323);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: left;
+  text-decoration: none;
+  cursor: text;
+}
+
+.premium .pm-sr__field:hover {
+  border-color: var(--pm-ink, #232323);
+}
+
+.premium .pm-sr__field--empty {
+  color: var(--pm-muted, #707070);
+}
+
+.premium .pm-sr__field-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.premium .pm-sr__count {
+  margin: 14px 0 0;
+  color: var(--pm-muted, #707070);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Tailwind's `.grid { display: grid }` (tailwind-compiled.css) loads after Dawn's flex `.grid`; the
+   collection page restores flex inline, here it is restored by specificity (as in pm-sections.css). */
+.premium .pm-sr .product-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.premium .pm-sr__sets {
+  max-width: 728px;
+  margin: 0 auto 28px;
+}
+
+.premium .pm-sr__empty {
+  max-width: 728px;
+  margin: 8px auto 0;
+  text-align: center;
+}
+
+.premium .pm-sr__empty .pm-search__pills {
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* Last, so [hidden] beats every display value above. */
+.premium .pm-search[hidden],
+.premium .pm-search [hidden][hidden],
+.premium .pm-sr [hidden][hidden] {
+  display: none;
+}

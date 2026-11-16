@@ -1,0 +1,281 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "color_scheme": "scheme-2"
+      }
+    },
+    "custom_liquid_K7nAnN": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<!-- TryScent LP22 — ljus hero + fyra fördelsblock. Custom Liquid paste block.\n     Self-contained: egna klasser (ts-h22-*), egen CSS, ingen Liquid-tagg.\n     Bild: Shopify Files → tryscent-lp22-hero-bright.jpg (2560x1429, uppladdad 19.08.2026) -->\n\n<div class=\"ts-h22\">\n  <section class=\"ts-h22-hero\">\n    <div class=\"ts-h22-inner\">\n      <p class=\"ts-h22-eyebrow\"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span> &#196;lskad av 10 000 kunder</p>\n      <h1>Ett elegant intryck.</h1>\n      <p class=\"ts-h22-sub\">R&#228;tt doft stannar kvar l&#229;ngt efter att du har g&#229;tt.</p>\n    </div>\n  </section>\n\n  <section class=\"ts-h22-feats\">\n    <div class=\"ts-h22-inner ts-h22-grid\">\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h16v12H4z\"/><path d=\"M4 7l2-3h12l2 3\"/><path d=\"M10 11h4\"/></svg>\n        <h3>Tillverkad i Europa</h3>\n        <p>Producerad enligt strikta europeiska standarder f&#246;r parfym.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3s6 6.5 6 10.5A6 6 0 0 1 6 13.5C6 9.5 12 3 12 3z\"/></svg>\n        <h3>21% doftkoncentration</h3>\n        <p>Skapad f&#246;r att m&#228;rkas hela dagen.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z\"/><path d=\"M9 12l2.2 2.2L15.5 10\"/></svg>\n        <h3>60 dagars garanti</h3>\n        <p>Testa parfymen hemma. &#196;r den inte r&#228;tt f&#246;r dig har du 60 dagar p&#229; dig att returnera den.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5.2l3.2 2\"/></svg>\n        <h3>L&#229;ngvarig doft</h3>\n        <p>Skapad f&#246;r att h&#229;lla sig m&#228;rkbar i upp till 12 timmar.</p>\n      </div>\n    </div>\n  </section>\n</div>\n\n<style>\n  .ts-h22{\n    --ts-ink:#1a1418;\n    --ts-muted:#6b6169;\n    --ts-rose:#9c4a6b;\n    width:100vw;\n    margin-left:calc(50% - 50vw);\n    font-family:system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  }\n  .ts-h22 *{box-sizing:border-box}\n  .ts-h22-inner{\n    max-width:1200px;\n    margin:0 auto;\n    padding:0 24px;\n  }\n\n  /* ---------- hero ---------- */\n  .ts-h22-hero{\n    position:relative;\n    display:flex;\n    align-items:center;\n    height:clamp(430px,34vw,560px);\n    background-color:#eef4f8;\n    background-image:url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/tryscent-lp22-hero-bright.jpg?v=1787183752');\n    background-size:cover;\n    background-position:center 16%;   /* focal point - holds her face in frame */\n    background-repeat:no-repeat;\n  }\n  /* white wash as its own layer so mobile can flip its direction\n     without repeating the image URL */\n  .ts-h22-hero::before{\n    content:\"\";\n    position:absolute;\n    inset:0;\n    background:linear-gradient(90deg,rgba(255,255,255,.92),rgba(255,255,255,.55) 45%,rgba(255,255,255,0) 70%);\n  }\n  /* hero is a flex container - without this the inner shrinks to content and the copy drifts centre */\n  .ts-h22-hero .ts-h22-inner{position:relative;z-index:1;width:100%}\n  .ts-h22-eyebrow{\n    margin:0 0 10px;\n    font-size:12px;\n    font-weight:600;\n    letter-spacing:.14em;\n    text-transform:uppercase;\n    color:var(--ts-rose);\n  }\n  .ts-h22-eyebrow span{letter-spacing:.06em;margin-right:6px}\n  .ts-h22-hero h1{\n    margin:0 0 12px;\n    font-family:Georgia,\"Times New Roman\",serif;   /* swap for the theme heading font */\n    font-weight:400;\n    font-size:clamp(30px,3.1vw,50px);\n    line-height:1.08;\n    letter-spacing:-.01em;\n    color:var(--ts-ink);\n  }\n  .ts-h22-sub{\n    margin:0;\n    max-width:520px;\n    font-size:clamp(15px,1.05vw,17px);\n    line-height:1.5;\n    color:var(--ts-ink);\n  }\n\n  /* ---------- four feature blocks ---------- */\n  .ts-h22-feats{background:#fff;padding:44px 0 40px}\n  .ts-h22-grid{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:34px;\n    text-align:center;\n  }\n  .ts-h22-feat svg{\n    width:30px;height:30px;\n    fill:none;stroke:var(--ts-ink);\n    stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;\n    margin-bottom:14px;\n  }\n  .ts-h22-feat h3{\n    margin:0 0 8px;\n    font-size:17px;\n    font-weight:700;\n    letter-spacing:-.01em;\n    color:var(--ts-ink);\n  }\n  .ts-h22-feat p{\n    margin:0;\n    font-size:14px;\n    line-height:1.55;\n    color:var(--ts-muted);\n  }\n\n  /* ---------- responsive ---------- */\n  @media(max-width:900px){\n    .ts-h22-grid{grid-template-columns:repeat(2,1fr);gap:28px}\n  }\n  @media(max-width:640px){\n    /* stacked: photo on top, copy below her - otherwise the text lands on her face */\n    .ts-h22-hero{\n      height:auto;\n      min-height:600px;\n      align-items:flex-end;\n      padding:0 0 34px;\n      background-position:74% top;\n    }\n    .ts-h22-hero::before{\n      background:linear-gradient(180deg,\n        rgba(255,255,255,0) 38%,\n        rgba(255,255,255,.80) 58%,\n        rgba(255,255,255,.96) 74%,\n        #fff 100%);\n    }\n    .ts-h22-sub{max-width:none}\n  }\n  @media(max-width:520px){\n    .ts-h22-grid{grid-template-columns:1fr}\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "social_proof_reviews_3faaFE": {
+      "type": "social-proof-reviews",
+      "blocks": {
+        "review_HD4ExU": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Jag har redan fått flera komplimanger efter att ha använt dem.",
+            "text": "Det folk märker först är inte flaskan eller priset, utan hur doften förändrar din utstrålning.",
+            "result_line": "Samma komplimanger. Ett bättre pris.",
+            "name": "Elin Lundqvist",
+            "label": "Kundrecension"
+          }
+        },
+        "review_7YFbMJ": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Den doftar EXAKT som Dior Homme Intense … nästan skrämmande likt.",
+            "text": "Den mörka, krämiga och lyxiga karaktären man förväntar sig fanns där redan från första sprayen.",
+            "result_line": "Den välbekanta doftupplevelsen, utan designerpriset.",
+            "name": "Johan Bergström",
+            "label": "Kundrecension"
+          }
+        },
+        "review_wphB8y": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "title": "Bättre än några av de dyraste parfymerna du kan köpa.",
+            "text": "Doften överträffade förväntningarna och levererade den kvalitet man vanligtvis förknippar med ett betydligt högre pris.",
+            "result_line": "Expensive presence. Unexpected price.",
+            "name": "Moa",
+            "label": "Kundrecension"
+          }
+        },
+        "review_b3NXgh": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Till en början var jag skeptisk …",
+            "text": "Men när jag gjorde min första beställning upptäckte jag att parfymerna är fantastiska och mycket lika originalparfymerna. Dessutom är priset verkligen riktigt bra. Jag kommer definitivt att fortsätta handla från TryScent i framtiden.",
+            "result_line": "",
+            "name": "Ahmad Ismail",
+            "label": "Kundrecension"
+          }
+        },
+        "review_GaEieE": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Dofter som verkligen luktar som originalet.",
+            "text": "Sitter kvar så länge som det utlovas. Snabba leveranser och låga priser. Kan bara säga köp köp!",
+            "result_line": "",
+            "name": "Ingela",
+            "label": "Kundrecension"
+          }
+        },
+        "review_pGwBgY": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Parfymerna håller länge och väldigt identiska ❤️",
+            "text": "Fick min första beställning som var 6 olika parfymer, nu har jag beställt 8 stycken och ser fram emot när dem kommer.",
+            "result_line": "",
+            "name": "Samer Najmadin",
+            "label": "Kundrecension"
+          }
+        },
+        "review_HJwXxB": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Deras parfymer är som äkta.",
+            "text": "Try Scent gillar jag faktiskt, dom är fantastiskt. Jag har minst 20 flaskor TryScent-parfymer och använder bara dem 😘",
+            "result_line": "",
+            "name": "Nermina",
+            "label": "Kundrecension"
+          }
+        },
+        "review_rA3Gci": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Stämmer bra in på originaldoften 👍",
+            "text": "Dock håller den inte i hela dagen men kommer inte ihåg om originalet gjorde det heller. Har beställt 6 nya dofter och återkommer med betyg på dom 👍",
+            "result_line": "",
+            "name": "Dan Lindau",
+            "label": "Kundrecension"
+          }
+        },
+        "review_w98JRt": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Väldigt bra service.",
+            "text": "Fick en flaska som läckte lite i kragen, påtalade detta, och utan tvekan skickades en ny flaska samt två överraskningsdofter som kompensation! Mkt tacksam!",
+            "result_line": "",
+            "name": "Viktor Matsenius",
+            "label": "Kundrecension"
+          }
+        },
+        "review_em9FNr": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Mer tillmötesgående finns nog inte!",
+            "text": "Hörde av mig angående ett problem jag stötte på! Fick prata med nån som hette Eric! De hjälpte mig smidigt och var väldigt serviceminded! Rekommenderar Tryscent.co! Stort tack!",
+            "result_line": "",
+            "name": "Tomas Ternemar",
+            "label": "Kundrecension"
+          }
+        },
+        "review_94qebT": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Fantastisk respons.",
+            "text": "Det hade uppstått en liten olycka med en av parfymerna jag beställt och jag mejlade företaget. Jag fick ett snabbt svar från Ed och det löste sig på bästa sätt. Är så nöjd med hur dom hanterade saken.",
+            "result_line": "",
+            "name": "Teresa",
+            "label": "Kundrecension"
+          }
+        },
+        "review_YdLjcC": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "title": "439 kr inklusive frakt för 330 ml parfym. Inte illa.",
+            "text": "Väldigt bra pris, 380 kr för 6 styck 50 ml parfymflaskor och fick även med en gratis mysteryflaska i 30 ml.",
+            "result_line": "",
+            "name": "Sadek Abduljalil",
+            "label": "Kundrecension"
+          }
+        },
+        "review_cXiB4w": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Mycket nöjd med hur de doftar.",
+            "text": "Har nu fått mina varor. Det var väl paketerat och fick bra information kring hur det gick med leveransen.",
+            "result_line": "",
+            "name": "Christian Edvardsson",
+            "label": "Kundrecension"
+          }
+        }
+      },
+      "block_order": [
+        "review_HD4ExU",
+        "review_7YFbMJ",
+        "review_wphB8y",
+        "review_b3NXgh",
+        "review_GaEieE",
+        "review_pGwBgY",
+        "review_HJwXxB",
+        "review_rA3Gci",
+        "review_w98JRt",
+        "review_em9FNr",
+        "review_94qebT",
+        "review_YdLjcC",
+        "review_cXiB4w"
+      ],
+      "name": "Social Proof Reviews",
+      "settings": {
+        "kicker": "Därför fastnade de för TryScent",
+        "title": "De säger det bättre än vi någonsin skulle kunna.",
+        "custom_css": ""
+      }
+    },
+    "popular_products_AmFHN4": {
+      "type": "popular-products",
+      "disabled": true,
+      "name": "Popular Products",
+      "settings": {
+        "background_color": "#fcfbf9",
+        "title": "Köp mer och spara!",
+        "description": "",
+        "collection": "seasonal-bundles",
+        "button_text": "Kolla in mer!",
+        "button_link": "shopify://collections/seasonal-bundles",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-2",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 40,
+        "fuel04_cards": true,
+        "fuel04_cards_every": 5,
+        "fuel04_card_url": "",
+        "fuel04_card_heading": "Köp fler, spara mer!",
+        "fuel04_card_sub_text": "",
+        "fuel04_card_tier_1_count": "Köp 3",
+        "fuel04_card_tier_1_text": "Välj en 30 ml doft GRATIS",
+        "fuel04_card_tier_2_count": "KÖP 5",
+        "fuel04_card_tier_2_text": "Få en 100 ml Mystery Scent GRATIS",
+        "fuel04_card_cta_text": "LÅS UPP DINA GÅVOR"
+      }
+    },
+    "rich_text_fnCgkL": {
+      "type": "rich-text",
+      "blocks": {
+        "text_x4GrCN": {
+          "type": "text",
+          "settings": {
+            "text": "<p></p>{{ collection.description }}"
+          }
+        }
+      },
+      "block_order": [
+        "text_x4GrCN"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".rich-text--full-width {background-color: #fcfbf9; border-top: #f3f3f3 2px solid;}"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "custom_liquid_K7nAnN",
+    "social_proof_reviews_3faaFE",
+    "popular_products_AmFHN4",
+    "product-grid",
+    "rich_text_fnCgkL"
+  ]
+}

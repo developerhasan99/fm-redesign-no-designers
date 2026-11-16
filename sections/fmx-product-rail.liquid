@@ -1,0 +1,192 @@
+{%- comment -%}
+  Product carousel for the product page (product.tsr-bundle-fm: between the buy box and the FAQ). Upsell rail with
+  the products of one collection ("Collection" setting; set to "Nya dofter" / new), minus the product on screen.
+  Built like FM's "Pairs well with" rail (premium-redesign sections/pm-pairs-with.liquid), but the products come
+  straight from the collection, so the slides are in the page and nothing is fetched.
+
+  Cards = snippets/product-card.liquid with atc, the collection grid's card: the image and title open the product
+  page; size chips + "Lägg i kundvagnen" add the bottle through product-form (assets/product-form.js) and open the
+  cart drawer (chips: assets/ts-card-atc.js). Styles: assets/fmx-product-rail.css. Swiper 11 is loaded sitewide from
+  layout/theme.liquid.
+{%- endcomment -%}
+{%- liquid
+  assign rail_limit = section.settings.products_count | default: 10
+  assign rail_collection = section.settings.collection
+  assign rail_shown = 0
+-%}
+
+{%- capture rail_slides -%}
+  {%- if rail_collection != blank -%}
+    {%- for rail_product in rail_collection.products limit: 50 -%}
+      {%- if rail_shown >= rail_limit -%}{%- break -%}{%- endif -%}
+      {%- if product != blank and rail_product.id == product.id -%}{%- continue -%}{%- endif -%}
+      {%- unless rail_product.available -%}{%- continue -%}{%- endunless -%}
+      {%- assign rail_shown = rail_shown | plus: 1 -%}
+      <div class="swiper-slide fmx-rail__slide ts-atc-item">
+        {%- render 'product-card', product: rail_product, atc: true, section_id: section.id -%}
+      </div>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if rail_shown > 0 or request.design_mode -%}
+  {{ 'fmx-base.css' | asset_url | stylesheet_tag }}
+  {{ 'ts-card-atc.css' | asset_url | stylesheet_tag }}
+  {{ 'fmx-product-rail.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'ts-card-atc.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+  {%- style -%}
+    .premium .fmx-rail--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .premium .fmx-rail--{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div class="premium">
+    <fmx-rail class="fmx-rail fmx-rail--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+      <div class="page-width">
+        <div class="fmx-rail__head">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="pm-h2 fmx-rail__heading">{{ section.settings.heading | escape }}</h2>
+          {%- endif -%}
+          <div class="fmx-rail__nav">
+            <button type="button" class="fmx-rail__arrow fmx-rail__arrow--prev" aria-label="{{ 'premium.general.previous' | t | escape }}">
+              {%- render 'pm-icon', icon: 'arrow-right', size: 16 -%}
+            </button>
+            <button type="button" class="fmx-rail__arrow fmx-rail__arrow--next" aria-label="{{ 'premium.general.next' | t | escape }}">
+              {%- render 'pm-icon', icon: 'arrow-right', size: 16 -%}
+            </button>
+          </div>
+        </div>
+        <div class="swiper fmx-rail__swiper">
+          <div class="swiper-wrapper">
+            {{- rail_slides -}}
+          </div>
+        </div>
+      </div>
+    </fmx-rail>
+  </div>
+
+  <script>
+    (function () {
+      if (customElements.get('fmx-rail')) return;
+
+      customElements.define('fmx-rail', class extends HTMLElement {
+        connectedCallback() {
+          if (this.started) return;
+          this.started = true;
+          this.startSwiper(0);
+        }
+
+        startSwiper(tries) {
+          var self = this;
+          if (typeof Swiper === 'undefined') {
+            if (tries < 40) setTimeout(function () { self.startSwiper(tries + 1); }, 150);
+            return;
+          }
+          // Under 750 the rail runs to the screen edges (assets/fmx-product-rail.css) and the page gutter becomes
+          // the offset before the first card and after the last, so the first card lines up with the heading.
+          var gutter = parseFloat(getComputedStyle(this.querySelector('.page-width')).paddingLeft) || 16;
+          this.swiper = new Swiper(this.querySelector('.fmx-rail__swiper'), {
+            slidesPerView: 2.2,
+            spaceBetween: 12,
+            slidesOffsetBefore: gutter,
+            slidesOffsetAfter: gutter,
+            watchOverflow: true,
+            navigation: {
+              prevEl: this.querySelector('.fmx-rail__arrow--prev'),
+              nextEl: this.querySelector('.fmx-rail__arrow--next')
+            },
+            breakpoints: {
+              750: { slidesPerView: 3.2, spaceBetween: 16, slidesOffsetBefore: 0, slidesOffsetAfter: 0 },
+              990: { slidesPerView: 4, spaceBetween: 20, slidesOffsetBefore: 0, slidesOffsetAfter: 0 }
+            }
+          });
+        }
+
+        disconnectedCallback() {
+          if (this.swiper) this.swiper.destroy(true, true);
+        }
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product carousel",
+  "class": "section-fmx-rail",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Product page only. Shows the products of the collection below (the product on screen and sold-out products left out). Each card opens the product and has size chips and an Add to cart button."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Upptäck våra nya dofter"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "label": "Products shown",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "Product carousel"
+    }
+  ]
+}
+{% endschema %}

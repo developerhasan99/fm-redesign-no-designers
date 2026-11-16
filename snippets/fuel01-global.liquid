@@ -1,0 +1,10 @@
+{% comment %}
+  Build-your-own bundle, sitewide pieces (the nav label and the module on the
+  single-perfume product page). Permanent since 2026-09-30, the winner of the
+  bundle test. The stylesheet is emitted on the Swedish market only: the copy
+  is Swedish and not translated, so the other markets keep the stock label and
+  the stock bundle page.
+{% endcomment %}
+{%- if request.locale.iso_code == 'sv' -%}
+  {{ 'fuel01-global.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
