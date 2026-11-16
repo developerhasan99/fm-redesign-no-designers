@@ -54,6 +54,7 @@
       -%}
       {%- if show_tile -%}
         {% render 'fuel05-ugc-tile',
+          build: mode,
           video: b.settings.video,
           video_url: b.settings.video_url,
           poster: b.settings.video_poster,

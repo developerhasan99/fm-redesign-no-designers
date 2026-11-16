@@ -354,6 +354,11 @@
     // also the one place every clip passes through, cards the collection grid
     // writes after first paint included, because the row is stamped and
     // re-scanned rather than walked from the top.
+    // Tiles in a two-build row keep their poster in data-poster so the build CSS hides doesn't download it
+    // (snippets/fuel05-ugc-tile.liquid); this row is on screen, so give it back before anything else reads it.
+    videos.forEach((video) => {
+      if (video.dataset.poster && !video.getAttribute('poster')) video.setAttribute('poster', video.dataset.poster);
+    });
     videos.forEach(holdPoster);
 
     // Every clip in the row starts buffering the moment the row itself is

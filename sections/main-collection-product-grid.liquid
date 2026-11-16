@@ -404,6 +404,7 @@
                           {% endif %}
                           {{ block.shopify_attributes }}>
                           {% render 'fuel05-ugc-tile'
+                            , build: block.settings.device
                             , video: block.settings.video
                             , video_url: block.settings.video_url
                             , poster: block.settings.video_poster

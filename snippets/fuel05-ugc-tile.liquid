@@ -12,6 +12,24 @@
   Usage:
   {% render 'fuel05-ugc-tile', video: block.settings.video, video_url: block.settings.video_url, poster: block.settings.video_poster, product_item: block.settings.product, shopify_attributes: block.shopify_attributes %}
 {% endcomment %}
+{%- comment -%}
+  build: 'desktop' | 'mobile' (optional) - the row build this tile sits in. Rows come in both builds and CSS hides
+  one per width, but an eager image or a poster attribute downloads even when hidden. So for the build that is off
+  at the current width, the overlay swaps to a 1x1 data image (<picture> media) and the clip's poster is kept in
+  data-poster until fuel05-ugc.js arms the row, which it only does for a row on screen.
+{%- endcomment -%}
+{%- liquid
+  assign off_media = ''
+  if build == 'desktop'
+    assign off_media = '(max-width: 749px)'
+  elsif build == 'mobile'
+    assign off_media = '(min-width: 750px)'
+  endif
+  assign poster_attr = 'poster'
+  if off_media != ''
+    assign poster_attr = 'data-poster'
+  endif
+-%}
 
 {%- if video != blank or video_url != blank -%}
   {%- comment -%}
@@ -104,7 +122,7 @@
         loop
         playsinline
         preload="{% if poster != blank or video.preview_image != blank %}none{% else %}metadata{% endif %}"
-        poster="{% if poster != blank %}{{ poster | image_url: width: 600 }}{% else %}{{ video.preview_image | image_url: width: 600 }}{% endif %}">
+        {{ poster_attr }}="{% if poster != blank %}{{ poster | image_url: width: 600 }}{% else %}{{ video.preview_image | image_url: width: 600 }}{% endif %}">
         {%- if source_url != blank -%}
           <source src="{{ source_url }}" type="video/mp4">
         {%- endif -%}
@@ -134,6 +152,7 @@
         endif
       -%}
       {%- if poster_image != blank -%}
+        {%- if off_media != '' -%}<picture><source media="{{ off_media }}" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">{%- endif -%}
         <img
           class="fuel05-ugc__poster"
           src="{{ poster_image | image_url: width: 600 }}"
@@ -143,6 +162,7 @@
           aria-hidden="true"
           loading="eager"
           fetchpriority="low">
+        {%- if off_media != '' -%}</picture>{%- endif -%}
       {%- endif -%}
     {%- else -%}
       {%- comment -%}
@@ -162,7 +182,7 @@
         loop
         playsinline
         preload="{% if poster != blank or poster_url != blank %}none{% else %}metadata{% endif %}"
-        {% if poster != blank %}poster="{{ poster | image_url: width: 600 }}"{% elsif poster_url != blank %}poster="{{ poster_url }}"{% endif %}>
+        {% if poster != blank %}{{ poster_attr }}="{{ poster | image_url: width: 600 }}"{% elsif poster_url != blank %}{{ poster_attr }}="{{ poster_url }}"{% endif %}>
         <source src="{{ link_url }}" type="video/mp4">
       </video>
       {%- comment -%}
@@ -174,6 +194,7 @@
         the overlay is sized by the card it fills, not by its own picture.
       {%- endcomment -%}
       {%- if poster != blank -%}
+        {%- if off_media != '' -%}<picture><source media="{{ off_media }}" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">{%- endif -%}
         <img
           class="fuel05-ugc__poster"
           src="{{ poster | image_url: width: 600 }}"
@@ -183,7 +204,9 @@
           aria-hidden="true"
           loading="eager"
           fetchpriority="low">
+        {%- if off_media != '' -%}</picture>{%- endif -%}
       {%- elsif poster_url != blank -%}
+        {%- if off_media != '' -%}<picture><source media="{{ off_media }}" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">{%- endif -%}
         <img
           class="fuel05-ugc__poster"
           src="{{ poster_url }}"
@@ -193,6 +216,7 @@
           aria-hidden="true"
           loading="eager"
           fetchpriority="low">
+        {%- if off_media != '' -%}</picture>{%- endif -%}
       {%- endif -%}
     {%- endif -%}
     {%- if product_item != blank -%}
