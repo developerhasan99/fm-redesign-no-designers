@@ -82,6 +82,48 @@
         if (tab.getAttribute('aria-selected') === 'true') current = index;
       });
       this.select(current, false);
+
+      // Panels after the first ship empty (data-pm-lazy); fetch them once the section is close to the screen.
+      if (this.querySelector('[data-pm-lazy]') && 'IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+          observer.disconnect();
+          self.loadLazyPanels();
+        }, { rootMargin: '600px 0px' });
+        observer.observe(this);
+      }
+    }
+
+    /* One Section Rendering API request returns every tab (the section renders all of them there); copy the
+       lazy panels' content in, and hide any tab whose panel the full render left out (no matching products). */
+    loadLazyPanels() {
+      if (this.lazyLoad) return this.lazyLoad;
+      var self = this;
+      var section = this.closest('.pm-ptabs');
+      var url = window.location.pathname + '?section_id=' + encodeURIComponent(section ? section.id : '');
+      this.lazyLoad = fetch(url)
+        .then(function (response) {
+          if (!response.ok) throw new Error(response.status);
+          return response.text();
+        })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          self.panels.forEach(function (panel, index) {
+            if (!panel || !panel.hasAttribute('data-pm-lazy')) return;
+            var source = doc.getElementById(panel.id);
+            if (source) {
+              panel.innerHTML = source.innerHTML;
+              panel.removeAttribute('data-pm-lazy');
+            } else {
+              self.tabs[index].hidden = true;
+              panel.hidden = true;
+            }
+          });
+        })
+        .catch(function () {
+          self.lazyLoad = null; // try again on the next tab click
+        });
+      return this.lazyLoad;
     }
 
     select(index, focus) {
@@ -101,7 +143,21 @@
         });
       }
       if (focus) tab.focus();
-      this.mount(this.panels[index]);
+      var panel = this.panels[index];
+      if (panel && panel.hasAttribute('data-pm-lazy')) {
+        panel.setAttribute('aria-busy', 'true');
+        this.loadLazyPanels().then(function () {
+          panel.removeAttribute('aria-busy');
+          if (self.tabs[index].hidden) {
+            var first = self.tabs.findIndex(function (item) { return !item.hidden; });
+            if (first > -1) self.select(first, focus);
+            return;
+          }
+          self.mount(panel);
+        });
+        return;
+      }
+      this.mount(panel);
     }
 
     mount(panel) {
@@ -146,6 +202,11 @@
           return;
       }
       event.preventDefault();
+      // Skip tabs hidden after lazy loading found no products for them.
+      var step = event.key === 'ArrowLeft' || event.key === 'End' ? -1 : 1;
+      for (var guard = 0; this.tabs[next] && this.tabs[next].hidden && guard < this.tabs.length; guard++) {
+        next = (next + step + this.tabs.length) % this.tabs.length;
+      }
       this.select(next, true);
     }
   }

@@ -21,6 +21,15 @@
   assign first_url = ''
   assign tabs_html = ''
   assign panels_html = ''
+
+  # Only the first tab's products are rendered with the page: every filtered tab walks the whole collection, and
+  # the others are hidden until clicked. Their panels ship empty (data-pm-lazy) and pm-product-tabs.js fills them
+  # from one Section Rendering API request (section.index is nil there, so that request renders every tab).
+  # The theme editor always renders every tab.
+  assign lazy_tabs = false
+  if section.index != nil and request.design_mode == false
+    assign lazy_tabs = true
+  endif
 -%}
 
 {%- for block in section.blocks -%}
@@ -37,9 +46,17 @@
         continue
       endif
     endif
+    assign deferred = false
+    if lazy_tabs and rendered > 0
+      if tab_collection.products_count == 0
+        continue
+      endif
+      assign deferred = true
+    endif
   -%}
 
-  {%- if tab_collection != blank and filter_word == blank -%}
+  {%- if deferred -%}
+  {%- elsif tab_collection != blank and filter_word == blank -%}
     {%- capture slides_html -%}
       {%- for product in tab_collection.products limit: per_tab -%}
         {%- liquid
@@ -97,7 +114,7 @@
   {%- endif -%}
 
   {%- liquid
-    if count == 0 and note == blank
+    if count == 0 and note == blank and deferred == false
       if request.design_mode
         assign note = 'premium.tabs.empty' | t
       else
@@ -138,8 +155,10 @@
       aria-labelledby="PmTab-{{ section.id }}-{{ forloop.index }}"
       tabindex="0"
       {% unless rendered == 1 %}hidden{% endunless %}
+      {% if deferred %}data-pm-lazy{% endif %}
     >
-      {%- if count > 0 -%}
+      {%- if deferred -%}
+      {%- elsif count > 0 -%}
         <div class="pm-ptabs__slider swiper">
           <div class="swiper-wrapper">
             {{- slides_html -}}

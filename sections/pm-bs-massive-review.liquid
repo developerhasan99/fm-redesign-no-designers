@@ -38,7 +38,9 @@
       {%- endif -%}
     </div>
 
-    <div id="reviews-source-{{ section.id }}" class="hidden">
+    {%- comment -%} One star shape for every review card below (<use>); the source reviews sit in a <template>, outside the live DOM, until shown. {%- endcomment -%}
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="pm-star-{{ section.id }}" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></symbol></svg>
+    <template id="reviews-source-{{ section.id }}">
       {%- for block in section.blocks -%}
         {%- assign rating = block.settings.rating | default: 5 | plus: 0 -%}
         <article
@@ -78,7 +80,7 @@
               <div class="pm-review__rating">
                 <span class="pm-review__stars" role="img" aria-label="Betyg {{ rating }} av 5">
                   {%- for i in (1..5) -%}
-                    <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#pm-star-{{ section.id }}"/></svg>
                   {%- endfor -%}
                 </span>
                 {%- if block.settings.date != blank -%}
@@ -114,7 +116,7 @@
           </div>
         </article>
       {%- endfor -%}
-    </div>
+    </template>
 
     <div
       id="reviews-container-{{ section.id }}"
@@ -192,7 +194,7 @@
 
   // Add reviews to masonry layout
   function addReviews(count) {
-    const allReviews = sourceContainer.querySelectorAll('.review-item');
+    const allReviews = sourceContainer.content.querySelectorAll('.review-item');
     const end = Math.min(currentlyShowing + count, totalReviews);
 
     for (let i = currentlyShowing; i < end; i++) {

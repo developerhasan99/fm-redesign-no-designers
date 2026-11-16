@@ -85,7 +85,8 @@
       </div>
     </div>
 
-    <div id="reviews-source-{{ section.id }}" class="hidden">
+    {%- comment -%} Source reviews in a <template>: outside the live DOM, and their images load only once shown. {%- endcomment -%}
+    <template id="reviews-source-{{ section.id }}">
       {% for block in section.blocks %}
         <div
           class="review-item rounded-lg bg-white border border-solid border-gray-100 overflow-hidden"
@@ -171,7 +172,7 @@
           </div>
         </div>
       {% endfor %}
-    </div>
+    </template>
 
     <div id="reviews-container-{{ section.id }}" class="masonry-grid masonry-container"></div>
 
@@ -237,7 +238,7 @@
 
   // Add reviews to masonry layout
   function addReviews(count) {
-    const allReviews = sourceContainer.querySelectorAll('.review-item');
+    const allReviews = sourceContainer.content.querySelectorAll('.review-item');
     const end = Math.min(currentlyShowing + count, totalReviews);
     
     for (let i = currentlyShowing; i < end; i++) {
