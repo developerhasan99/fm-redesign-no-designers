@@ -1,8 +1,16 @@
 /*
  * FUEL_01 build-your-own bundle page. Loaded by sections/fuel01-byo.liquid, so
- * only on the collection that mounts it. The .fuel01 gate itself is declared
- * in assets/fuel01-global.css, which loads sitewide.
+ * only on the collection that mounts it. The card font (formerly declared in
+ * the sitewide fuel01-global.css) lives here, the only page that uses it.
  */
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('fuel01-plus-jakarta-sans.woff2') format('woff2');
+}
 
 /* The page takes the collection over: everything else in the
  * template goes away. The section's own wrapper carries fuel01-byo-wrap from

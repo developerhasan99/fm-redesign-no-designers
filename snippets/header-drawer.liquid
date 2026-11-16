@@ -146,12 +146,17 @@
 </header-drawer>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.menu-drawer-slider').forEach(function (menuSlider) {
-      if (typeof Swiper !== 'function') return;
-      new Swiper(menuSlider, {
-        slidesPerView: 2.2,
-        spaceBetween: 8,
-      });
+    // Swiper is only loaded on pages whose content has a slider, so the menu sliders start it on first open.
+    document.querySelectorAll('header-drawer').forEach(function (drawer) {
+      var summary = drawer.querySelector('summary');
+      if (!summary || !drawer.querySelector('.menu-drawer-slider')) return;
+      summary.addEventListener('click', function () {
+        window.pmLoadSwiper().then(function (Swiper) {
+          drawer.querySelectorAll('.menu-drawer-slider').forEach(function (menuSlider) {
+            if (!menuSlider.swiper) new Swiper(menuSlider, { slidesPerView: 2.2, spaceBetween: 8 });
+          });
+        });
+      }, { once: true });
     });
     // The close X routes through the burger summary so Dawn's HeaderDrawer runs its full close path
     // (menu-open class, body scroll lock, focus trap, slide-out animation).

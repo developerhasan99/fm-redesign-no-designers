@@ -363,11 +363,16 @@ body {
       onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
-      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
-      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
-      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {%- comment -%}
+        The drawer is closed at load ([visibility:hidden] from Tailwind), so its styles load without blocking paint.
+        The one rule it needs before then: out of the page flow, as component-cart-drawer.css sets it.
+      {%- endcomment -%}
+      <style>cart-drawer{position:fixed;top:0;left:0;width:100vw;height:100%}</style>
+      <link rel="stylesheet" href="{{ 'component-cart-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="{{ 'component-cart.css' | asset_url }}" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="{{ 'component-totals.css' | asset_url }}" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="{{ 'component-discounts.css' | asset_url }}" media="print" onload="this.media='all'">
       {{ 'component-price.css' | asset_url | stylesheet_tag }}
-      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
     {%- endif -%}
 
     {%- unless settings.type_body_font.system? -%}
@@ -403,11 +408,37 @@ body {
       media="all">
 
 
-    {% comment %} Load Swiper Assets {% endcomment %}
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"></noscript>
-    <script defer="" src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    {%- comment -%}
+      Swiper 11.2.10, self-hosted (was jsDelivr: one less origin to connect to). Loaded up front only when the page
+      content has a slider; anything else (the mobile menu slider in snippets/header-drawer.liquid) calls
+      window.pmLoadSwiper(), which loads it once on demand.
+    {%- endcomment -%}
+    {%- if content_for_layout contains 'swiper' -%}
+      <link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript>{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}</noscript>
+      <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    <script>
+      window.pmLoadSwiper = function () {
+        if (window.Swiper) return Promise.resolve(window.Swiper);
+        return (window.pmSwiperLoading = window.pmSwiperLoading || new Promise(function (resolve, reject) {
+          if (!document.querySelector('link[href*="swiper-bundle.min.css"]')) {
+            var css = document.createElement('link');
+            css.rel = 'stylesheet';
+            css.href = {{ 'swiper-bundle.min.css' | asset_url | json }};
+            document.head.appendChild(css);
+          }
+          var js = document.querySelector('script[src*="swiper-bundle.min.js"]');
+          if (!js) {
+            js = document.createElement('script');
+            js.src = {{ 'swiper-bundle.min.js' | asset_url | json }};
+            document.head.appendChild(js);
+          }
+          js.addEventListener('load', function () { resolve(window.Swiper); });
+          js.addEventListener('error', reject);
+        }));
+      };
+    </script>
 
     <script>
       if (Shopify.designMode) {
@@ -419,7 +450,6 @@ body {
     {% render 'seo-faq-schema' %}
     {%- unless template.name == 'product' -%}{% render 'schema-breadcrumbs' %}{%- endunless -%}
     {%- if template.name == 'collection' -%}{% render 'schema-collection' %}{%- endif -%}
-    {% render 'fuel01-global' %}
 
     {%- comment -%} FM redesign, header group only: FM tokens (pm-base, every rule scoped to .premium), the FM header styles and
       the shared product row/card styles (pm-card: search panel rows, drawer product cards). {%- endcomment -%}
@@ -428,7 +458,12 @@ body {
     {{ 'pm-card.css' | asset_url | stylesheet_tag }}
     {%- comment -%} Search comparator in every search box: our scent, its scent family, retailer price list
       (PRICE-COMPARE.md). In the head so it runs before the search scripts, which are deferred from the body. {%- endcomment -%}
-    {{ 'pm-frag.css' | asset_url | stylesheet_tag }}
+    {%- comment -%} Rendered server-side only on /search; elsewhere it fills closed or hidden panels, so it loads without blocking paint. {%- endcomment -%}
+    {%- if template.name == 'search' -%}
+      {{ 'pm-frag.css' | asset_url | stylesheet_tag }}
+    {%- else -%}
+      <link rel="stylesheet" href="{{ 'pm-frag.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
     <script src="{{ 'pm-frag.js' | asset_url }}" defer="defer"></script>
 
   </head>
@@ -588,7 +623,10 @@ body {
   {%- endif -%}
 
   {%- if settings.enable_scent_quiz -%}
-    {%- render 'scent-quiz-popup' -%}
+    {%- comment -%} The popup opens only from its floating button or auto-open; with both off it has no way in, so skip it. {%- endcomment -%}
+    {%- if settings.scent_quiz_show_floating_button or settings.scent_quiz_auto_open_delay > 0 -%}
+      {%- render 'scent-quiz-popup' -%}
+    {%- endif -%}
     {%- assign scent_quiz_bundle_product = settings.scent_quiz_bundle_product | default: all_products['6x-50ml-perfume-bottles'] -%}
     {%- if request.page_type == 'product' and product.id == scent_quiz_bundle_product.id -%}
       {%- render 'quiz-bundle-prefill' -%}
