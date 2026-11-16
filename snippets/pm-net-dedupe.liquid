@@ -1,0 +1,83 @@
+{%- comment -%}
+  Request de-duplication for app scripts. Rendered first in <head> so it is the innermost fetch wrapper.
+
+  Measured 2026-11-16 on a product page: apps (Absolutely, Commslayer, Kite, Selleasy, PTI, Subscribfy, a review
+  widget) asked for the same product JSON 9 times and the cart 9 times during load. The theme itself asks for neither.
+  Apps can't be edited, so identical GETs share one response here:
+  - /products/<handle>.js: one request per URL for the page's lifetime (the product doesn't change under the page).
+  - /cart.js and /cart.json: requests in flight together, or within CART_TTL ms after, share one response.
+  - Any cart write (fetch or XHR to /cart/..., or a Storefront API graphql call) drops the cached cart at once and
+    again when the write finishes, so nothing ever reads a cart from before a change.
+  Requests with cache: no-store/reload/no-cache, an abort signal, or a non-GET method go straight through.
+  Every caller gets its own clone of the response.
+  Off switch: set window.pmNetDedupeOff = true before this runs, or remove the render from layout/theme.liquid.
+{%- endcomment -%}
+<script>
+  (function () {
+    if (window.pmNetDedupeOff || !window.fetch || window.pmNetDedupe) return;
+    var CART_TTL = 2000;
+    var PRODUCT_TTL = 300000;
+    var CART_GET = /\/cart\.js(on)?$/;
+    var PRODUCT_GET = /\/products\/[^\/]+\.js$/;
+    var CART_WRITE = /\/cart\/(add|change|update|clear)|\/graphql(\.json)?($|\?)/;
+    var nativeFetch = window.fetch;
+    var entries = {};
+
+    function urlOf(input) {
+      try {
+        return new URL(typeof input === 'string' ? input : (input && input.url) || String(input), location.href);
+      } catch (e) {
+        return null;
+      }
+    }
+    function dropCart() {
+      for (var key in entries) if (entries[key].cart) delete entries[key];
+    }
+    function watchWrite(method, url) {
+      if (method !== 'GET' && url && CART_WRITE.test(url.pathname)) {
+        dropCart();
+        return true;
+      }
+      return false;
+    }
+
+    window.fetch = function (input, init) {
+      var url = urlOf(input);
+      var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+      if (watchWrite(method, url)) {
+        return nativeFetch.apply(this, arguments).finally(dropCart);
+      }
+      var cacheMode = (init && init.cache) || (input && input.cache);
+      var isCart = url && url.origin === location.origin && CART_GET.test(url.pathname);
+      var isProduct = url && url.origin === location.origin && PRODUCT_GET.test(url.pathname);
+      if (method !== 'GET' || !(isCart || isProduct) || (init && (init.signal || init.body)) ||
+          /no-store|reload|no-cache/.test(cacheMode || '')) {
+        return nativeFetch.apply(this, arguments);
+      }
+      var key = url.pathname;
+      var hit = entries[key];
+      if (!hit || (hit.expires && hit.expires < Date.now())) {
+        hit = entries[key] = { cart: isCart, expires: 0 };
+        hit.promise = nativeFetch.apply(this, arguments).then(function (response) {
+          if (!response.ok) delete entries[key];
+          else if (entries[key] === hit) hit.expires = Date.now() + (isCart ? CART_TTL : PRODUCT_TTL);
+          return response;
+        }, function (error) {
+          delete entries[key];
+          throw error;
+        });
+      }
+      return hit.promise.then(function (response) {
+        return response.clone();
+      });
+    };
+
+    var open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      if (watchWrite(String(method).toUpperCase(), urlOf(url))) this.addEventListener('loadend', dropCart);
+      return open.apply(this, arguments);
+    };
+
+    window.pmNetDedupe = { entries: entries, dropCart: dropCart };
+  })();
+</script>
