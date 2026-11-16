@@ -92,7 +92,6 @@
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -397,21 +396,12 @@ body {
       <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
-    {%- if settings.predictive_search_enabled -%}
-      <link
-        rel="stylesheet"
-        href="{{ 'component-predictive-search.css' | asset_url }}"
-        media="print"
-        onload="this.media='all'">
-    {%- endif -%}
-
     {% comment %} Load Tailwind CSS {% endcomment %}
     <link
       rel="stylesheet"
       href="{{ 'tailwind-compiled.css' | asset_url }}"
       media="all">
 
-    {{ 'blocky.css' | asset_url | stylesheet_tag }}
 
     {% comment %} Load Swiper Assets {% endcomment %}
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -565,10 +555,6 @@ body {
       };
     </script>
 
-    {%- if settings.predictive_search_enabled -%}
-      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-    {%- endif -%}
-
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
@@ -582,19 +568,6 @@ body {
           script.async = true;
           document.head.appendChild(script);
         }, 1500);
-      });
-    </script>
-
-    {% comment %} Convert the non product currencies local users exchange rate {% endcomment %}
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const changeablePrices = document.querySelectorAll('.price_to_modify');
-        changeablePrices.forEach(price => {
-          const priceText = price.textContent;
-          const priceNumber = parseFloat(priceText.replace('$', ''));
-          const convertedPrice = priceNumber * Shopify.currency.rate;
-          price.textContent = `{{ cart.currency.symbol }}${convertedPrice.toFixed(2)}`;
-        });
       });
     </script>
 
@@ -626,10 +599,6 @@ body {
     {%- endunless -%}
     {% render 'price-test-card-sync' %}
     {% render 'pm-frag-texts' %}
-    {%- unless localization.country.iso_code == 'DK' -%}
-      <script>
-        !function(){var e="https://subscribfy.nyc3.cdn.digitaloceanspaces.com/js/script-subscribify.js?"+Math.floor(Date.now()/36e5),t=document.createElement("script");t.type="text/javascript",t.src=e,document.querySelector("body").appendChild(t)}();
-      </script>
-    {%- endunless -%}
+    {%- comment -%} script-subscribify.js is loaded by the Subscribfy app embed; a second copy here ran it twice. {%- endcomment -%}
   </body>
 </html>
