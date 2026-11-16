@@ -143,7 +143,9 @@
 <div>
   <img
     class="max-w-full mx-auto mt-8 block [filter:grayscale(1)]"
-    src="{{ 'payment-badge.png' | asset_url }}"
+    src="{{ 'payment-badge.png' | asset_img_url: '800x' }}"
+    srcset="{{ 'payment-badge.png' | asset_img_url: '800x' }} 800w, {{ 'payment-badge.png' | asset_img_url: '1200x' }} 1200w"
+    sizes="(min-width: 750px) 400px, 100vw"
     alt="Payment methods"
     width="100%"
     height="auto"

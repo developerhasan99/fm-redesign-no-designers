@@ -20,6 +20,16 @@
       <h2 class="pm-cats__title pm-title">{{ section.settings.title | escape }}</h2>
     {%- endif -%}
     <ul class="pm-cats__grid" role="list">
+      {%- comment -%} Tiles split the 1200px page width (~1100px content, 20px gaps) from 990; a 260px card below. {%- endcomment -%}
+      {%- liquid
+        assign cats_n = section.blocks.size | at_least: 1
+        assign cats_gaps = cats_n | minus: 1 | times: 20
+        assign cats_px = 1100 | minus: cats_gaps | divided_by: cats_n
+        assign cats_vw_gaps = cats_gaps | plus: 100
+        capture cats_sizes
+          echo '(min-width: 1200px) ' | append: cats_px | append: 'px, (min-width: 990px) calc((100vw - ' | append: cats_vw_gaps | append: 'px) / ' | append: cats_n | append: '), 260px'
+        endcapture
+      -%}
       {%- for block in section.blocks -%}
         {%- liquid
           assign cat_img_class = 'pm-cats__img'
@@ -31,7 +41,7 @@
           <a href="{{ block.settings.link }}" class="pm-cats__card">
             <div class="pm-cats__media">
               {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 1280 | image_tag: widths: '320, 520, 640, 860, 1040, 1280', sizes: '(min-width: 1200px) calc((100vw - 120px) / 3), (min-width: 990px) calc((100vw - 80px) / 3), 260px', class: cat_img_class, loading: 'lazy', alt: block.settings.text }}
+                {{ block.settings.image | image_url: width: 1280 | image_tag: widths: '320, 520, 640, 860, 1040, 1280', sizes: cats_sizes, class: cat_img_class, loading: 'lazy', alt: block.settings.text }}
               {%- endif -%}
             </div>
             {%- if block.settings.text != blank -%}

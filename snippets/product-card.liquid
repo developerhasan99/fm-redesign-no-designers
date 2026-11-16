@@ -48,12 +48,21 @@
   {% endif %}
 
   <div class="flex relative">
+    {%- comment -%}
+      Measured 2026-11: the card is ~220-240px wide from 990px (collection grid, product rail, popular products)
+      and about half the screen below that. A fixed 300px file was soft on every 2x/3x screen; the srcset lets the
+      browser take what the slot needs. Lazy unless the caller passes eager: true (first row of a grid).
+    {%- endcomment -%}
+    {%- assign pc_img = product.images.first -%}
     <img
       class="w-full h-auto"
-      src="{{ product.images.first | image_url: width: 300 }}"
+      src="{{ pc_img | image_url: width: 360 }}"
+      srcset="{{ pc_img | image_url: width: 240 }} 240w, {{ pc_img | image_url: width: 360 }} 360w, {{ pc_img | image_url: width: 480 }} 480w, {{ pc_img | image_url: width: 600 }} 600w, {{ pc_img | image_url: width: 720 }} 720w"
+      sizes="{{ sizes | default: '(min-width: 990px) 240px, 50vw' }}"
       alt="{{ product.title }}"
-      height="{{ product.images.first.height }}"
-      width="{{ product.images.first.width }}"
+      height="{{ pc_img.height }}"
+      width="{{ pc_img.width }}"
+      {% unless eager %}loading="lazy"{% endunless %}
     >
     {% unless product.tags contains 'Bundle_Price_Show' %}
         {%- if settings.product_card_promo_text != blank -%}

@@ -617,6 +617,12 @@ a.product__text {
   z-index: 101;
 }
 
+/* Closed, the modal is only invisible: still laid out over the viewport, so its lazy full-size images counted as
+   on screen and downloaded with the page. Out of layout until opened (show() sets [open] before it measures). */
+.product-media-modal:not([open]) .product-media-modal__content {
+  display: none;
+}
+
 .product-media-modal__dialog {
   display: flex;
   align-items: center;

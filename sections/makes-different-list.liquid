@@ -47,7 +47,7 @@
       </div>
       <div class="pm-why__media">
         {%- if why_image != blank -%}
-          {{ why_image | image_url: width: 1200 | image_tag: widths: '375, 600, 750, 900, 1200', sizes: '(min-width: 990px) 600px, calc(100vw - 2 * 20px)', class: 'pm-why__img', loading: 'lazy', alt: section.settings.makes_diferent_title }}
+          {{ why_image | image_url: width: 1200 | image_tag: widths: '375, 600, 750, 900, 1000, 1200', sizes: '(min-width: 1200px) 500px, (min-width: 990px) calc((100vw - 180px) / 2), calc(100vw - 2 * 20px)', class: 'pm-why__img', loading: 'lazy', alt: section.settings.makes_diferent_title }}
         {%- endif -%}
       </div>
     </div>

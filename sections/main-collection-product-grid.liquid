@@ -503,10 +503,17 @@
                   data-cascade
                   style="--animation-order: {{ forloop.index }};"
                   {% endif %}>
+                  {%- liquid
+                    assign pc_eager = false
+                    if paginate.current_page == 1 and forloop.index <= 4
+                      assign pc_eager = true
+                    endif
+                  -%}
                   {% render 'product-card'
                     , product: product
                     , atc: section.settings.card_atc
                     , section_id: section.id
+                    , eager: pc_eager
                   %}
                 </li>
                 {%- if fuel04_cards_every > 0 -%}

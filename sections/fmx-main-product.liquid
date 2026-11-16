@@ -451,7 +451,9 @@
                         {%- if tsr_img_alt contains 'bundle_' and tsr_img_alt == tsr_currency_alt -%}
                           {%- assign tsr_localized_image_found = true -%}
                           <img
-                            src="{{ tsr_image.src | image_url: width: 720 }}"
+                            src="{{ tsr_image.src | image_url: width: 480 }}"
+                            srcset="{{ tsr_image.src | image_url: width: 240 }} 240w, {{ tsr_image.src | image_url: width: 360 }} 360w, {{ tsr_image.src | image_url: width: 480 }} 480w, {{ tsr_image.src | image_url: width: 660 }} 660w"
+                            sizes="(min-width: 750px) 220px, 40vw"
                             alt="{{ tsr_image.alt }}"
                             class="fmx-offer__img"
                             loading="lazy"
@@ -461,7 +463,9 @@
                       {%- endfor -%}
                       {%- if tsr_localized_image_found == false -%}
                         <img
-                          src="{{ block.settings.product.featured_image | image_url: width: 720 }}"
+                          src="{{ block.settings.product.featured_image | image_url: width: 480 }}"
+                          srcset="{{ block.settings.product.featured_image | image_url: width: 240 }} 240w, {{ block.settings.product.featured_image | image_url: width: 360 }} 360w, {{ block.settings.product.featured_image | image_url: width: 480 }} 480w, {{ block.settings.product.featured_image | image_url: width: 660 }} 660w"
+                          sizes="(min-width: 750px) 220px, 40vw"
                           alt="{{ block.settings.product.title | escape }}"
                           class="fmx-offer__img"
                           loading="lazy"

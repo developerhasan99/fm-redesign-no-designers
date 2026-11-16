@@ -161,7 +161,7 @@
         {%- for fm_media in fm_images -%}
           <img
             id="slider-thumbnail-fm-{{ forloop.index0 }}"
-            src="{{ fm_media.preview_image | image_url: width: 150, height: 150 }}"
+            src="{{ fm_media.preview_image | image_url: width: 200, height: 200 }}"
             alt="{%- assign fmxg_alt = fm_media.alt | default: product.title | escape -%}{%- render 'pm-designer-short', product: product, text: fmxg_alt -%}"
             height="150"
             width="150"
@@ -187,7 +187,7 @@
           {%- if show_image -%}
             <img
               id="slider-thumbnail-{{ forloop.index0 }}"
-              src="{{ image | image_url: width: 150, height: 150 }}"
+              src="{{ image | image_url: width: 200, height: 200 }}"
               alt="{%- assign fmxg_alt = image.alt | escape -%}{%- render 'pm-designer-short', product: product, text: fmxg_alt -%}"
               height="150"
               width="150"
@@ -201,7 +201,7 @@
             {%- unless img_file contains 'magyx_math_' -%}
               <img
                 id="slider-thumbnail-{{ forloop.index0 }}"
-                src="{{ image | image_url: width: 150, height: 150 }}"
+                src="{{ image | image_url: width: 200, height: 200 }}"
                 alt="{%- assign fmxg_alt = image.alt | escape -%}{%- render 'pm-designer-short', product: product, text: fmxg_alt -%}"
                 height="150"
                 width="150"
@@ -275,7 +275,7 @@
           ],
           thumbnail: [
             {% for item in marketing_images %}
-              "{{ item | image_url: width: 150, height: 150 }}"{% unless forloop.last %},{% endunless %}
+              "{{ item | image_url: width: 200, height: 200 }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ]
         },
@@ -287,7 +287,7 @@
           ],
           thumbnail: [
             {% for item in fi_marketing_images %}
-              "{{ item | image_url: width: 150, height: 150 }}"{% unless forloop.last %},{% endunless %}
+              "{{ item | image_url: width: 200, height: 200 }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ]
         },
@@ -299,7 +299,7 @@
           ],
           thumbnail: [
             {% for item in da_marketing_images %}
-              "{{ item | image_url: width: 150, height: 150 }}"{% unless forloop.last %},{% endunless %}
+              "{{ item | image_url: width: 200, height: 200 }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ]
         },
@@ -311,7 +311,7 @@
           ],
           thumbnail: [
             {% for item in no_marketing_images %}
-              "{{ item | image_url: width: 150, height: 150 }}"{% unless forloop.last %},{% endunless %}
+              "{{ item | image_url: width: 200, height: 200 }}"{% unless forloop.last %},{% endunless %}
             {% endfor %}
           ]
         }

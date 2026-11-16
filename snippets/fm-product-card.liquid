@@ -76,7 +76,7 @@
       <img
         src="{{ pm_image | image_url: width: 540 }}"
         srcset="{{ pm_image | image_url: width: 360 }} 360w, {{ pm_image | image_url: width: 540 }} 540w, {{ pm_image | image_url: width: 720 }} 720w"
-        sizes="(min-width: 990px) 25vw, 50vw"
+        sizes="{{ sizes | default: '(min-width: 990px) 25vw, 50vw' }}"
         alt="{{ pm_alt | strip | default: product.title | escape }}"
         width="{{ pm_image.width }}"
         height="{{ pm_image.height }}"
@@ -137,7 +137,7 @@
       <p class="pm-card__meta pm-dmeta">
         {%- if pm_insp.image != blank and pm_masked != '1' -%}
           <span class="pm-dthumb" aria-hidden="true">
-            {{- pm_insp.image | image_url: width: 96 | image_tag: width: 48, height: 48, loading: 'lazy', alt: '', class: 'pm-dthumb__img' -}}
+            {{- pm_insp.image | image_url: width: 144 | image_tag: width: 48, height: 48, widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '', class: 'pm-dthumb__img' -}}
           </span>
         {%- endif -%}
         <span class="pm-dmeta__text">Inspirerad av: <span class="inspiration_heading">{{ pm_short }}</span></span>
