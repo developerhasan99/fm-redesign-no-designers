@@ -221,7 +221,7 @@
     {%- endif -%}
     {%- if product_item != blank -%}
       {%- comment -%}
-        Campaign badge for tiles that sell the bundle: a line above the title in the white card, and on phones,
+        Campaign badge for tiles that sell the bundle: a line above the title in the white card's text column, and on phones,
         where the theme hides that card, a chip on the video's corner. Empty the locale key to drop it.
       {%- endcomment -%}
       {%- assign ugc_badge = blank -%}
@@ -230,7 +230,6 @@
         {%- if ugc_badge != blank -%}<span class="fuel05-ugc__badge" aria-hidden="true">{{ ugc_badge }}</span>{%- endif -%}
       {%- endif -%}
       <a class="fuel05-ugc__pill" href="{{ product_item.url }}">
-        {%- if ugc_badge != blank -%}<span class="fuel05-ugc__pill-badge">{{ ugc_badge }}</span>{%- endif -%}
         {%- if product_item.featured_image != blank -%}
           <img
             class="fuel05-ugc__pill-thumb"
@@ -241,6 +240,7 @@
             loading="lazy">
         {%- endif -%}
         <span class="fuel05-ugc__pill-info">
+          {%- if ugc_badge != blank -%}<span class="fuel05-ugc__pill-badge">{{ ugc_badge }}</span>{%- endif -%}
           <span class="fuel05-ugc__pill-title">{{ product_item.title | escape }}</span>
           {%- comment -%}
             No "Från" prefix here even though the theme's own card carries one:
