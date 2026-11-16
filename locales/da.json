@@ -4058,6 +4058,7 @@
     "price_per_bottle": "Koster kun {{ price }}/flaske",
     "tsr_offer_save": "Spar {{ percent }}%",
     "tsr_offer_heading": "Vores bedste tilbud: Sæt din egen pakke sammen!",
+    "tsr_offer_promo": "Black Friday: 40 % rabat + 2 flasker oveni!",
     "tsr_offer_price_prefix": "Kun",
     "tsr_offer_price_suffix": "pr. flaske"
   },
