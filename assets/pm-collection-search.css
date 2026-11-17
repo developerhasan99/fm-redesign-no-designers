@@ -83,13 +83,18 @@
 /* The placeholder steps down on phones so the whole line fits between the icon and the right edge
    (335px field at 375: 11px / .06em = 229px of the 247px available); 13px / .12em from 430px. */
 .premium .pm-csearch__input.pm-csearch__input::placeholder {
-  color: var(--pm-ink);
+  color: var(--pm-muted);
   font-size: 11px;
   line-height: 16px;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   opacity: 1;
+}
+
+/* Gray placeholder reads as a hint, not a value; it clears on focus. */
+.premium .pm-csearch__input.pm-csearch__input:focus::placeholder {
+  color: transparent;
 }
 
 .premium .pm-csearch__input::-webkit-search-cancel-button,
