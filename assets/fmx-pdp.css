@@ -527,9 +527,9 @@
   gap: 2px;
   box-sizing: border-box;
   min-width: 0;
-  min-height: 64px;
+  min-height: 51px;
   margin: 0;
-  padding: 12px;
+  padding: 8px 12px;
   border: 1px solid var(--pm-line);
   border-radius: var(--pm-radius-sm);
   background: var(--pm-white);
