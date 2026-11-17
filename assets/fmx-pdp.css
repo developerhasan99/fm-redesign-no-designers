@@ -606,6 +606,14 @@
   border-color: #22613a;
 }
 
+/* Option value with no version in stock (snippets/fmx-variant-selector.liquid option rows) */
+.premium .pm-size[aria-disabled="true"] {
+  opacity: 0.45;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
 .premium .pm-btn.pm-atc {
   border-color: #146b32;
   background: #146b32;

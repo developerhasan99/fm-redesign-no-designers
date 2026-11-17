@@ -37,7 +37,91 @@
   endif
 %}
 
-{% if product.variants.size > 1 and product.available %}
+{% if product.options.size > 1 and product.available %}
+  {% comment %}
+    Multi-option products (e.g. "Välj storlek" 30/50/100 ml + "Koncentration" 20/24 %): one row per option, same
+    pm-size cards. A click picks one value; the script resolves it to an in-stock version. A value with no version
+    in stock is greyed out (aria-disabled) and can't be picked. size_order orders the size row.
+  {% endcomment %}
+  {%- assign sold_out_label = 'products.product.sold_out' | t -%}
+  <div id="variant-selector">
+    {% for option in product.options_with_values %}
+      {% liquid
+        assign option_index = forloop.index0
+        assign option_name_down = option.name | downcase
+        assign option_kind = 'other'
+        assign option_heading = 'Välj ' | append: option_name_down
+        assign option_passes = 'rest' | split: ','
+        if option_name_down contains 'storlek' or option_name_down contains 'size' or option_name_down contains 'volym'
+          assign option_kind = 'size'
+          assign option_heading = 'Välj storlek'
+          assign option_passes = fmx_vs_passes
+        endif
+        assign option_label_id = 'fmx-size-label-' | append: section.id | append: '-' | append: option_index
+      %}
+      <div class="pm-size-head">
+        <h2 class="pm-eyebrow pm-size-head__label" id="{{ option_label_id }}">{{ option_heading }}</h2>
+        {% if option_kind == 'size' %}
+          <span class="pm-size-head__hint">100 ml - vald av 8 av 10 kunder</span>
+        {% endif %}
+      </div>
+
+      <div class="pm-sizes" role="group" aria-labelledby="{{ option_label_id }}">
+        {% for option_pass in option_passes %}
+        {% for value in option.values %}
+          {% liquid
+            assign value_ml_key = '0'
+            if value contains '100'
+              assign value_ml_key = '100'
+            elsif value contains '50'
+              assign value_ml_key = '50'
+            elsif value contains '30'
+              assign value_ml_key = '30'
+            endif
+            assign value_show = false
+            if option_pass == 'rest'
+              unless option_kind == 'size' and fmx_vs_order contains value_ml_key
+                assign value_show = true
+              endunless
+            elsif option_pass == value_ml_key
+              assign value_show = true
+            endif
+
+            assign value_available = false
+            for variant in product.variants
+              if variant.options[option_index] == value and variant.available
+                assign value_available = true
+                break
+              endif
+            endfor
+            assign value_selected = false
+            if selected_variant.options[option_index] == value
+              assign value_selected = true
+            endif
+          %}
+          {%- if value_show -%}
+          <button
+            type="button"
+            class="option-button pm-size{% if value_selected %} is-selected{% endif %}"
+            aria-pressed="{{ value_selected }}"
+            data-option-index="{{ option_index }}"
+            data-value="{{ value | escape }}"
+            {% unless value_available %}aria-disabled="true" title="{{ sold_out_label | escape }}"{% endunless %}>
+            <span class="pm-size__title">{{ value }}</span>
+            {% if option_kind == 'size' and value_ml_key == '50' %}
+              <span class="pm-size__flag pm-size__flag--popular">Mest Populär</span>
+            {% endif %}
+            {% if option_kind == 'size' and value_ml_key == '100' %}
+              <span class="pm-size__flag pm-size__flag--value">Bäst värde</span>
+            {% endif %}
+          </button>
+          {%- endif -%}
+        {% endfor %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+{% elsif product.variants.size > 1 and product.available %}
   {% comment %} Variant Selector {% endcomment %}
   <div class="pm-size-head">
     <h2 class="pm-eyebrow pm-size-head__label" id="fmx-size-label-{{ section.id }}">Välj storlek</h2>
@@ -207,6 +291,7 @@
       {% for variant in product.variants %}
         "{{ variant.id }}": {
           title: "{{ variant.title }}",
+          options: {{ variant.options | json }},
           originalPrice: "{{ variant.price | money }}",
           compareAtPrice: "{{ variant.compare_at_price | money }}",
           hasComparePrice: {% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %},
@@ -223,6 +308,7 @@
 
     // DOM elements
     const variantButtons = document.querySelectorAll('.variant-button');
+    const optionButtons = document.querySelectorAll('#variant-selector .option-button');
     const variantIdInput = document.getElementById('product-variant-id');
     const priceContainer = document.getElementById('product-price');
     // Sold out products render no size selector or price (see the sold out notice above)
@@ -256,6 +342,13 @@
         const selected = button.dataset.variantId === variantId;
         button.classList.toggle('is-selected', selected);
         button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+      });
+
+      // Option rows: a card is chosen when the selected version carries its value
+      optionButtons.forEach(button => {
+        const chosen = (variantData.options || [])[Number(button.dataset.optionIndex)] === button.dataset.value;
+        button.classList.toggle('is-selected', chosen);
+        button.setAttribute('aria-pressed', chosen ? 'true' : 'false');
       });
 
       // Update price display
@@ -308,6 +401,21 @@
       button.addEventListener('click', function() {
         const variantId = this.dataset.variantId;
         updateVariant(variantId);
+      });
+    });
+
+    // Option click: the in-stock version with this value and the other options as they are now; when that one is
+    // sold out, the first in-stock version with this value (the other options follow). Sold-out values do nothing.
+    optionButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const index = Number(this.dataset.optionIndex);
+        const value = this.dataset.value;
+        const wanted = ((variantsData[selectedVariantId] || {}).options || []).slice();
+        wanted[index] = value;
+        const ids = Object.keys(variantsData);
+        const match = ids.find(id => variantsData[id].available && variantsData[id].options.every((o, i) => o === wanted[i]))
+          || ids.find(id => variantsData[id].available && variantsData[id].options[index] === value);
+        if (match) updateVariant(match);
       });
     });
   })();

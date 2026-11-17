@@ -151,7 +151,96 @@
   x-data
   x-effect="$store.qb.currentPrice; $store.qb.currentCompare; $store.qb.syncGlobalPrices()">
 
-  {% if product.variants.size > 1 %}
+  {% if product.options.size > 1 %}
+    {% comment %}
+      Multi-option products (e.g. "Välj storlek" 30/50/100 ml + "Koncentration" 20/24 %): one row per option.
+      A click picks one value; $store.qb.selectOption resolves it to an in-stock version. A value with no version
+      in stock is greyed out and can't be picked. The size row follows size_order / largest_first like the old row.
+    {% endcomment %}
+    {%- assign sold_out_label = 'products.product.sold_out' | t -%}
+    <div id="variant-selector">
+      {% for option in product.options_with_values %}
+        {% liquid
+          assign option_index = forloop.index0
+          assign option_name_down = option.name | downcase
+          assign option_kind = 'other'
+          assign option_heading = 'Välj ' | append: option_name_down
+          assign option_values = option.values
+          assign option_passes = 'rest' | split: ','
+          if option_name_down contains 'storlek' or option_name_down contains 'size' or option_name_down contains 'volym'
+            assign option_kind = 'size'
+            assign option_heading = 'Välj storlek'
+            assign option_passes = qb_passes
+            unless largest_first
+              assign option_values = option.values | reverse
+            endunless
+          endif
+        %}
+        <div class="flex justify-between items-center mb-3 {% if forloop.first %}!mt-6{% else %}!mt-4{% endif %}">
+          <h2 class="m-0 text-sm md:text-base font-semibold">{{ option_heading }}:</h2>
+          {% if option_kind == 'size' %}
+            <div class="text-xs md:text-sm italic text-gray-500">80 % av våra kunder köper 50 ml eller mer</div>
+          {% endif %}
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          {% for option_pass in option_passes %}
+          {% for value in option_values %}
+            {% liquid
+              assign value_ml_key = '0'
+              if value contains '100'
+                assign value_ml_key = '100'
+              elsif value contains '50'
+                assign value_ml_key = '50'
+              elsif value contains '30'
+                assign value_ml_key = '30'
+              endif
+              assign value_show = false
+              if option_pass == 'rest'
+                unless option_kind == 'size' and qb_order contains value_ml_key
+                  assign value_show = true
+                endunless
+              elsif option_pass == value_ml_key
+                assign value_show = true
+              endif
+
+              assign value_available = false
+              for variant in product.variants
+                if variant.options[option_index] == value and variant.available
+                  assign value_available = true
+                  break
+                endif
+              endfor
+            %}
+            {%- if value_show -%}
+            <button
+              type="button"
+              @click="$store.qb.selectOption({{ option_index }}, $el.dataset.value)"
+              class="option-button rounded-lg px-3 py-2.5 bg-white border-2 border-solid relative{% if value_available %} cursor-pointer{% else %} opacity-50 line-through cursor-not-allowed{% endif %}"
+              :class="$store.qb.unit.options[{{ option_index }}] === $el.dataset.value ? 'mgx-selected' : 'border-gray-200'"
+              data-value="{{ value | escape }}"
+              {% unless value_available %}aria-disabled="true" title="{{ sold_out_label | escape }}"{% endunless %}>
+              <div class="text-center leading-tight">
+                <div class="text-sm font-semibold">{{ value }}</div>
+              </div>
+              {% if option_kind == 'size' and value_ml_key == '50' %}
+                <span class="text-[10px] italic text-white rounded absolute -top-[10px] left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5 whitespace-nowrap">
+                  Mest Populär
+                </span>
+              {% endif %}
+              {% if option_kind == 'size' and value_ml_key == '100' %}
+                <span class="text-[10px] italic text-white rounded absolute -top-[10px] left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5 whitespace-nowrap">
+                  Bäst värde
+                </span>
+              {% endif %}
+            </button>
+            {%- endif -%}
+          {% endfor %}
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  {% elsif product.variants.size > 1 %}
     <div class="flex justify-between items-center mb-3 !mt-6">
       <h2 class="m-0 text-sm md:text-base font-semibold">
         Välj storlek:
@@ -680,6 +769,8 @@
           "{{ variant.title | downcase | remove: ' ' }}": {
             id: {{ variant.id }},
             label: "{{ variant.title }}",
+            options: {{ variant.options | json }},
+            available: {{ variant.available }},
             price: {{ variant.price }},
             compare: {{ variant.compare_at_price | default: 0 }}
           },
@@ -853,13 +944,43 @@
           input.value = this.variants[key].id;
         }
 
+        var self = this;
         this.picks = this.picks.map(function (p) {
-          if (!p || !p.variants[key]) return p;
+          var v = p && self.matchVariant(p);
+          if (!v) return p;
 
-          return p.variants[key].available ?
-            Object.assign({}, p, { variant: p.variants[key] }) :
+          return v.available ?
+            Object.assign({}, p, { variant: v }) :
             null;
         });
+      },
+
+      // Option rows: the in-stock version with this value and the other options as they are now; when that one is
+      // sold out, the first in-stock version with this value (the other options follow). Sold-out values do nothing.
+      selectOption: function (index, value) {
+        var variants = this.variants;
+        var wanted = (this.unit.options || []).slice();
+        wanted[index] = value;
+        var keys = Object.keys(variants);
+        var match = keys.find(function (k) {
+          return variants[k].available && variants[k].options.every(function (o, i) { return o === wanted[i]; });
+        }) || keys.find(function (k) {
+          return variants[k].available && variants[k].options[index] === value;
+        });
+        if (match) this.selectSize(match);
+      },
+
+      // A picked scent's version for the chosen one: same title key ("100ml/20%"), else same size ("100ml") so
+      // single-size bonus scents follow a size + strength main product, else an in-stock one of that size.
+      // ponytail: assumes size is the first option; key on option names if a product ever puts it second.
+      matchVariant: function (product) {
+        var v = product.variants;
+        var size = this.selectedSize.split('/')[0];
+        if (v[this.selectedSize]) return v[this.selectedSize];
+        if (v[size]) return v[size];
+        var keys = Object.keys(v).filter(function (k) { return k.split('/')[0] === size; });
+        var inStock = keys.find(function (k) { return v[k].available; });
+        return v[inStock || keys[0]] || null;
       },
 
       selectTier: function (key) {
@@ -875,7 +996,7 @@
       },
 
       variantFor: function (product) {
-        return product.variants[this.selectedSize] ||
+        return this.matchVariant(product) ||
           Object.values(product.variants)[0];
       },
 
