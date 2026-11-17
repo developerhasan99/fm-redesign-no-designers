@@ -852,7 +852,8 @@
         bottleProperty(p) {
           var label = p.name;
           if (p.short) label += ' Inspired by ' + p.short;
-          return label + ' - 100ml';
+          // Same size the bottles are picked in (variant_ml above), so the property matches _bundle_items
+          return label + ' - ' + {{ variant_ml | json }};
         },
         submitBundleForm() {
           if (!this.full) return;
