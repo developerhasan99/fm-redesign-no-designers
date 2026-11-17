@@ -287,11 +287,6 @@
           "hide_add_to_cart_btn": false
         }
       },
-      "10912811961125325620": {
-        "type": "shopify://apps/absolutely/blocks/absolutely_extension/121741f7-5296-410e-8ae4-71174169eced",
-        "disabled": false,
-        "settings": {}
-      },
       "11349500561483629931": {
         "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
         "disabled": true,
@@ -315,6 +310,11 @@
       "12429728106950981667": {
         "type": "shopify://apps/blocky-fraud-blocker/blocks/app-embed/aa25b3bf-c2c5-4359-aa61-7836c225c5a9",
         "disabled": false,
+        "settings": {}
+      },
+      "10912811961125325620": {
+        "type": "shopify://apps/absolutely/blocks/absolutely_extension/121741f7-5296-410e-8ae4-71174169eced",
+        "disabled": true,
         "settings": {}
       }
     },
