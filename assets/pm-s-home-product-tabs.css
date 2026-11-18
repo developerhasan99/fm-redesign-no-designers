@@ -261,3 +261,8 @@
     transition: none;
   }
 }
+
+/* Slider sits on white, like the tiles: a hairline frames each card here */
+.premium .pm-ptabs .pm-tile {
+  border: 1px solid var(--pm-line);
+}

@@ -26,15 +26,6 @@
   # the others are hidden until clicked. Their panels ship empty (data-pm-lazy) and pm-product-tabs.js fills them
   # from one Section Rendering API request (section.index is nil there, so that request renders every tab).
   # The theme editor always renders every tab.
-  # Card image sizes, mirroring the Swiper breakpoints in assets/pm-product-tabs.js (cards per view at each width)
-  # inside the 1200px page width: the 25vw default asked for ~2x the pixels a 6-per-view card shows.
-  assign pv_mobile = section.settings.cards_mobile | default: '1.25' | plus: 0
-  assign pv_desktop = section.settings.cards_desktop | default: '4' | plus: 0
-  assign pv_tablet = pv_mobile | plus: 1 | at_least: 2.2
-  assign pv_laptop = 3
-  if pv_desktop > 4
-    assign pv_laptop = 4
-  endif
   assign lazy_tabs = false
   if section.index != nil and request.design_mode == false
     assign lazy_tabs = true
