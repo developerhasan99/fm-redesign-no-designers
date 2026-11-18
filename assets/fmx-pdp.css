@@ -791,17 +791,27 @@
   align-items: stretch;
   margin: 24px 0;
   overflow: hidden;
-  border: 1px solid var(--pm-line);
+  /* Black Friday: neon-red frame with a slow breathing glow (same red as the Black Friday hero and card strips) */
+  border: 1.5px solid #ff3b3b;
   border-radius: var(--pm-radius-sm);
   background: var(--pm-white);
-  box-shadow: var(--pm-shadow-sm);
+  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.25), 0 0 18px rgba(255, 59, 59, 0.35);
   color: var(--pm-ink);
   text-decoration: none;
-  transition: border-color var(--pm-dur) var(--pm-ease);
+  animation: fmx-offer-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes fmx-offer-glow {
+  50% { box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.4), 0 0 28px rgba(255, 59, 59, 0.6); }
 }
 
 .premium .fmx-offer:hover {
-  border-color: var(--pm-black);
+  box-shadow: 0 0 0 1px rgba(255, 59, 59, 0.5), 0 0 32px rgba(255, 59, 59, 0.7);
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium .fmx-offer { animation: none; }
 }
 
 .premium .fmx-offer__media {
