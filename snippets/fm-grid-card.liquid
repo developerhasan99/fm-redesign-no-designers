@@ -1,22 +1,30 @@
 {% comment %}
-  Product card for sections/fm-home-tabs.liquid: the FM redesign card (premium-redesign snippets/product-card.liquid,
-  pm-card.css) with the magicperfume.co grid button ("Se doften", full width, pinned to the bottom of the card)
-  in place of FM's small arrow square. Whole card stays one link; the button is a span inside it.
+  The site's product card (homepage tabs directly; everywhere else through snippets/product-card.liquid, which adds
+  the white tile and the optional add-to-cart form). FM redesign card (pm-card.css) with the magicperfume.co grid
+  button ("Se doften", full width, pinned to the bottom of the card). Whole card stays one link; the button is a
+  span inside it. Needs a .premium ancestor. Styles: assets/pm-card.css section 12.
 
   Accepts:
   - product: {Object} product
   - lazy: {Boolean} true adds loading="lazy" to the image
+  - button_label: {String} optional, default "Se doften"
+  - atc_variant / atc_sizes: from product-card.liquid with atc: price follows that variant (size chips swap it through
+    data-ts-price / data-ts-compare, assets/ts-card-atc.js) and a spacer replaces the button, keeping room for the
+    chips and the "Lägg i kundvagnen" button that sit outside the link
+  - pm_frag_role: 'search' = a /search card fetched as a product view (templates/product.pm-search-card.liquid)
 {% endcomment %}
 
 {%- liquid
-  assign pm_variant = nil
-  for pm_v in product.variants
-    if pm_v.available
-      assign pm_variant = pm_v
-      break
-    endif
-  endfor
-  if pm_variant == nil
+  assign pm_variant = atc_variant
+  if pm_variant == blank
+    for pm_v in product.variants
+      if pm_v.available
+        assign pm_variant = pm_v
+        break
+      endif
+    endfor
+  endif
+  if pm_variant == blank
     assign pm_variant = product.selected_or_first_available_variant | default: product.variants.first
   endif
   assign pm_price = pm_variant.price | default: product.price
@@ -45,10 +53,14 @@
 {%- assign pm_short = pm_short | strip -%}
 {%- assign pm_show_insp = false -%}
 {%- if pm_short != blank -%}{%- assign pm_show_insp = true -%}{%- endif -%}
+{%- comment -%} Search never names the masked (L'Oréal) houses: no designer line there (Adrian 15.11). {%- endcomment -%}
+{%- if pm_masked == '1' -%}
+  {%- if request.page_type == 'search' or pm_frag_role == 'search' -%}{%- assign pm_show_insp = false -%}{%- endif -%}
+{%- endif -%}
 {%- comment -%} Brand-free name for every product (masked ones also lose the bottle image), alt with brands removed (NO-DESIGNERS.md). {%- endcomment -%}
 {%- capture pm_alt -%}{%- render 'pm-designer-short', product: product, text: pm_image.alt -%}{%- endcapture -%}
 
-<a href="{{ product.url }}" class="pm-card pm-card--product fm-grid-card">
+<a href="{{ product.url }}" class="pm-card pm-card--product fm-grid-card{% if atc_variant %} ts-atc-card{% if atc_sizes > 1 %} ts-atc-card--sizes{% endif %}{% endif %}"{% if atc_variant %} data-ts-variant-id="{{ atc_variant.id }}"{% endif %}>
   <div class="pm-card__media">
     {%- if pm_image -%}
       <img
@@ -75,14 +87,14 @@
         {%- endif -%}
       </div>
     {%- endif -%}
-    {%- render 'card-promo-marquee', product: product, tone: 'dark' -%}
+    {%- render 'card-promo-marquee', product: product -%}
   </div>
 
   <div class="pm-card__body">
     <h3 class="pm-card__title">{{ product.title | escape }}</h3>
     <span class="pm-card__rule" aria-hidden="true"></span>
     {%- if pm_show_insp -%}
-      <p class="pm-card__meta pm-dmeta">
+      <p class="pm-card__meta pm-dmeta{% if pm_masked == '1' %} pm-designer-block{% endif %}">
         {%- if pm_insp.image != blank and pm_masked != '1' -%}
           <span class="pm-dthumb" aria-hidden="true">
             {{- pm_insp.image | image_url: width: 144 | image_tag: width: 48, height: 48, widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '', class: 'pm-dthumb__img' -}}
@@ -92,11 +104,23 @@
       </p>
     {%- endif -%}
     <div class="pm-card__price">
-      <span class="ab-current-price">{{ pm_price | money }}</span>
-      {%- if pm_compare > pm_price -%}
-        <s class="pm-card__compare">{{ pm_compare | money }}</s>
+      {%- if atc_variant -%}
+        <span class="ab-current-price" data-ts-price>{{ pm_price | money }}</span>
+        <s class="pm-card__compare" data-ts-compare{% unless pm_compare > pm_price %} hidden{% endunless %}>
+          {%- if pm_compare > pm_price -%}{{ cart.currency.symbol }}{{ pm_compare | money_without_currency }}{%- endif -%}
+        </s>
+      {%- else -%}
+        <span class="ab-current-price">{{ pm_price | money }}</span>
+        {%- if pm_compare > pm_price -%}
+          <s class="pm-card__compare">{{ pm_compare | money }}</s>
+        {%- endif -%}
       {%- endif -%}
     </div>
-    <span class="pm-btn pm-btn--primary fm-grid-card__btn">{{ button_label | default: 'Se doften' }}</span>
+    {%- if atc_variant -%}
+      {%- comment -%} Room for the chips and the button, which sit outside the link (product-card.liquid) {%- endcomment -%}
+      <div class="ts-atc-spacer" aria-hidden="true"></div>
+    {%- else -%}
+      <span class="pm-btn pm-btn--primary fm-grid-card__btn">{{ button_label | default: 'Se doften' }}</span>
+    {%- endif -%}
   </div>
 </a>

@@ -4,7 +4,7 @@
   Tabs are blocks: title + collection + optional filter word. With a filter the tab walks the collection
   (paginate by 250) and keeps products whose tag or custom.fragrance_family (string or list) equals the word.
   Tab mechanics mirror tryscent-magyxco home-tabs; the carousel, arrow rail and 375 bleed mirror popular-products.
-  Cards: snippets/fm-product-card.liquid (copy theme: FM card copy; live's product-card stays). Section class carries
+  Cards: snippets/product-card.liquid (the site card, same as every other grid). Section class carries
   "premium" (copy theme: only the header group is .premium). Styles: assets/pm-s-home-product-tabs.css. JS: assets/pm-product-tabs.js.
   A tab without a collection or without matching products is skipped on the storefront (shown with a note in the
   theme editor); when no tab renders the section outputs nothing.
@@ -35,11 +35,6 @@
   if pv_desktop > 4
     assign pv_laptop = 4
   endif
-  assign desktop_gaps = pv_desktop | minus: 1 | times: 20
-  assign desktop_px = 1100 | minus: desktop_gaps | divided_by: pv_desktop | ceil
-  capture card_sizes
-    echo '(min-width: 1200px) ' | append: desktop_px | append: 'px, (min-width: 990px) calc((100vw - 160px) / ' | append: pv_laptop | append: '), (min-width: 750px) calc((100vw - 100px) / ' | append: pv_tablet | append: '), calc((100vw - 20px) / ' | append: pv_mobile | append: ')'
-  endcapture
   assign lazy_tabs = false
   if section.index != nil and request.design_mode == false
     assign lazy_tabs = true
@@ -81,7 +76,8 @@
           endif
         -%}
         <div class="swiper-slide pm-ptabs__slide">
-          {%- render 'fm-product-card', product: product, lazy: lazy, sizes: card_sizes -%}
+          {%- if lazy -%}{%- assign eager = false -%}{%- else -%}{%- assign eager = true -%}{%- endif -%}
+          {%- render 'product-card', product: product, eager: eager -%}
         </div>
       {%- endfor -%}
     {%- endcapture -%}
@@ -117,7 +113,8 @@
             endif
           -%}
           <div class="swiper-slide pm-ptabs__slide">
-            {%- render 'fm-product-card', product: product, lazy: lazy, sizes: card_sizes -%}
+            {%- if lazy -%}{%- assign eager = false -%}{%- else -%}{%- assign eager = true -%}{%- endif -%}
+            {%- render 'product-card', product: product, eager: eager -%}
           </div>
           {%- if count >= per_tab -%}
             {%- break -%}

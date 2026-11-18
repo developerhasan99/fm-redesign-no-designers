@@ -1,3 +1,17 @@
+{%- comment -%}
+  Grid cards (search, related products, collage, featured product in the collection grid, the /search card view) are
+  the site card: snippets/product-card.liquid (tile around fm-grid-card). Only the horizontal variant (complementary
+  products on the product page) and the empty placeholder keep the Dawn card below.
+{%- endcomment -%}
+{%- if card_product and card_product != empty and horizontal_class != true -%}
+  {%- liquid
+    assign cp_eager = false
+    if lazy_load == false
+      assign cp_eager = true
+    endif
+  -%}
+  {%- render 'product-card', product: card_product, eager: cp_eager, pm_frag_role: pm_frag_role -%}
+{%- else -%}
 {% assign bundle_product = all_products['4-x-100ml-perfume-bottles'] %}
 {%- liquid
   # L'Oréal houses: stored image alts can name the house, which is cleaned out (NO-DESIGNERS.md).
@@ -784,4 +798,5 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
       </div>
     </div>
   </div>
+{%- endif -%}
 {%- endif -%}

@@ -588,8 +588,7 @@
 }
 
 /* 11. Card promo marquee (snippets/card-promo-marquee.liquid): rolling offer strip on the bottom edge of the card image.
-   Used by the Dawn cards (card-product, product-card: green) and the FM cards (fm-grid-card, fm-product-card: black),
-   so it is not scoped to .premium and lives here because this file loads site-wide. */
+   Used by every card (fm-grid-card and the Dawn horizontal card-product), so it is not scoped to .premium and lives here because this file loads site-wide. */
 .card__promo-marquee {
   position: absolute;
   left: 0;
@@ -599,23 +598,12 @@
   overflow: hidden;
   padding-block: 7px;
   white-space: nowrap;
-  background: #137c44;
-  color: #fff;
-}
-
-/* Black Friday: black strip, neon-red hairline on top, glowing red dots (same red as the Black Friday hero) */
-.card__promo-marquee--dark {
+  /* Black Friday: black strip, neon-red hairline on top, glowing red dots (same red as the Black Friday hero) */
   background: linear-gradient(180deg, #1a0505 0%, #070707 100%);
   border-top: 1px solid #ff3b3b;
   box-shadow: 0 -4px 14px rgba(255, 59, 59, 0.45);
+  color: #fff;
   text-shadow: 0 0 8px rgba(255, 59, 59, 0.55);
-}
-
-.card__promo-marquee--dark .card__promo-marquee-dot {
-  width: 6px;
-  height: 6px;
-  background: #ff3b3b;
-  box-shadow: 0 0 6px 1px rgba(255, 59, 59, 0.9);
 }
 
 /* FM quick square sits above the strip instead of on it */
@@ -655,15 +643,111 @@
 .card__promo-marquee-dot {
   display: block;
   flex: 0 0 auto;
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
   border-radius: 999px;
-  background: currentColor;
+  background: #ff3b3b;
+  box-shadow: 0 0 6px 1px rgba(255, 59, 59, 0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card__promo-marquee-rail {
     animation: none;
     transform: none;
+  }
+}
+
+/* 12. Site product card (snippets/fm-grid-card.liquid): FM card + full-width "Se doften" button pinned to the bottom.
+   Homepage tabs frame it in their own tile (fm-home-tabs.css); everywhere else snippets/product-card.liquid wraps it
+   in .pm-tile, identical to the homepage tile (.fm-tabs__item: white, radius, 8 / 12 / 16px padding, no border). */
+.premium.pm-tile {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  height: 100%;
+  min-width: 0;
+  padding: 8px;
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  text-align: left;
+}
+
+.premium .fm-grid-card .pm-card__body {
+  padding-top: 10px;
+}
+
+.premium .fm-grid-card .pm-card__price {
+  margin-bottom: 12px;
+}
+
+/* Designer row as on magicperfume.co: grey "Inspirerad av:" over the designer name in ink, the name may take two
+   lines (pm-card.css clamps the whole row to one line, which cut the name off on phones) */
+.premium .fm-grid-card .pm-card__meta .pm-dmeta__text {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  color: var(--pm-muted);
+  line-height: 1.35;
+}
+
+.premium .fm-grid-card .pm-dmeta__text .inspiration_heading {
+  display: block;
+  color: var(--pm-ink);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.premium .fm-grid-card__btn {
+  width: 100%;
+  min-height: 40px;
+  margin-top: auto;
+  padding: 10px 8px;
+  letter-spacing: 0.08em;
+}
+
+/* the whole card is the link: hovering anywhere on it runs the button's wipe */
+.premium .fm-grid-card:hover .fm-grid-card__btn::before {
+  transform: scaleX(1);
+}
+
+/* With add to cart the spacer takes the button's place at the bottom of the body */
+.premium .fm-grid-card .ts-atc-spacer {
+  margin-top: auto;
+}
+
+/* Add to cart chips + button (ts-card-atc.css) sit on the tile's bottom edge, inside its padding */
+.premium.pm-tile .ts-card-atc {
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+}
+
+@media screen and (min-width: 750px) {
+  .premium.pm-tile {
+    padding: 12px;
+  }
+
+  .premium.pm-tile .ts-card-atc {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+  }
+
+  .premium .fm-grid-card__btn {
+    min-height: 44px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .premium.pm-tile {
+    padding: 16px;
+  }
+
+  .premium.pm-tile .ts-card-atc {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
   }
 }

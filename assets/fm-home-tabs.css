@@ -57,44 +57,7 @@
   background: var(--pm-white);
 }
 
-/* 4. Card inside a tile: FM card + full-width button pinned to the bottom */
-.premium .fm-grid-card .pm-card__body {
-  padding-top: 10px;
-}
-
-.premium .fm-grid-card .pm-card__price {
-  margin-bottom: 12px;
-}
-
-/* Designer row as on magicperfume.co: grey "Inspirerad av:" over the designer name in ink, the name may take two
-   lines (pm-card.css clamps the whole row to one line, which cut the name off on phones) */
-.premium .fm-grid-card .pm-card__meta .pm-dmeta__text {
-  display: block;
-  overflow: visible;
-  -webkit-line-clamp: unset;
-  color: var(--pm-muted);
-  line-height: 1.35;
-}
-
-.premium .fm-grid-card .pm-dmeta__text .inspiration_heading {
-  display: block;
-  color: var(--pm-ink);
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.premium .fm-grid-card__btn {
-  width: 100%;
-  min-height: 40px;
-  margin-top: auto;
-  padding: 10px 8px;
-  letter-spacing: 0.08em;
-}
-
-/* the whole card is the link: hovering anywhere on it runs the button's wipe */
-.premium .fm-grid-card:hover .fm-grid-card__btn::before {
-  transform: scaleX(1);
-}
+/* 4. Card: snippets/fm-grid-card.liquid, styled site-wide in pm-card.css section 12 */
 
 /* 5. Show all */
 .premium .fm-tabs__more {
@@ -123,10 +86,6 @@
 
   .premium .fm-tabs__item {
     padding: 12px;
-  }
-
-  .premium .fm-grid-card__btn {
-    min-height: 44px;
   }
 
   .premium .fm-tabs__more {

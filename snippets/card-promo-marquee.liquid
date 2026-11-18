@@ -5,11 +5,10 @@
 
   Accepts:
   - product: {Object} product
-  - tone: {String} 'dark' = black strip (FM cards); default = green (collection cards)
 {% endcomment %}
 {%- unless product.tags contains 'Bundle_Price_Show' or settings.product_card_promo_text == blank -%}
   {%- assign promo_lines = settings.product_card_promo_text | newline_to_br | split: '<br />' -%}
-  <div class="card__promo-marquee{% if tone == 'dark' %} card__promo-marquee--dark{% endif %}" aria-label="{{ settings.product_card_promo_text | strip_newlines | escape }}">
+  <div class="card__promo-marquee" aria-label="{{ settings.product_card_promo_text | strip_newlines | escape }}">
     <div class="card__promo-marquee-rail">
       {%- for group in (1..2) -%}
         <div class="card__promo-marquee-group"{% if group == 2 %} aria-hidden="true"{% endif %}>
