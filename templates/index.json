@@ -107,7 +107,8 @@
         "mobile_padding_top": 0,
         "mobile_padding_bottom": 0,
         "custom_css": "@media (max-width: 767px) {\n .hero__buttons {\n padding-top: 250px;\n}\n}"
-      }
+      },
+      "disabled": true
     },
     "home_hero_banner_qmaB3G": {
       "type": "home-hero-banner",
@@ -1118,10 +1119,73 @@
         "padding_top": 72,
         "padding_bottom": 72
       }
+    },
+    "black_friday_hero": {
+      "type": "black-friday-hero",
+      "blocks": {
+        "tier_1": {
+          "type": "tier",
+          "settings": {
+            "label": "Köp 2",
+            "value": "25 %",
+            "badge": "",
+            "highlight": false
+          }
+        },
+        "tier_2": {
+          "type": "tier",
+          "settings": {
+            "label": "Köp 4",
+            "value": "30 %",
+            "badge": "",
+            "highlight": false
+          }
+        },
+        "tier_3": {
+          "type": "tier",
+          "settings": {
+            "label": "Köp 6",
+            "value": "35 %",
+            "badge": "",
+            "highlight": false
+          }
+        },
+        "tier_4": {
+          "type": "tier",
+          "settings": {
+            "label": "Köp 8+",
+            "value": "40 %",
+            "badge": "",
+            "highlight": true
+          }
+        }
+      },
+      "block_order": [
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "tier_4"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Magyx-BF-Red-01.webp",
+        "mobile_image": "shopify://shop_images/MAGYX_Perfume_Collection_Glow.webp",
+        "min_height": 600,
+        "accent_color": "#ff3b3b",
+        "background_color": "#070707",
+        "display_font": "anton_n4",
+        "eyebrow": "Endast denna vecka",
+        "title": "Black Friday",
+        "subtitle": "Ju mer du köper, desto mer sparar du.",
+        "note": "<p>Lägg 2 parfymer i varukorgen och få <strong>25 % rabatt</strong>, upp till <strong>40 %</strong> när du köper 8 eller fler. Rabatten dras automatiskt i kassan.</p>",
+        "button_text": "Handla Black Friday",
+        "button_link": "shopify://collections/bestseller-singles",
+        "shipping_text": "Fri frakt över 650 kr"
+      }
     }
   },
   "order": [
     "insta_story",
+    "black_friday_hero",
     "homepage_hero_GDeBtq",
     "home_hero_banner_qmaB3G",
     "marquee_labels_RLdqpN",
