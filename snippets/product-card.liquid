@@ -64,26 +64,7 @@
       width="{{ pc_img.width }}"
       {% unless eager %}loading="lazy"{% endunless %}
     >
-    {% unless product.tags contains 'Bundle_Price_Show' %}
-        {%- if settings.product_card_promo_text != blank -%}
-        {%- assign promo_lines = settings.product_card_promo_text | newline_to_br | split: '<br />' -%}
-        <div class="card__promo-marquee absolute left-0 right-0 bottom-0 bg-[#137c44] text-white" aria-label="{{ settings.product_card_promo_text | strip_newlines | escape }}">
-            <div class="card__promo-marquee-rail">
-            {%- for group in (1..2) -%}
-                <div class="card__promo-marquee-group"{% if group == 2 %} aria-hidden="true"{% endif %}>
-                {%- for line in promo_lines -%}
-                    {%- assign line = line | strip -%}
-                    {%- if line != blank -%}
-                    <span class="card__promo-marquee-text">{{ line }}</span>
-                    <span class="card__promo-marquee-dot" aria-hidden="true"></span>
-                    {%- endif -%}
-                {%- endfor -%}
-                </div>
-            {%- endfor -%}
-            </div>
-        </div>
-        {%- endif -%}
-    {% endunless %}
+    {%- render 'card-promo-marquee', product: product -%}
   </div>
 
   <h3 class="my-2 text-base">
