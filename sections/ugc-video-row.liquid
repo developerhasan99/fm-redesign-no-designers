@@ -1,0 +1,96 @@
+{% comment %}
+  UGC video row ("Älskad av tusentals"): a slider of customer video tiles, each with an optional product pill.
+  Every tile is a "Video" block, so the row is edited in the theme editor and can go on any page template.
+
+  Like the other video rows there is a desktop build and a phone build, each shown only at its own widths
+  (.fuel05-ugc--home-desktop / --home-mobile in fuel05-ugc.css, 750px switch). A block's "Show on" picks the build(s)
+  it goes into. A hidden build never comes on screen, so fuel05-ugc.js never arms it and its clips never load.
+  Tiles: snippets/fuel05-ugc-tile.liquid. Styles: assets/fuel05-ugc.css. JS: assets/fuel05-ugc.js.
+{% endcomment %}
+
+{{ 'fuel05-ugc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fuel05-ugc.js' | asset_url }}" defer="defer"></script>
+
+{%- capture ugc_header -%}
+  <div class="fuel05-ugc__header">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fuel05-ugc__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <div class="fuel05-ugc__nav">
+      <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+        <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+        <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+{%- endcapture -%}
+
+{%- for build in (1..2) -%}
+  {%- if build == 1 -%}{%- assign build_name = 'desktop' -%}{%- else -%}{%- assign build_name = 'mobile' -%}{%- endif -%}
+  <div
+    class="fuel05-ugc fuel05-ugc--home fuel05-ugc--home-{{ build_name }}"
+    data-fuel05-row
+    data-gap-mobile="10"
+    data-gap-desktop="32">
+    <div class="fuel05-ugc__inner">
+      {{ ugc_header }}
+      <div class="fuel05-ugc__slider swiper">
+        <div class="swiper-wrapper">
+          {%- for block in section.blocks -%}
+            {%- assign show_on = block.settings.device | default: 'both' -%}
+            {%- if show_on == 'both' or show_on == build_name -%}
+              {% render 'fuel05-ugc-tile',
+                build: build_name,
+                video: block.settings.video,
+                video_url: block.settings.video_url,
+                poster: block.settings.video_poster,
+                poster_url: block.settings.poster_url,
+                product_item: block.settings.product,
+                shopify_attributes: block.shopify_attributes
+              %}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endfor -%}
+
+{% schema %}
+{
+  "name": "UGC video row",
+  "class": "ugc-video-row",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Älskad av tusentals" }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "select",
+          "id": "device",
+          "label": "Show on",
+          "options": [
+            { "value": "both", "label": "Desktop and mobile" },
+            { "value": "desktop", "label": "Desktop" },
+            { "value": "mobile", "label": "Mobile" }
+          ],
+          "default": "both"
+        },
+        { "type": "video", "id": "video", "label": "Video" },
+        { "type": "text", "id": "video_url", "label": "Video URL", "info": "Used when no video is picked above" },
+        { "type": "image_picker", "id": "video_poster", "label": "Poster image" },
+        { "type": "text", "id": "poster_url", "label": "Poster URL", "info": "Used when no poster image is picked above" },
+        { "type": "product", "id": "product", "label": "Linked product", "info": "Shown in the white pill with an add button. Leave empty for no pill." }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "UGC video row" }
+  ]
+}
+{% endschema %}

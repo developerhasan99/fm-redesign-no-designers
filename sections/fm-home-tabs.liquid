@@ -5,8 +5,7 @@
   hairline, the open tab underlined), centred here under the centred heading.
   Section class carries "premium" so pm-base / pm-card rules apply (on this theme only the header group is .premium).
   Styles: assets/fm-home-tabs.css. Cards: snippets/fm-grid-card.liquid.
-  "Show the UGC video row" renders the FUEL_05 row (snippet fuel05-ugc-home-row) under the grid; it used to ride
-  inside the "Senaste dofterna" carousel this section replaces. The row ships hidden; the FUEL_05 test reveals it.
+  The UGC video row under it is its own section now: sections/ugc-video-row.liquid.
 {%- endcomment -%}
 {{ 'pm-s-home-product-tabs.css' | asset_url | stylesheet_tag }}
 {{ 'fm-home-tabs.css' | asset_url | stylesheet_tag }}
@@ -98,10 +97,6 @@
   </div>
 </div>
 
-{%- if section.settings.show_ugc_row -%}
-  {% render 'fuel05-ugc-home-row' %}
-{%- endif -%}
-
 <script>
   (function () {
     function initFmTabs(root) {
@@ -163,13 +158,6 @@
         "id": "background_color",
         "label": "Background color",
         "default": "#f6f6f6"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_ugc_row",
-        "label": "Show the UGC video row under the grid",
-        "info": "FUEL_05 row. It stays hidden until the FUEL_05 test turns it on.",
-        "default": false
       },
       {
         "type": "range",

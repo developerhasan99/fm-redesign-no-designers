@@ -294,7 +294,6 @@
         "products_per_tab": 6,
         "card_button": "Se doften",
         "background_color": "#f6f6f6",
-        "show_ugc_row": true,
         "padding_top": 48,
         "padding_bottom": 64
       }
@@ -1181,6 +1180,155 @@
         "button_link": "shopify://collections/bestseller-singles",
         "shipping_text": "Fri frakt över 650 kr"
       }
+    },
+    "ugc_video_row": {
+      "type": "ugc-video-row",
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/c3b03801053c4557bff0ed5ee2ce5eb7/c3b03801053c4557bff0ed5ee2ce5eb7.SD-480p-1.5Mbps-100942583.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/c3b03801053c4557bff0ed5ee2ce5eb7.thumbnail.0000000000.jpg?v=1794441829&width=600",
+            "product": "magic-perfume-no-438w"
+          }
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600",
+            "product": "magic-perfume-no-469w"
+          }
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/f3b5b0b968074394b50deb866074fbb2/f3b5b0b968074394b50deb866074fbb2.SD-480p-0.9Mbps-100942580.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/f3b5b0b968074394b50deb866074fbb2.thumbnail.0000000000.jpg?v=1794441518&width=600",
+            "product": "doftar-som-le-male-elixir-no-372"
+          }
+        },
+        "video_4": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600",
+            "product": "magic-perfume-no-469w"
+          }
+        },
+        "video_5": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/44d2a1a231fa4e3cbdc072a12b0e045e/44d2a1a231fa4e3cbdc072a12b0e045e.SD-480p-1.5Mbps-100942579.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/44d2a1a231fa4e3cbdc072a12b0e045e.thumbnail.0000000000.jpg?v=1794441711&width=600"
+          }
+        },
+        "video_6": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b384fc443c73404a9829d306d4d5da9e/b384fc443c73404a9829d306d4d5da9e.SD-480p-0.9Mbps-97375664.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/b384fc443c73404a9829d306d4d5da9e.thumbnail.0000000000.jpg?v=1791932016&width=600",
+            "product": "sweet-cherry-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "video_7": {
+          "type": "video",
+          "settings": {
+            "device": "desktop",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.SD-480p-0.9Mbps-92843391.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600",
+            "product": "magic-perfume-no-360m"
+          }
+        },
+        "video_8": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/baa8d6ccc21d4d4683ac5ee1a7ac4100/baa8d6ccc21d4d4683ac5ee1a7ac4100.SD-480p-1.5Mbps-93044583.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/baa8d6ccc21d4d4683ac5ee1a7ac4100.thumbnail.0000000000.jpg?v=1788153263&width=600",
+            "product": "magic-perfume-no-437w"
+          }
+        },
+        "video_9": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b384fc443c73404a9829d306d4d5da9e/b384fc443c73404a9829d306d4d5da9e.SD-480p-0.9Mbps-97375664.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/b384fc443c73404a9829d306d4d5da9e.thumbnail.0000000000.jpg?v=1791932016&width=600",
+            "product": "bergamot-pepper-ambroxan"
+          }
+        },
+        "video_10": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600",
+            "product": "magic-perfume-no-360m"
+          }
+        },
+        "video_11": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600",
+            "product": "magic-perfume-no-469w"
+          }
+        },
+        "video_12": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/5a878e22b12744d19421b651e8d4a241/5a878e22b12744d19421b651e8d4a241.SD-480p-1.5Mbps-93044584.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/5a878e22b12744d19421b651e8d4a241.thumbnail.0000000000.jpg?v=1788153261&width=600",
+            "product": "4x-100ml-perfume-bottles"
+          }
+        },
+        "video_13": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/818572396d674cd5910b24ef0fe6a1a3/818572396d674cd5910b24ef0fe6a1a3.SD-480p-1.5Mbps-92843389.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/818572396d674cd5910b24ef0fe6a1a3.thumbnail.0000000000.jpg?v=1787894737&width=600",
+            "product": "sweet-cherry-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "video_14": {
+          "type": "video",
+          "settings": {
+            "device": "mobile",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.SD-480p-0.9Mbps-92843391.mp4?v=0",
+            "poster_url": "https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600",
+            "product": "magic-perfume-no-360m"
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4",
+        "video_5",
+        "video_6",
+        "video_7",
+        "video_8",
+        "video_9",
+        "video_10",
+        "video_11",
+        "video_12",
+        "video_13",
+        "video_14"
+      ],
+      "settings": {
+        "heading": "Älskad av tusentals"
+      }
     }
   },
   "order": [
@@ -1194,6 +1342,7 @@
     "fuel06_finder",
     "custom_liquid_4rbfWw",
     "fm_home_tabs",
+    "ugc_video_row",
     "home_category_pm",
     "tabs_family",
     "popular_products_XDHbay",
