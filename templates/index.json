@@ -311,6 +311,14 @@
     "fm_home_tabs": {
       "type": "fm-home-tabs",
       "blocks": {
+        "collection_xmzNMX": {
+          "type": "collection",
+          "settings": {
+            "tab_title": "Utique Kollektion",
+            "collection": "black-utique",
+            "button_text": "Visa alla"
+          }
+        },
         "tab_best": {
           "type": "collection",
           "settings": {
@@ -321,6 +329,7 @@
         },
         "tab_new": {
           "type": "collection",
+          "disabled": true,
           "settings": {
             "tab_title": "Nya dofter",
             "collection": "new",
@@ -345,6 +354,7 @@
         }
       },
       "block_order": [
+        "collection_xmzNMX",
         "tab_best",
         "tab_new",
         "tab_her",
