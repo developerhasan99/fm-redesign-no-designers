@@ -10,7 +10,8 @@
      (sessionStorage), so the next page draws them at once; on a first visit the line waits up to ~4 s for them,
      then shows the steps alone and adds Kite's markers when they arrive.
    Each Kite goal sits on the bottle count where a cart of 50 ml bottles at the step prices reaches it (per-bottle
-   "was" price from the Choose & Save product, data-ref); a goal on a discount step shares its marker. Markers are
+   "was" price from the Choose & Save product, data-ref), moved to the cart's bottle count when the real cart is ahead
+   of or behind that estimate (pricier 100 ml bottles); a goal on a discount step shares its marker. Markers are
    spaced evenly; the fill follows the bottles; a marker turns red when everything on it is reached (step: bottle
    count, Kite goal: cart total).
 
@@ -127,6 +128,8 @@
     var bottles = bottlesIn(items);
     var goals = null;
     var marks = [];
+    var marksSig = '';
+    var prev = null;
     var reachedSteps = null;
     var flashing = false;
     var flashTimer = 0;
@@ -150,15 +153,23 @@
       return null;
     }
 
+    // The 50 ml estimate is only a guess: a cart of pricier bottles reaches a Kite goal sooner, a cheaper one later.
+    // So a reached goal never sits ahead of the fill and an open one never behind it (else the track reads out of
+    // order). Marks move when the cart does; build() redraws only when the layout changes.
     function build() {
       var at = {};
       steps.forEach(function (s) { at[s.n] = { at: s.n, step: s, goals: [] }; });
       (goals || []).forEach(function (g) {
         var n = bottlesFor(g.amount);
         if (n === null) return;
+        n = total >= g.amount ? Math.min(n, bottles) : Math.max(n, bottles + 1);
         (at[n] = at[n] || { at: n, step: null, goals: [] }).goals.push(g);
       });
-      marks = Object.keys(at).map(function (k) { return at[k]; }).sort(function (a, b) { return a.at - b.at; });
+      var next = Object.keys(at).map(function (k) { return at[k]; }).sort(function (a, b) { return a.at - b.at; });
+      var sig = JSON.stringify(next.map(function (m) { return [m.at, m.goals.length]; }));
+      if (sig === marksSig) return;
+      marksSig = sig;
+      marks = next;
       marksEl.textContent = '';
       marks.forEach(function (m, i) {
         var el = document.createElement('span');
@@ -239,6 +250,7 @@
         waiting = true;
         return;
       }
+      build();
       // The fill sweeps in from empty on the first draw (two frames, so the transition has a start), then follows.
       var to = fillPercent();
       var width = to >= 100 ? '100%' : to <= 0 ? '0px' : 'calc(' + to / 100 + ' * (100% - 12px) + 6px)';
@@ -257,7 +269,9 @@
       marks.forEach(function (m) {
         var on = !m.step || bottles >= m.step.n;
         m.goals.forEach(function (g) { if (total < g.amount) on = false; });
-        var was = m.el.classList.contains('is-reached');
+        // From the last cart, not the element: build() may have just redrawn it.
+        var was = !!prev && (!m.step || prev.bottles >= m.step.n);
+        m.goals.forEach(function (g) { if (!prev || prev.total < g.amount) was = false; });
         m.el.classList.toggle('is-reached', on);
         m.el.classList.toggle('is-next', !!(msg.next && m.step === msg.next));
         if (animate && on && !was && !reduceMotion) {
@@ -267,6 +281,7 @@
           setTimeout(function () { m.el.classList.remove('is-pop'); }, 800);
         }
       });
+      prev = { bottles: bottles, total: total };
 
       // Discount steps reached now; a step newly crossed by this cart update is announced first.
       var now = steps.filter(function (s) { return bottles >= s.n; });
@@ -313,7 +328,7 @@
       if (save) {
         try { sessionStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
       }
-      build();
+      marksSig = '';
       render(false);
       root.classList.add('is-ready');
     }
