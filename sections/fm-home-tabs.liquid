@@ -43,9 +43,15 @@
     {%- if section.settings.heading != blank -%}
       <h2 class="fm-tabs__heading">{{ section.settings.heading | escape }}</h2>
     {%- endif -%}
-    {%- if section.settings.subheading != blank -%}
-      <p class="fm-tabs__sub">{{ section.settings.subheading | escape }}</p>
-    {%- endif -%}
+    {%- comment -%} One line per tab: the tab's own description, or the section subheading when it is empty. Plain text so Weglot translates it; the tab script shows the open tab's line. {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      {%- assign fm_desc = block.settings.description | strip | default: section.settings.subheading -%}
+      {%- if fm_desc != blank -%}
+        <p class="fm-tabs__sub" data-fm-tab-desc="{{ forloop.index }}"{% unless forloop.first %} hidden{% endunless %}>
+          {{- fm_desc | escape | newline_to_br -}}
+        </p>
+      {%- endif -%}
+    {%- endfor -%}
 
     {%- if section.blocks.size > 1 -%}
       <div class="pm-ptabs__bar fm-tabs__bar">
@@ -82,7 +88,7 @@
           <ul class="fm-tabs__grid{{ fm_grid_mod }}" role="list">
             {%- for product in tab_collection.products limit: section.settings.products_per_tab -%}
               <li class="fm-tabs__item">
-                {%- render 'fm-grid-card', product: product, lazy: true, button_label: section.settings.card_button -%}
+                {%- render 'fm-grid-card', product: product, lazy: true, button_label: section.settings.card_button, oil_badge: true -%}
               </li>
             {%- endfor -%}
           </ul>
@@ -104,11 +110,15 @@
       root.dataset.fmTabsReady = '1';
       var tabs = root.querySelectorAll('.fm-tabs__tab');
       var panels = root.querySelectorAll('.fm-tabs__panel');
+      var descs = root.querySelectorAll('[data-fm-tab-desc]');
       tabs.forEach(function (tab, i) {
         tab.addEventListener('click', function () {
           tabs.forEach(function (other, j) {
             other.setAttribute('aria-selected', j === i ? 'true' : 'false');
             if (panels[j]) panels[j].hidden = j !== i;
+          });
+          descs.forEach(function (desc) {
+            desc.hidden = desc.getAttribute('data-fm-tab-desc') !== String(i + 1);
           });
         });
       });
@@ -195,6 +205,12 @@
             "type": "collection",
             "id": "collection",
             "label": "Collection"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description under heading",
+            "info": "Shown under the section heading while this tab is open. Empty = the section subheading."
           },
           {
             "type": "text",

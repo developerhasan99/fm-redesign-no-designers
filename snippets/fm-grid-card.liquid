@@ -12,6 +12,8 @@
     data-ts-price / data-ts-compare, assets/ts-card-atc.js) and a spacer replaces the button, keeping room for the
     chips and the "Lägg i kundvagnen" button that sit outside the link
   - pm_frag_role: 'search' = a /search card fetched as a product view (templates/product.pm-search-card.liquid)
+  - oil_badge: {Boolean} true shows "<n>% parfymolja" top-right from product.metafields.custom.oil_concentration
+    (homepage FM product tabs only; styles in assets/fm-home-tabs.css)
 {% endcomment %}
 
 {%- liquid
@@ -74,6 +76,14 @@
       >
     {%- endif -%}
 
+    {%- liquid
+      assign pm_oil = blank
+      if oil_badge
+        assign pm_oil = product.metafields.custom.oil_concentration.value
+      endif
+    -%}
+    {%- comment -%} With an oil badge both sit in one top row (fm-card-top): side by side when they fit, oil badge drops to the next line (right) when not {%- endcomment -%}
+    {%- if pm_oil != blank -%}<div class="fm-card-top">{%- endif -%}
     {%- if product.available == false or pm_is_new or pm_is_best -%}
       <div class="pm-card__badges">
         {%- if product.available == false -%}
@@ -85,6 +95,14 @@
         {%- if pm_is_best -%}
           <span class="pm-badge pm-badge--ink">Bästsäljare</span>
         {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if pm_oil != blank -%}
+      {%- comment -%} Separate divs: Weglot glues sibling inline spans into one untranslated sentence {%- endcomment -%}
+      <div class="pm-badge fm-oil-badge">
+        <div class="fm-oil-badge__num">{{ pm_oil }}%</div>
+        <div class="fm-oil-badge__label">parfymolja</div>
+      </div>
       </div>
     {%- endif -%}
     {%- render 'card-promo-marquee', product: product -%}
