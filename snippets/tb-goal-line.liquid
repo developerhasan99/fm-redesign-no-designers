@@ -3,15 +3,11 @@
   the offer when the countdown is off. Shown on the markets listed in the section's "Goal line" settings.
 
   One sentence about the next discount step (the BFCM offer: "Lägg till 1 flaska till och få 30% RABATT") above one
-  track with a plain marker for every goal, no values on the track:
-  - the discount steps from the "Discount steps" setting (bottles:percent). Display only: the discount comes from
-    the discount codes, so the setting must say what the codes give;
-  - the gift app's goals (Kite "TryScent Days": free gifts and free shipping by cart value, per market): marker
-    only, never in the sentence. Read in JS from Kite's page data, each placed on the step where a cart of 50 ml
-    bottles reaches it (a goal landing on a discount step shares its marker). The per-bottle price for that comes
-    from the Choose & Save product's "was" price ("Choose & Save product handle").
+  track with a plain marker per discount step, no values on the track: the "Discount steps" setting
+  (bottles:percent). Display only: the discount comes from the discount codes, so the setting must say what the
+  codes give. The gift app's goals (Kite) are not on the track: they count cart value, not bottles.
   Bottles = every bottle in the cart, any size, 1 each; lines with _bundle_items count the bottles they carry;
-  the gift app's own lines (_free_product) never count. Kite goals follow the cart total (what Kite counts).
+  the gift app's own lines (_free_product) never count.
   Logic in assets/tb-goal-line.js. Tapping the line opens the cart drawer. Colours follow the bar: text and track
   from its Secondary colour, the marker fill from the background behind the line.
 
@@ -33,22 +29,6 @@
   endif
   if st.goal_steps == blank or st.goal_text_empty == blank
     assign tg_on = false
-  endif
-
-  # Per-bottle "was" price (shopper's currency) from the Choose & Save product: compare-at of its smallest bottle
-  # count, divided by that count ("3 flaskor" 644,97 kr -> 214,99 kr).
-  assign tg_ref = 0
-  assign tg_handle = st.goal_bs_handle | strip
-  if tg_on and tg_handle != blank
-    assign tg_bs = all_products[tg_handle]
-    assign tg_best = 999
-    for v in tg_bs.variants
-      assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
-      if vn > 0 and vn < tg_best and v.compare_at_price > v.price
-        assign tg_best = vn
-        assign tg_ref = v.compare_at_price | divided_by: vn
-      endif
-    endfor
   endif
 
   # Background behind the line: the countdown box, or the offer colour when the line has its own slot.
@@ -95,11 +75,8 @@
   <div
     class="tb-goal"
     data-tb-goal
-    data-market="{{ localization.market.handle | escape }}"
     data-money="{{ 0 | money_without_trailing_zeros | escape }}"
-    data-total="{{ cart.total_price }}"
     data-steps="{{ st.goal_steps | escape }}"
-    data-ref="{{ tg_ref }}"
     data-cart-url="{{ routes.cart_url }}"
     style="--tg-fg: {{ st.secondary_color }}; --tg-bg: {{ tg_bg }}; --tg-rule: {{ st.secondary_color | color_modify: 'alpha', 0.15 }}; --tg-track: {{ st.secondary_color | color_modify: 'alpha', 0.2 }}; --tg-edge: {{ st.secondary_color | color_modify: 'alpha', 0.55 }};"
     role="button"

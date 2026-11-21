@@ -2,18 +2,10 @@
    gift and no cart property. The discount comes from the discount codes, the gifts from Kite.
 
    The sentence speaks only about the discount steps (the BFCM offer: "Lägg till 1 flaska till och få 30% RABATT").
-   The track carries one plain marker per goal, no values:
-   - the discount steps by bottle count, from the section setting ("2:25, 4:30, 6:35, 8:40");
-   - the gift app's goals (Kite "TryScent Days": free gifts + free shipping, cart value, this market), marker only,
-     never in the sentence. Read like assets/ts-cart-goals.js readGoals: window.gfg.settings, or #kite-app-data
-     before Kite empties it. Kite's settings arrive ~1-3 s after load (retry ~12 s) and are kept for the visit
-     (sessionStorage), so the next page draws them at once; on a first visit the line waits up to ~4 s for them,
-     then shows the steps alone and adds Kite's markers when they arrive.
-   Each Kite goal sits on the bottle count where a cart of 50 ml bottles at the step prices reaches it (per-bottle
-   "was" price from the Choose & Save product, data-ref), moved to the cart's bottle count when the real cart is ahead
-   of or behind that estimate (pricier 100 ml bottles); a goal on a discount step shares its marker. Markers are
-   spaced evenly; the fill follows the bottles; a marker turns red when everything on it is reached (step: bottle
-   count, Kite goal: cart total).
+   The track carries one plain marker per discount step, no values, from the section setting ("2:25, 4:30, 6:35,
+   8:40"). Markers are spaced evenly; the fill follows the bottles between them (5 bottles: halfway from the 4 to the
+   6 marker) and is full at the last step; a marker turns red when the cart has its bottles. The gift app's goals
+   (Kite) are not on the track: they count cart value, not bottles, so they would not line up with the steps.
 
    Bottles: every bottle line, any size, 1 each; lines with _bundle_items count the bottles they carry; "5X 100ml"
    boxes count 5; Kite's gift lines (_free_product) never count. First from the page (the cart lines Liquid wrote
@@ -30,33 +22,7 @@
   window.tbGoalReady = true;
 
   var FLASH = 3000;
-  var KITE_WAIT = 4000;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function readGoals(market) {
-    var data = window.gfg && window.gfg.settings && window.gfg.settings.consolidatedCombinedDiscount ? window.gfg.settings : null;
-    if (!data) {
-      var el = document.getElementById('kite-app-data');
-      try { data = el && el.textContent ? JSON.parse(el.textContent) : null; } catch (e) { data = null; }
-    }
-    if (!data) return null;
-    var rate = parseFloat(window.Shopify && window.Shopify.currency && window.Shopify.currency.rate) || 1;
-    var out = [];
-    (data.consolidatedCombinedDiscount || []).forEach(function (c) {
-      if (!c || c.isEnabled === false || c.discountFunctionType !== 'CONSOLIDATED_PROGRESS_BAR') return;
-      ((c.segmentsData && c.segmentsData.segmentsList) || []).forEach(function (s) {
-        var r = ((s.buyXRulesData && s.buyXRulesData.rulesList) || [])[0];
-        if (!r || !/subtotal/i.test(r.ruleType || '')) return;
-        var rv = r.ruleValue || {};
-        var amount = parseFloat(rv.qualifierValue) * rate;
-        (rv.marketValues || []).forEach(function (m) {
-          if (m && m.handle === market && parseFloat(m.value) > 0) amount = parseFloat(m.value);
-        });
-        if (amount > 0) out.push({ amount: Math.round(amount * 100) });
-      });
-    });
-    return out.sort(function (a, b) { return a.amount - b.amount; });
-  }
 
   // "2:25, 4:30, 6:35, 8:40" -> [{ n: 2, pct: 25 }, ...], sorted, one per bottle count.
   function parseSteps(text) {
@@ -94,8 +60,6 @@
     if (root.dataset.started) return;
     root.dataset.started = '1';
 
-    var market = root.dataset.market || '';
-    var key = 'tb-goal-' + market;
     var text = root.querySelector('[data-tg-text]');
     var fill = root.querySelector('[data-tg-fill]');
     var marksEl = root.querySelector('[data-tg-marks]');
@@ -121,15 +85,10 @@
       return el ? el.textContent.trim() : '';
     };
     var steps = parseSteps(root.dataset.steps);
-    var ref = parseInt(root.dataset.ref, 10) || 0;
-    var total = parseInt(root.dataset.total, 10) || 0;
     var items = [];
     try { items = JSON.parse(root.querySelector('[data-tg-items]').textContent); } catch (e) { items = []; }
     var bottles = bottlesIn(items);
-    var goals = null;
     var marks = [];
-    var marksSig = '';
-    var prev = null;
     var reachedSteps = null;
     var flashing = false;
     var flashTimer = 0;
@@ -140,36 +99,8 @@
     function bottleWord(n) { return n + ' ' + src('data-tg-word', n === 1 ? 'one' : 'many'); }
     function capital(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
-    function pctAt(b) {
-      var out = 0;
-      steps.forEach(function (s) { if (b >= s.n) out = s.pct; });
-      return out;
-    }
-
-    // Bottle count where a cart of 50 ml bottles at the step prices reaches a Kite amount.
-    function bottlesFor(amount) {
-      if (!ref) return null;
-      for (var n = 1; n <= 40; n++) if (n * ref * (1 - pctAt(n) / 100) >= amount) return n;
-      return null;
-    }
-
-    // The 50 ml estimate is only a guess: a cart of pricier bottles reaches a Kite goal sooner, a cheaper one later.
-    // So a reached goal never sits ahead of the fill and an open one never behind it (else the track reads out of
-    // order). Marks move when the cart does; build() redraws only when the layout changes.
     function build() {
-      var at = {};
-      steps.forEach(function (s) { at[s.n] = { at: s.n, step: s, goals: [] }; });
-      (goals || []).forEach(function (g) {
-        var n = bottlesFor(g.amount);
-        if (n === null) return;
-        n = total >= g.amount ? Math.min(n, bottles) : Math.max(n, bottles + 1);
-        (at[n] = at[n] || { at: n, step: null, goals: [] }).goals.push(g);
-      });
-      var next = Object.keys(at).map(function (k) { return at[k]; }).sort(function (a, b) { return a.at - b.at; });
-      var sig = JSON.stringify(next.map(function (m) { return [m.at, m.goals.length]; }));
-      if (sig === marksSig) return;
-      marksSig = sig;
-      marks = next;
+      marks = steps.map(function (s) { return { step: s }; });
       marksEl.textContent = '';
       marks.forEach(function (m, i) {
         var el = document.createElement('span');
@@ -184,7 +115,7 @@
       if (!marks.length || !bottles) return 0;
       var prev = 0;
       for (var i = 0; i < marks.length; i++) {
-        var at = marks[i].at;
+        var at = marks[i].step.n;
         if (bottles < at) return ((i + (bottles - prev) / (at - prev)) / marks.length) * 100;
         prev = at;
       }
@@ -245,12 +176,10 @@
     }
 
     function render(animate) {
-      if (goals === null) return;
       if (animate && drawerCovers()) {
         waiting = true;
         return;
       }
-      build();
       // The fill sweeps in from empty on the first draw (two frames, so the transition has a start), then follows.
       var to = fillPercent();
       var width = to >= 100 ? '100%' : to <= 0 ? '0px' : 'calc(' + to / 100 + ' * (100% - 12px) + 6px)';
@@ -267,11 +196,8 @@
       // Markers: reached (red, check), the next discount step's marker pulses, a marker reached by this cart
       // update pops with a ring burst.
       marks.forEach(function (m) {
-        var on = !m.step || bottles >= m.step.n;
-        m.goals.forEach(function (g) { if (total < g.amount) on = false; });
-        // From the last cart, not the element: build() may have just redrawn it.
-        var was = !!prev && (!m.step || prev.bottles >= m.step.n);
-        m.goals.forEach(function (g) { if (!prev || prev.total < g.amount) was = false; });
+        var on = bottles >= m.step.n;
+        var was = m.el.classList.contains('is-reached');
         m.el.classList.toggle('is-reached', on);
         m.el.classList.toggle('is-next', !!(msg.next && m.step === msg.next));
         if (animate && on && !was && !reduceMotion) {
@@ -281,7 +207,6 @@
           setTimeout(function () { m.el.classList.remove('is-pop'); }, 800);
         }
       });
-      prev = { bottles: bottles, total: total };
 
       // Discount steps reached now; a step newly crossed by this cart update is announced first.
       var now = steps.filter(function (s) { return bottles >= s.n; });
@@ -309,7 +234,6 @@
 
     function applyCart(cart, animate) {
       if (!cart || typeof cart.total_price !== 'number' || !cart.items) return;
-      total = cart.total_price;
       bottles = bottlesIn(cart.items);
       render(animate);
     }
@@ -320,25 +244,6 @@
         .then(function (r) { return r.json(); })
         .then(function (c) { applyCart(c, animate); })
         .catch(function () {});
-    }
-
-    function setGoals(list, save) {
-      if (goals && JSON.stringify(goals) === JSON.stringify(list)) return;
-      goals = list;
-      if (save) {
-        try { sessionStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
-      }
-      marksSig = '';
-      render(false);
-      root.classList.add('is-ready');
-    }
-
-    // Kite's settings: retry ~12 s. Without a saved copy the line waits up to ~4 s, then shows the steps alone.
-    function findGoals(tries) {
-      var list = readGoals(market);
-      if (list) return setGoals(list, true);
-      if (tries * 500 >= KITE_WAIT && goals === null) setGoals([], false);
-      if (tries < 24) setTimeout(function () { findGoals(tries + 1); }, 500);
     }
 
     function openCart(event) {
@@ -357,10 +262,9 @@
       if (event.key === 'Enter' || event.key === ' ') openCart(event);
     });
 
-    var saved = null;
-    try { saved = JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (e) {}
-    if (Array.isArray(saved)) setGoals(saved, false);
-    findGoals(0);
+    build();
+    render(false);
+    root.classList.add('is-ready');
 
     if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
       subscribe(PUB_SUB_EVENTS.cartUpdate, function (e) {
