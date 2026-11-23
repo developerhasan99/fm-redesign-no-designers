@@ -1359,9 +1359,29 @@
               : (Math.round(Number(cents) || 0) / 100).toFixed(2) + ' kr';
             return out.replace(/[.,]00(?=\D*$)/, '');
           },
-          addToCart: function () {
+          addToCart: function (checked) {
             if (!this.canAdd) return;
             var self = this;
+            /* The same bundle already in the cart (picks stay selected after adding, a second tap, a back visit):
+               open the cart instead of adding a second copy. Checked against a fresh /cart.js, so a bundle the
+               shopper removed in the drawer can be added again. */
+            if (!checked && this.cfg.mode !== 'per_line') {
+              var want = this.picks.join(',');
+              var base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+              this.adding = true;
+              fetch(base + 'cart.js', { headers: { Accept: 'application/json' } })
+                .then(function (r) { return r.json(); })
+                .then(function (c) { self.applyCart(c); })
+                .catch(function () {})
+                .then(function () {
+                  self.adding = false;
+                  if (self.cartMarkers.indexOf(want) === -1) return self.addToCart(true);
+                  var drawer = document.querySelector('cart-drawer');
+                  if (drawer && typeof drawer.open === 'function') drawer.open();
+                  else window.location.href = (window.routes && window.routes.cart_url) || base + 'cart';
+                });
+              return;
+            }
             var items;
             if (this.cfg.mode === 'per_line') {
               var counts = {};

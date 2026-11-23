@@ -633,6 +633,8 @@ body {
       {%- render 'quiz-bundle-prefill' -%}
     {%- endif -%}
   {%- endif -%}
+    {%- comment -%} Not deferred: it wraps window.fetch/XHR, so it must run before cart callers, in every market. {%- endcomment -%}
+    <script src="{{ 'cart-url-locale.js' | asset_url }}"></script>
     {%- unless localization.country.iso_code == 'DK' -%}
       {% render 'subscribfy-custom' %}
     {%- endunless -%}
