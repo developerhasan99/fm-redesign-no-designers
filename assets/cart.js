@@ -176,7 +176,8 @@ class CartItems extends HTMLElement {
     const eventTarget =
       event.currentTarget instanceof CartRemoveButton ? "clear" : "change";
 
-    fetch(`${routes.cart_change_url}`, {
+    // Shopify.routes.root, not routes.cart_change_url: on Weglot markets the latter is /sv-dk/ and redirects, dropping the POST body.
+    fetch(`${(window.Shopify && Shopify.routes && Shopify.routes.root) || "/"}cart/change`, {
       ...fetchConfig(),
       ...{ body },
     })
