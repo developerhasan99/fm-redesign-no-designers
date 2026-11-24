@@ -50,7 +50,7 @@
                 {% else %}
                   <div class="flex gap-3">
                     <select
-                      class="flex-grow pl-1 pr-3 h-8 border border-gray-200 rounded border-solid"
+                      class="flex-grow pl-1 pr-3 h-8 border border-gray-200 rounded border-solid max-w-[142px]"
                       name="id"
                       aria-label="Select variant">
                       {% for variant in product.variants %}
@@ -62,7 +62,8 @@
                           {% if variant.available == false %}
                           disabled{% elsif variant.id == product.selected_or_first_available_variant.id %}
                           selected{% endif %}>
-                          {{ variant.title }} - {{ variant.price | money }}{% if variant.available == false %} - Slutsåld{% endif %}
+                          {{ variant.title }} - {{ variant.price | money }}{% if variant.available == false %}
+                            - Slutsåld{% endif %}
                         </option>
                       {% endfor %}
                     </select>
