@@ -78,6 +78,7 @@
       "blocks": {
         "tier_1": {
           "type": "tier",
+          "disabled": true,
           "settings": {
             "label": "Köp 2",
             "value": "25 %",
@@ -87,6 +88,7 @@
         },
         "tier_2": {
           "type": "tier",
+          "disabled": true,
           "settings": {
             "label": "Köp 4",
             "value": "30 %",
@@ -97,8 +99,8 @@
         "tier_3": {
           "type": "tier",
           "settings": {
-            "label": "Köp 6",
-            "value": "35 %",
+            "label": "VARJE BESTÄLLNING",
+            "value": "30%",
             "badge": "",
             "highlight": false
           }
@@ -106,8 +108,8 @@
         "tier_4": {
           "type": "tier",
           "settings": {
-            "label": "Köp 8+",
-            "value": "40 %",
+            "label": "Köp 5+",
+            "value": "40%",
             "badge": "",
             "highlight": true
           }
@@ -128,8 +130,8 @@
         "display_font": "anton_n4",
         "eyebrow": "Endast denna vecka",
         "title": "Black Friday",
-        "subtitle": "Ju mer du köper, desto mer sparar du.",
-        "note": "<p>Lägg 2 parfymer i varukorgen och få <strong>25 % rabatt</strong>, upp till <strong>40 %</strong> när du köper 8 eller fler. Rabatten dras automatiskt i kassan.</p>",
+        "subtitle": "FÅ 40 % RABATT OCH TVÅ GÅVOR GRATIS",
+        "note": "<p><strong>Få två mysteriedofter GRATIS vid beställningar på 600 och 710 kr</strong></p>",
         "button_text": "Handla Black Friday",
         "button_link": "shopify://collections/bestseller-singles",
         "shipping_text": "Fri frakt över 650 kr"
@@ -316,6 +318,7 @@
           "settings": {
             "tab_title": "Utique Kollektion",
             "collection": "black-utique",
+            "description": "",
             "button_text": "Visa alla"
           }
         },
@@ -324,6 +327,7 @@
           "settings": {
             "tab_title": "Bästsäljare",
             "collection": "bestseller-singles",
+            "description": "",
             "button_text": "Visa alla"
           }
         },
@@ -333,6 +337,7 @@
           "settings": {
             "tab_title": "Nya dofter",
             "collection": "new",
+            "description": "",
             "button_text": "Visa alla"
           }
         },
@@ -341,6 +346,7 @@
           "settings": {
             "tab_title": "Dam",
             "collection": "woman",
+            "description": "",
             "button_text": "Visa alla"
           }
         },
@@ -349,6 +355,7 @@
           "settings": {
             "tab_title": "Herr",
             "collection": "man",
+            "description": "",
             "button_text": "Visa alla"
           }
         }
