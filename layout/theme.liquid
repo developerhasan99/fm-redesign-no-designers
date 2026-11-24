@@ -473,21 +473,23 @@ body {
     {{ 'subscribfy-custom-styles.css' | asset_url | stylesheet_tag }}
 
     {%- comment -%}
-      Subscribfy (VIP membership) is off for Denmark. The cart widget and the Subscribfy
-      scripts are skipped in Liquid; the product page app blocks can't be, so they're hidden
-      here. A VIP line carried over from another market is removed from the cart.
+      Subscribfy VIP widget is off in every market: the cart widget is gone from the drawer and
+      cart page, and the product page app blocks are disabled in the templates (hidden here too,
+      in case one is re-added in the editor).
+      Denmark also has the membership page and Subscribfy scripts off, and a VIP line carried
+      over from another market is removed from the cart.
     {%- endcomment -%}
+    <style>
+      [id*='__subscribfy_'],
+      .exm_dialog-collection {
+        display: none !important;
+      }
+    </style>
     {%- if localization.country.iso_code == 'DK' -%}
       {%- if template.suffix == 'membership-landing' -%}
         <script>location.replace({{ routes.root_url | json }});</script>
         <meta http-equiv="refresh" content="0; url={{ routes.root_url }}">
       {%- endif -%}
-      <style>
-        [id*='__subscribfy_'],
-        .exm_dialog-collection {
-          display: none !important;
-        }
-      </style>
       {%- liquid
         assign exm_vip_variant_key = shop.metafields.exison.exison_plan_settings.product_variant_id | append: ''
         assign exm_plan2_variant_key = shop.metafields.exison.exison_plan_settings2.product_variant_id | append: ''
