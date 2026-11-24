@@ -415,6 +415,7 @@
         },
         "set_1": {
           "type": "product",
+          "disabled": true,
           "settings": {
             "product": "bundle-and-save",
             "subtitle": "Begränsat Black Friday-erbjudande",
