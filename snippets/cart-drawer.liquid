@@ -156,7 +156,7 @@
                                   {%- assign property_first_char = property.first | slice: 0 -%}
                                   {%- if property.last != blank and property_first_char != '_' -%}
                                     <li class="product-option">
-                                      <dt>{{ property.first }}:</dt>
+                                      <dt>{% if property.first == 'Inspired By' %}Inspirerad av{% else %}{{ property.first }}{% endif %}:</dt>
                                       <dd>
                                         {%- if property.last contains '/uploads/' -%}
                                           <a

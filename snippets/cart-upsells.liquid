@@ -40,7 +40,13 @@
                 width=""
                 height="">
               <div class="col-span-3">
-                <a href="{{ product.url }}" class="my-0 font-semibold leading-snug block text-black no-underline hover:underline mb-2">{{ product.title }}</a>
+                {%- capture upsell_short -%}{%- render 'pm-designer-short', product: product -%}{%- endcapture -%}
+                {%- assign upsell_short = upsell_short | strip -%}
+                <a href="{{ product.url }}" class="my-0 font-semibold leading-snug block text-black no-underline hover:underline{% if upsell_short == blank %} mb-2{% endif %}">{{ product.title }}</a>
+                {%- if upsell_short != blank -%}
+                  <p class="text-xs my-0 mb-2">Inspirerad av <b>{{ upsell_short }}</b></p>
+                  <input type="hidden" name="properties[Inspired By]" value="{{ upsell_short | escape }}">
+                {%- endif -%}
                 {% if product.has_only_default_variant %}
                   <div>{{ product.price | money }}</div>
                   <input
