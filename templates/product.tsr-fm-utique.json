@@ -346,6 +346,7 @@
         },
         "tsr_block_CWYfba": {
           "type": "tsr_block",
+          "disabled": true,
           "settings": {
             "product": "bundle-and-save"
           }

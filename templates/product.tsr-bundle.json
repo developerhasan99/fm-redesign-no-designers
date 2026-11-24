@@ -61,6 +61,7 @@
         },
         "fuel09_box_a": {
           "type": "fuel09_offer_box",
+          "disabled": true,
           "settings": {
             "layout": "a",
             "collections": "best-sellers,top-sellers",
@@ -131,6 +132,7 @@
         },
         "fuel09_box_b": {
           "type": "fuel09_offer_box",
+          "disabled": true,
           "settings": {
             "layout": "b",
             "collections": "best-sellers,top-sellers",
@@ -201,6 +203,7 @@
         },
         "fuel09_box_c": {
           "type": "fuel09_offer_box",
+          "disabled": true,
           "settings": {
             "layout": "c",
             "collections": "best-sellers,top-sellers",
@@ -336,6 +339,7 @@
         },
         "tsr_block_CWYfba": {
           "type": "tsr_block",
+          "disabled": true,
           "settings": {
             "product": "6-x-50ml-parfymflasko"
           }
