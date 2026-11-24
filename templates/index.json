@@ -377,6 +377,106 @@
         "padding_bottom": 64
       }
     },
+    "tabs_family": {
+      "type": "home-product-tabs",
+      "blocks": {
+        "tab_floral": {
+          "type": "tab",
+          "settings": {
+            "title": "Blommiga",
+            "collection": "all",
+            "filter": "Blommig"
+          }
+        },
+        "tab_oriental": {
+          "type": "tab",
+          "settings": {
+            "title": "Orientaliska",
+            "collection": "all",
+            "filter": "Orientalisk"
+          }
+        },
+        "tab_woody": {
+          "type": "tab",
+          "settings": {
+            "title": "Träiga",
+            "collection": "all",
+            "filter": "Träig"
+          }
+        },
+        "tab_gourmand": {
+          "type": "tab",
+          "settings": {
+            "title": "Gourmand",
+            "collection": "all",
+            "filter": "Gourmand"
+          }
+        },
+        "tab_spicy": {
+          "type": "tab",
+          "settings": {
+            "title": "Kryddiga",
+            "collection": "all",
+            "filter": "Kryddig"
+          }
+        },
+        "tab_fresh": {
+          "type": "tab",
+          "settings": {
+            "title": "Fräscha",
+            "collection": "all",
+            "filter": "Fräsch"
+          }
+        },
+        "tab_fruity": {
+          "type": "tab",
+          "settings": {
+            "title": "Fruktiga",
+            "collection": "all",
+            "filter": "Fruktig"
+          }
+        },
+        "tab_sweet": {
+          "type": "tab",
+          "settings": {
+            "title": "Söta",
+            "collection": "all",
+            "filter": "Söt"
+          }
+        },
+        "tab_vanilla": {
+          "type": "tab",
+          "settings": {
+            "title": "Vanilj",
+            "collection": "all",
+            "filter": "Vanilj"
+          }
+        }
+      },
+      "block_order": [
+        "tab_floral",
+        "tab_oriental",
+        "tab_woody",
+        "tab_gourmand",
+        "tab_spicy",
+        "tab_fresh",
+        "tab_fruity",
+        "tab_sweet",
+        "tab_vanilla"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "Välj doftfamilj",
+        "subheading": "Välj en doftfamilj och upptäck dofterna som passar dig.",
+        "products_per_tab": 12,
+        "cards_desktop": "5",
+        "cards_mobile": "2.2",
+        "button_text": "Se alla",
+        "button_link": "",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
     "ugc_video_row": {
       "type": "ugc-video-row",
       "blocks": {
@@ -572,106 +672,6 @@
         "title": "Välj kategori",
         "padding_top": 72,
         "padding_bottom": 72
-      }
-    },
-    "tabs_family": {
-      "type": "home-product-tabs",
-      "blocks": {
-        "tab_floral": {
-          "type": "tab",
-          "settings": {
-            "title": "Blommiga",
-            "collection": "all",
-            "filter": "Blommig"
-          }
-        },
-        "tab_oriental": {
-          "type": "tab",
-          "settings": {
-            "title": "Orientaliska",
-            "collection": "all",
-            "filter": "Orientalisk"
-          }
-        },
-        "tab_woody": {
-          "type": "tab",
-          "settings": {
-            "title": "Träiga",
-            "collection": "all",
-            "filter": "Träig"
-          }
-        },
-        "tab_gourmand": {
-          "type": "tab",
-          "settings": {
-            "title": "Gourmand",
-            "collection": "all",
-            "filter": "Gourmand"
-          }
-        },
-        "tab_spicy": {
-          "type": "tab",
-          "settings": {
-            "title": "Kryddiga",
-            "collection": "all",
-            "filter": "Kryddig"
-          }
-        },
-        "tab_fresh": {
-          "type": "tab",
-          "settings": {
-            "title": "Fräscha",
-            "collection": "all",
-            "filter": "Fräsch"
-          }
-        },
-        "tab_fruity": {
-          "type": "tab",
-          "settings": {
-            "title": "Fruktiga",
-            "collection": "all",
-            "filter": "Fruktig"
-          }
-        },
-        "tab_sweet": {
-          "type": "tab",
-          "settings": {
-            "title": "Söta",
-            "collection": "all",
-            "filter": "Söt"
-          }
-        },
-        "tab_vanilla": {
-          "type": "tab",
-          "settings": {
-            "title": "Vanilj",
-            "collection": "all",
-            "filter": "Vanilj"
-          }
-        }
-      },
-      "block_order": [
-        "tab_floral",
-        "tab_oriental",
-        "tab_woody",
-        "tab_gourmand",
-        "tab_spicy",
-        "tab_fresh",
-        "tab_fruity",
-        "tab_sweet",
-        "tab_vanilla"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "heading": "Välj doftfamilj",
-        "subheading": "Välj en doftfamilj och upptäck dofterna som passar dig.",
-        "products_per_tab": 12,
-        "cards_desktop": "5",
-        "cards_mobile": "2.2",
-        "button_text": "Se alla",
-        "button_link": "",
-        "padding_top": 80,
-        "padding_bottom": 80
       }
     },
     "popular_products_XDHbay": {
@@ -1360,9 +1360,9 @@
     "fuel06_finder",
     "custom_liquid_4rbfWw",
     "fm_home_tabs",
+    "tabs_family",
     "ugc_video_row",
     "home_category_pm",
-    "tabs_family",
     "popular_products_XDHbay",
     "image_and_text",
     "makes_different_pm",
