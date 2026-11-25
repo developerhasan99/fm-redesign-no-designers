@@ -23,5 +23,3 @@
 .gift-wrap__input:focus-visible + .gift-wrap__switch { outline: 2px solid #226139; outline-offset: 2px; }
 .gift-wrap:has(.gift-wrap__input:checked) { border-color: #226139; }
 
-.gift-wrap__msg { display: block; width: 100%; margin-top: 10px; padding: 6px 8px; font: inherit; font-size: 14px; border: 1px solid #e5e7eb; border-radius: 6px; resize: vertical; }
-.gift-wrap__msg[hidden] { display: none; }

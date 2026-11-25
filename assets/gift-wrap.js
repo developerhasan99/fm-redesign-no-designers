@@ -1,20 +1,17 @@
 /* Gift wrap, one per order (markup: snippets/gift-wrap.liquid).
-   <gift-wrap>     cart drawer footer: checkbox + gift message (cart attribute "Presentmeddelande").
-   <gift-wrap-pdp> product page, under the buy button: checkbox only. With products in the cart it sets the wrap right
+   <gift-wrap>     cart drawer footer.
+   <gift-wrap-pdp> product page, under the buy button. With products in the cart it sets the wrap right
                    away; with an empty cart it waits for the add to cart (a wrap alone is removed by the drawer). */
 (() => {
-  const post = (body) =>
-    fetch(routes.cart_update_url, { ...fetchConfig(), body: JSON.stringify(body) }).then((r) => r.json());
   const parse = (html, sel) => new DOMParser().parseFromString(html, 'text/html').querySelector(sel);
 
   // Wrap to 0 or 1, then repaint drawer + bubble. Same swap as CartDrawerItems (.drawer__inner only), so the
   // overlay keeps its close listener and the drawer does not pop open.
   const setWrap = (id, qty) =>
-    post({
-      updates: { [id]: qty },
-      attributes: qty ? {} : { Presentmeddelande: '' },
-      sections: 'cart-drawer,cart-icon-bubble',
-    }).then((state) => {
+    fetch(routes.cart_update_url, {
+      ...fetchConfig(),
+      body: JSON.stringify({ updates: { [id]: qty }, sections: 'cart-drawer,cart-icon-bubble' }),
+    }).then((r) => r.json()).then((state) => {
       if (!state.sections) return;
       const inner = document.querySelector('#CartDrawer .drawer__inner');
       const bubble = document.getElementById('cart-icon-bubble');
@@ -29,9 +26,7 @@
   customElements.get('gift-wrap') || customElements.define('gift-wrap', class extends HTMLElement {
     connectedCallback() {
       const box = this.querySelector('input');
-      const msg = this.querySelector('textarea');
       const id = this.dataset.variant;
-      const save = () => post({ attributes: { Presentmeddelande: msg.value } });
 
       box.addEventListener('change', () => {
         this.setAttribute('aria-busy', 'true');
@@ -39,8 +34,6 @@
           .then(() => document.querySelector('gift-wrap input')?.focus())
           .catch(() => this.removeAttribute('aria-busy'));
       });
-      msg.addEventListener('input', debounce(save, 400));
-      msg.addEventListener('change', save);
 
       if (this.dataset.fix !== undefined) setWrap(id, Number(this.dataset.fix));
     }
