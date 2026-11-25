@@ -1,0 +1,13 @@
+{%- comment -%}
+  Prints cart.item_count without the gift wrap (snippets/gift-wrap.liquid), so the wrap never shows as a product
+  in the cart bubble, header and drawer title. Usage: {%- capture n -%}{% render 'cart-count' %}{%- endcapture -%}
+{%- endcomment -%}
+{%- liquid
+  assign count = cart.item_count
+  for item in cart.items
+    if item.product.handle == 'presentinslagning'
+      assign count = count | minus: item.quantity
+    endif
+  endfor
+  echo count
+-%}

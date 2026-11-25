@@ -859,7 +859,9 @@
       if (this.$.bar) {
         this.$.barCta.disabled = !hasItems;
         var badge = this.$.barCta.querySelector('[data-bar-badge]');
-        var count = this.cart.item_count || 0;
+        var count = (this.cart.item_count || 0) - (this.cart.items || []).reduce(function (s, i) {
+          return s + (i.handle === 'presentinslagning' ? i.quantity : 0); // gift wrap is not a product here
+        }, 0);
         if (badge) {
           badge.textContent = count > 99 ? '99+' : String(count);
           badge.hidden = !count;
