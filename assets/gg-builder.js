@@ -334,7 +334,7 @@
       var t = this.t;
       var frag = document.createDocumentFragment();
       goals.forEach(function (g) {
-        var li = el('li', 'gg-bb__step-mark');
+        var li = el('li', 'gg-bb__step-mark ' + (g.ship ? 'is-ship' : 'is-gift'));
         li.appendChild(el('strong', '', money(g.amount)));
         li.appendChild(el('span', '', g.ship ? t.goalShip : t.goalGift));
         frag.appendChild(li);
@@ -383,7 +383,10 @@
       var next = null;
       this.goals.forEach(function (g, i) {
         var hit = v >= g.amount;
-        if (marks[i]) marks[i].classList.toggle('is-reached', hit);
+        if (marks[i]) {
+          marks[i].classList.toggle('is-reached', hit);
+          marks[i].classList.toggle('is-next', !hit && !next);
+        }
         if (!hit && !next) next = g;
       });
       var txt = next
@@ -823,6 +826,7 @@
         var min = Number(m.getAttribute('data-step-min'));
         m.classList.toggle('is-reached', s.n >= min);
         m.classList.toggle('is-current', !!(s.cur && s.cur.min === min));
+        m.classList.toggle('is-next', !!(s.next && s.next.min === min));
       });
 
       /* Savings as the cart drawer shows them (whole cart): Delsumma / Rabatt / Totalt */

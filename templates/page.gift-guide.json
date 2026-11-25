@@ -1,11 +1,11 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
  */
 {
   "sections": {
@@ -459,6 +459,14 @@
           "settings": {
             "product": "till-pojkvan-3x-50ml-parfymflaskor"
           }
+        },
+        "gift_wrap": {
+          "type": "gift_wrap",
+          "settings": {
+            "product": "presentinslagning",
+            "label": "Slå in som julklapp",
+            "text": "Klar att lägga under granen"
+          }
         }
       },
       "block_order": [
@@ -467,7 +475,8 @@
         "p_girlfriend",
         "p_dad",
         "p_brother",
-        "p_boyfriend"
+        "p_boyfriend",
+        "gift_wrap"
       ]
     },
     "more_ways": {
