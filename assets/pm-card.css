@@ -772,47 +772,14 @@
   position: static;
 }
 
+/* Same size as the Bästsäljare / Nyhet badges on every width: plain pm-badge (pm-base.css 17), one line
+   "24% PARFYMOLJA"; only the hairline frame and the bold number differ. Homepage tabs keep fm-home-tabs.css 4a. */
 .premium .fm-oil-badge {
   margin-left: auto;
-  flex-direction: column;
-  align-items: center;
-  gap: 1px;
-  padding: 4px 6px;
   border-color: var(--pm-line);
-  letter-spacing: 0;
-  text-transform: none;
   pointer-events: none;
 }
 
-/* Phones: "20%" on top, "parfymolja" small under it, so it fits a 2-up card next to the left badges */
 .premium .fm-oil-badge__num {
-  font-size: 13px;
-  line-height: 1.1;
   font-weight: 600;
-}
-
-.premium .fm-oil-badge__label {
-  font-size: 9px;
-  line-height: 1.1;
-}
-
-/* 750+: one line, "20% PARFYMOLJA" in the regular badge type */
-@media screen and (min-width: 750px) {
-  .premium .fm-oil-badge {
-    flex-direction: row;
-    gap: 4px;
-    padding: 5px 7px;
-    letter-spacing: 0.125em;
-    text-transform: uppercase;
-  }
-
-  .premium .fm-oil-badge__num,
-  .premium .fm-oil-badge__label {
-    font-size: inherit;
-    line-height: inherit;
-  }
-
-  .premium .fm-oil-badge__num {
-    font-weight: 600;
-  }
 }
