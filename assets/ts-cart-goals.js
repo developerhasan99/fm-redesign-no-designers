@@ -119,7 +119,7 @@
     }
 
     function applyCart(c) {
-      total = (c && c.total_price) || 0;
+      total = ((c && c.total_price) || 0) - giftWrapCents(c);
       render();
     }
 

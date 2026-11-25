@@ -1,0 +1,36 @@
+{%- comment -%}
+  Gift wrap add-on in the cart drawer footer: product "presentinslagning", one per order, plus a gift message
+  kept in the cart attribute "Presentmeddelande" (shows on the order under Additional details).
+  The wrap's own line is hidden from the drawer list (snippets/cart-drawer.liquid); this checkbox adds/removes it.
+  data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
+  left in the cart. Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (theme.liquid).
+{%- endcomment -%}
+{%- liquid
+  assign gw_variant = all_products['presentinslagning'].selected_or_first_available_variant
+  assign gw_qty = 0
+  if gw_variant
+    assign gw_qty = cart | item_count_for_variant: gw_variant.id
+  endif
+  assign gw_fix = ''
+  if gw_qty > 0 and cart.item_count == gw_qty
+    assign gw_fix = 0
+  elsif gw_qty > 1
+    assign gw_fix = 1
+  endif
+-%}
+{%- if gw_variant.available or gw_qty > 0 -%}
+  <gift-wrap class="gift-wrap" data-variant="{{ gw_variant.id }}"{% if gw_fix != '' %} data-fix="{{ gw_fix }}"{% endif %}>
+    <label class="gift-wrap__toggle">
+      <input type="checkbox"{% if gw_qty > 0 %} checked{% endif %}>
+      <span>🎁 Lägg till presentinslagning <b>(+{{ gw_variant.price | money }})</b></span>
+    </label>
+    <textarea
+      class="gift-wrap__msg"
+      maxlength="250"
+      rows="2"
+      aria-label="Presentmeddelande"
+      placeholder="Presentmeddelande (valfritt)"
+      {% if gw_qty == 0 %}hidden{% endif %}
+    >{{ cart.attributes['Presentmeddelande'] | escape }}</textarea>
+  </gift-wrap>
+{%- endif -%}

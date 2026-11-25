@@ -377,7 +377,7 @@
       if (!this.goals.length || !this.$.goals) return;
       var t = this.t;
       var c = this.cart || {};
-      var v = typeof c.items_subtotal_price === 'number' ? c.items_subtotal_price : (c.total_price || 0);
+      var v = (typeof c.items_subtotal_price === 'number' ? c.items_subtotal_price : (c.total_price || 0)) - giftWrapCents(c);
       this.$.goalsFill.style.width = trackPos(this.goals.map(function (g) { return g.amount; }), v) + '%';
       var marks = this.$.goalsList.children;
       var next = null;

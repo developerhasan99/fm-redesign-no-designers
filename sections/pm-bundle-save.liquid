@@ -1185,7 +1185,7 @@
               .catch(function () {});
           },
           applyCart: function (c) {
-            this.cartTotal = (c && c.total_price) || 0;
+            this.cartTotal = ((c && c.total_price) || 0) - giftWrapCents(c);
             this.cartMarkers = ((c && c.items) || [])
               .map(function (it) { return it.properties && it.properties._bundle_items; })
               .filter(Boolean);

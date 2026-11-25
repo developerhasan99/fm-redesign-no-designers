@@ -196,7 +196,7 @@
     try {
       var initial = JSON.parse(root.querySelector('[data-gc-cart]').textContent);
       bottles = bottlesIn(initial.items);
-      cents = Number(initial.total_price) || 0;
+      cents = (Number(initial.total_price) || 0) - giftWrapCents(initial);
     } catch (e) { /* first /cart.js fills it */ }
 
     function money(c) {
@@ -312,7 +312,7 @@
     function applyCart(c) {
       if (!c || typeof c.total_price !== 'number' || !c.items) return;
       bottles = bottlesIn(c.items);
-      cents = c.total_price;
+      cents = c.total_price - giftWrapCents(c);
       if (root.isConnected) update();
     }
 

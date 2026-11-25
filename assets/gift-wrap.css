@@ -1,0 +1,6 @@
+.gift-wrap { display: block; margin: 0 0 12px; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
+.gift-wrap__toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
+.gift-wrap__toggle input { width: 18px; height: 18px; accent-color: #226139; margin: 0; }
+.gift-wrap__msg { display: block; width: 100%; margin-top: 8px; padding: 6px 8px; font: inherit; font-size: 14px; border: 1px solid #e5e7eb; border-radius: 6px; resize: vertical; }
+.gift-wrap__msg[hidden] { display: none; }
+.gift-wrap[aria-busy='true'] { opacity: 0.6; pointer-events: none; }
