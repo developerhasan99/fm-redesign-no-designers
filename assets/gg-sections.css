@@ -109,16 +109,16 @@
     --gg-hero-dark: #0b1e18;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto auto 1fr auto auto;
+    grid-template-rows: auto auto auto auto 1fr auto;
     background: var(--gg-hero-dark);
     color: var(--gg-white);
   }
 
   .gg-hero__media {
     grid-column: 1;
-    grid-row: 1 / 5;
+    grid-row: 1 / 6;
     height: auto;
-    aspect-ratio: 375 / 520;
+    aspect-ratio: 375 / 610;
     background: var(--gg-hero-dark);
   }
 
@@ -133,7 +133,7 @@
     pointer-events: none;
   }
 
-  .gg-hero .gg-hero__pic { object-position: center 78%; }
+  .gg-hero .gg-hero__pic { object-position: center top; }
 
   .gg-hero__inner,
   .gg-hero__copy { display: contents; }
@@ -175,8 +175,9 @@
   }
 
   .gg-hero .gg-hero__text {
-    grid-row: 5;
-    margin: -8px auto 0;
+    grid-row: 4;
+    align-self: start;
+    margin: 10px auto 0;
     max-width: 34ch;
     color: rgba(255, 255, 255, 0.8);
   }
