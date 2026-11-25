@@ -1084,6 +1084,8 @@
 {%- if fmx_trust -%}
   {%- render 'fuel06-pdp-link' -%}
 
+  {% render 'gift-wrap', pdp: true %}
+
   {% render 'fmx-payment-icons' %}
 
   {% unless product.template_suffix == 'cro-deck' %}

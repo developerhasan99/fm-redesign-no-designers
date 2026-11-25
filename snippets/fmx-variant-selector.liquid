@@ -278,6 +278,8 @@
   tryscent-co-shopify-theme@main. The badge row carries the same delivery sentence. Everything else in
   this file is byte-identical to the live reactive-variant-selector.liquid.
 {%- endcomment -%}
+{% render 'gift-wrap', pdp: true %}
+
 {% render 'fmx-payment-icons' %}
 
 {% unless product.template_suffix == 'cro-deck' %}

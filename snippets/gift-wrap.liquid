@@ -4,6 +4,9 @@
   The wrap's own line is hidden from the drawer list (snippets/cart-drawer.liquid); this checkbox adds/removes it.
   data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
   left in the cart. Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (theme.liquid).
+
+  pdp: true renders the product page checkbox instead (under the buy button, before the payment icons); the gift
+  message stays in the drawer.
 {%- endcomment -%}
 {%- liquid
   assign gw_variant = all_products['presentinslagning'].selected_or_first_available_variant
@@ -18,7 +21,17 @@
     assign gw_fix = 1
   endif
 -%}
-{%- if gw_variant.available or gw_qty > 0 -%}
+{%- if pdp -%}
+  {%- if gw_variant.available -%}
+    <gift-wrap-pdp class="gift-wrap gift-wrap--pdp" data-variant="{{ gw_variant.id }}">
+      <label class="gift-wrap__toggle">
+        <input type="checkbox"{% if gw_qty > 0 %} checked{% endif %}>
+        <span>🎁 Lägg till presentinslagning <b>(+{{ gw_variant.price | money }})</b></span>
+      </label>
+      <p class="gift-wrap__note">Presentmeddelandet skriver du i varukorgen.</p>
+    </gift-wrap-pdp>
+  {%- endif -%}
+{%- elsif gw_variant.available or gw_qty > 0 -%}
   <gift-wrap class="gift-wrap" data-variant="{{ gw_variant.id }}"{% if gw_fix != '' %} data-fix="{{ gw_fix }}"{% endif %}>
     <label class="gift-wrap__toggle">
       <input type="checkbox"{% if gw_qty > 0 %} checked{% endif %}>
