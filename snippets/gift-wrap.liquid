@@ -1,15 +1,17 @@
 {%- comment -%}
-  Gift wrap add-on in the cart drawer footer: product "presentinslagning", one per order, plus a gift message
-  kept in the cart attribute "Presentmeddelande" (shows on the order under Additional details).
-  The wrap's own line is hidden from the drawer list (snippets/cart-drawer.liquid); this checkbox adds/removes it.
-  data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
-  left in the cart. Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (theme.liquid).
-
-  pdp: true renders the product page checkbox instead (under the buy button, before the payment icons); the gift
-  message stays in the drawer.
+  Gift wrap add-on: product "presentinslagning", one per order. One row for both places: product image, name + price,
+  toggle switch on the right (a native checkbox with role="switch"; the whole row is its label).
+  - default: cart drawer footer, plus a gift message kept in the cart attribute "Presentmeddelande" (shows on the
+    order under Additional details). The wrap's own line is hidden from the drawer list (snippets/cart-drawer.liquid).
+    data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
+    left in the cart.
+  - pdp: true: product page, under the buy button, before the payment icons; the gift message stays in the drawer.
+  Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (layout/theme.liquid).
 {%- endcomment -%}
 {%- liquid
-  assign gw_variant = all_products['presentinslagning'].selected_or_first_available_variant
+  assign gw_product = all_products['presentinslagning']
+  assign gw_variant = gw_product.selected_or_first_available_variant
+  assign gw_image = gw_variant.image | default: gw_product.featured_image
   assign gw_qty = 0
   if gw_variant
     assign gw_qty = cart | item_count_for_variant: gw_variant.id
@@ -21,22 +23,35 @@
     assign gw_fix = 1
   endif
 -%}
+{%- capture gw_row -%}
+  <label class="gift-wrap__row">
+    {%- if gw_image -%}
+      {{ gw_image | image_url: width: 120 | image_tag: class: 'gift-wrap__img', width: 56, height: 56, alt: '', loading: 'lazy' }}
+    {%- endif -%}
+    <span class="gift-wrap__text">
+      <span class="gift-wrap__title">Presentinslagning</span>
+      <span class="gift-wrap__price">Lägg till för +{{ gw_variant.price | money }}</span>
+    </span>
+    <input
+      type="checkbox"
+      role="switch"
+      class="gift-wrap__switch"
+      aria-label="Lägg till presentinslagning"
+      {% if gw_qty > 0 %}checked{% endif %}
+    >
+  </label>
+{%- endcapture -%}
+
 {%- if pdp -%}
   {%- if gw_variant.available -%}
     <gift-wrap-pdp class="gift-wrap gift-wrap--pdp" data-variant="{{ gw_variant.id }}">
-      <label class="gift-wrap__toggle">
-        <input type="checkbox"{% if gw_qty > 0 %} checked{% endif %}>
-        <span>🎁 Lägg till presentinslagning <b>(+{{ gw_variant.price | money }})</b></span>
-      </label>
+      {{ gw_row }}
       <p class="gift-wrap__note">Presentmeddelandet skriver du i varukorgen.</p>
     </gift-wrap-pdp>
   {%- endif -%}
 {%- elsif gw_variant.available or gw_qty > 0 -%}
   <gift-wrap class="gift-wrap" data-variant="{{ gw_variant.id }}"{% if gw_fix != '' %} data-fix="{{ gw_fix }}"{% endif %}>
-    <label class="gift-wrap__toggle">
-      <input type="checkbox"{% if gw_qty > 0 %} checked{% endif %}>
-      <span>🎁 Lägg till presentinslagning <b>(+{{ gw_variant.price | money }})</b></span>
-    </label>
+    {{ gw_row }}
     <textarea
       class="gift-wrap__msg"
       maxlength="250"
