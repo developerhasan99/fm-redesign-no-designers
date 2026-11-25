@@ -1285,3 +1285,14 @@
     animation: none;
   }
 }
+
+/* One merged track (discount steps + Kite goals, assets/gg-builder.js renderMerged): every marker 20px so the
+   discount ticks and the gift / truck icons sit on one line, the track through their centres */
+.gg-bb__steps .gg-bb__steps-bar { top: 7px; }
+
+.gg-bb__steps .gg-bb__step-mark::before {
+  width: 20px;
+  height: 20px;
+}
+
+.gg-bb__steps .gg-bb__step-mark.is-reached:not(.is-gift):not(.is-ship)::before { background-size: 11px; }
