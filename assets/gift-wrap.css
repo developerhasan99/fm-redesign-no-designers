@@ -1,27 +1,27 @@
 .gift-wrap { display: block; margin: 0 0 12px; padding: 10px 12px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; }
-.gift-wrap--pdp { margin: 12px 0 0; }
+.gift-wrap--pdp { margin: 16px 0 0; }
 .gift-wrap[aria-busy='true'] { opacity: 0.6; pointer-events: none; }
 
-.gift-wrap__row { display: flex; align-items: center; gap: 12px; cursor: pointer; margin: 0; }
-.gift-wrap__img { flex: none; width: 56px; height: 56px; object-fit: cover; border-radius: 6px; background: #f5f5f4; }
-.gift-wrap__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; line-height: 1.3; }
-.gift-wrap__title { font-size: 14px; font-weight: 600; color: #111; }
+.gift-wrap__row { position: relative; display: flex; align-items: center; gap: 12px; margin: 0; cursor: pointer; }
+.gift-wrap__img { flex: none; width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: #f5f5f4; }
+.gift-wrap__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; line-height: 1.25; }
+.gift-wrap__title { font-size: 15px; font-weight: 600; color: #111; }
 .gift-wrap__price { font-size: 13px; color: #6b7280; }
 
-/* Toggle switch on a native checkbox */
+/* Toggle: the checkbox stays in the page for keyboard + screen readers, the span draws the switch */
+.gift-wrap__input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
 .gift-wrap__switch {
-  flex: none; position: relative; width: 40px; height: 22px; margin: 0;
-  appearance: none; -webkit-appearance: none; border-radius: 999px; background: #d1d5db;
-  cursor: pointer; transition: background 0.2s;
+  flex: none; position: relative; display: block; width: 44px; height: 24px;
+  border-radius: 999px; background: #d1d5db; transition: background-color 0.2s;
 }
 .gift-wrap__switch::after {
-  content: ''; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / 0.25); transition: transform 0.2s;
+  content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / 0.2); transition: transform 0.2s;
 }
-.gift-wrap__switch:checked { background: #226139; }
-.gift-wrap__switch:checked::after { transform: translateX(18px); }
-.gift-wrap__switch:focus-visible { outline: 2px solid #226139; outline-offset: 2px; }
+.gift-wrap__input:checked + .gift-wrap__switch { background: #226139; }
+.gift-wrap__input:checked + .gift-wrap__switch::after { transform: translateX(20px); }
+.gift-wrap__input:focus-visible + .gift-wrap__switch { outline: 2px solid #226139; outline-offset: 2px; }
+.gift-wrap:has(.gift-wrap__input:checked) { border-color: #226139; }
 
 .gift-wrap__msg { display: block; width: 100%; margin-top: 10px; padding: 6px 8px; font: inherit; font-size: 14px; border: 1px solid #e5e7eb; border-radius: 6px; resize: vertical; }
 .gift-wrap__msg[hidden] { display: none; }
-.gift-wrap__note { margin: 6px 0 0; font-size: 12px; color: #6b7280; }

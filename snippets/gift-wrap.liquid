@@ -6,6 +6,7 @@
     data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
     left in the cart.
   - pdp: true: product page, under the buy button, before the payment icons; the gift message stays in the drawer.
+  The switch is drawn on a span next to a visually hidden checkbox, so theme/Tailwind input styles can't reach it.
   Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (layout/theme.liquid).
 {%- endcomment -%}
 {%- liquid
@@ -35,10 +36,11 @@
     <input
       type="checkbox"
       role="switch"
-      class="gift-wrap__switch"
+      class="gift-wrap__input"
       aria-label="Lägg till presentinslagning"
       {% if gw_qty > 0 %}checked{% endif %}
     >
+    <span class="gift-wrap__switch" aria-hidden="true"></span>
   </label>
 {%- endcapture -%}
 
@@ -46,7 +48,6 @@
   {%- if gw_variant.available -%}
     <gift-wrap-pdp class="gift-wrap gift-wrap--pdp" data-variant="{{ gw_variant.id }}">
       {{ gw_row }}
-      <p class="gift-wrap__note">Presentmeddelandet skriver du i varukorgen.</p>
     </gift-wrap-pdp>
   {%- endif -%}
 {%- elsif gw_variant.available or gw_qty > 0 -%}
