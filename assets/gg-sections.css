@@ -118,7 +118,7 @@
     grid-column: 1;
     grid-row: 1 / 5;
     height: auto;
-    aspect-ratio: 375 / 660;
+    aspect-ratio: 375 / 520;
     background: var(--gg-hero-dark);
   }
 
@@ -133,7 +133,7 @@
     pointer-events: none;
   }
 
-  .gg-hero .gg-hero__pic { object-position: center bottom; }
+  .gg-hero .gg-hero__pic { object-position: center 78%; }
 
   .gg-hero__inner,
   .gg-hero__copy { display: contents; }
@@ -165,9 +165,11 @@
 
   .gg-hero .gg-hero__heading {
     grid-row: 3;
-    max-width: 22ch;
+    width: 100%;
+    max-width: 24ch;
     margin-inline: auto;
-    font-size: clamp(30px, 8.6vw, 44px);
+    font-size: clamp(28px, 8.2vw, 40px);
+    overflow-wrap: break-word;
     line-height: 1.1;
     color: var(--gg-white);
   }
