@@ -3,7 +3,7 @@
   a white tile around the homepage card, snippets/fm-grid-card.liquid (pm-card.css section 12), so every grid on the
   site shows the same card. Black Friday strip and black buttons come from that card.
   Accepts: product; atc (optional, true from the collection grid when its "Add to cart on product cards" setting is on)
-  and section_id (with atc). No search badge: the collection search shows our scent as a hero card and its family as
+  and section_id (with atc); oil_badge {Boolean} forwarded to fm-grid-card (% parfymolja badge). No search badge: the collection search shows our scent as a hero card and its family as
   plain cards (PRICE-COMPARE.md).
   With atc the "Se doften" button becomes real buttons: size chips (100 / 50 / 30 ml, the product page's order,
   50 ml selected first; the card price follows the chip) and "Lägg i kundvagnen", which adds the chosen size through
@@ -44,7 +44,7 @@
   endif
 -%}
 <div class="premium pm-tile{% if atc %} ts-atc-item{% endif %}">
-  {%- render 'fm-grid-card', product: product, lazy: pc_lazy, atc_variant: ts_atc_variant, atc_sizes: ts_atc_sizes, pm_frag_role: pm_frag_role -%}
+  {%- render 'fm-grid-card', product: product, lazy: pc_lazy, atc_variant: ts_atc_variant, atc_sizes: ts_atc_sizes, pm_frag_role: pm_frag_role, oil_badge: oil_badge -%}
   {%- if atc -%}
     {%- assign ts_atc_form_id = 'ts-card-atc-' | append: section_id | append: '-' | append: product.id -%}
     <product-form class="ts-card-atc" data-section-id="{{ section_id }}">

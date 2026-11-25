@@ -266,6 +266,21 @@
       {% render 'ts-cart-goals', st: section.settings %}
     {%- endif -%}
 
+    {%- comment -%} Setting "Show combined goals bar": top bar bottle steps + Kite goals on one track (snippets/ts-goal-combo.liquid); unit_price = cheapest product on this page, places Kite markers while the cart is empty {%- endcomment -%}
+    {%- if section.settings.combo_goals -%}
+      {%- liquid
+        assign gc_unit = 0
+        for gc_p in collection.products
+          if gc_p.price > 0
+            if gc_unit == 0 or gc_p.price < gc_unit
+              assign gc_unit = gc_p.price
+            endif
+          endif
+        endfor
+      -%}
+      {% render 'ts-goal-combo', st: section.settings, unit_price: gc_unit %}
+    {%- endif -%}
+
     <div class="{% if section.settings.filter_type == 'vertical' and pm_pills == false %} facets-vertical page-width{% endif %}">
       {%- unless pm_pills -%}
         {{ 'component-facets.css' | asset_url | stylesheet_tag }}
@@ -512,6 +527,7 @@
                   {% render 'product-card'
                     , product: product
                     , atc: section.settings.card_atc
+                    , oil_badge: section.settings.show_oil_badge
                     , section_id: section.id
                     , eager: pc_eager
                   %}
@@ -854,6 +870,13 @@
         "info": "Replaces the Se doften bar with size chips (100 / 50 / 30 ml, 50 ml first) and an add to cart button. The card still opens the product page; the button adds the chosen size and opens the cart drawer."
       },
       {
+        "type": "checkbox",
+        "id": "show_oil_badge",
+        "default": false,
+        "label": "Show % perfume oil badge on cards",
+        "info": "Shows \"<n>% parfymolja\" top right on each card, from the product metafield custom.oil_concentration. Products without the value show no badge."
+      },
+      {
         "type": "header",
         "content": "t:sections.main-collection-product-grid.settings.header__1.content"
       },
@@ -972,6 +995,19 @@
         "default": "Rensa sökningen",
         "label": "Clear button label"
       },
+      { "type": "header", "content": "Combined goals bar" },
+      { "type": "checkbox", "id": "combo_goals", "default": false, "label": "Show combined goals bar", "info": "Display only, above the products. One track with the top bar's bottle discount steps (top bar > Goal line > Discount steps) and the Kite gift / free shipping goals. Hidden when neither exists for the market." },
+      { "type": "text", "id": "combo_msg_bottles", "default": "Lägg till [count] till för [reward]", "label": "Message before a discount step", "info": "[count] = bottles left, [reward] = discount label, [pct] = percent only." },
+      { "type": "text", "id": "combo_msg_gift", "default": "Handla för [amount] till för en gratis gåva", "label": "Message before a gift goal", "info": "[amount] = amount left, [reward] = gift label." },
+      { "type": "text", "id": "combo_msg_ship", "default": "Handla för [amount] till för gratis frakt", "label": "Message before the shipping goal", "info": "[amount] = amount left, [reward] = shipping label." },
+      { "type": "text", "id": "combo_msg_done", "default": "Grattis! Du har låst upp alla belöningar", "label": "Message when every reward is reached" },
+      { "type": "text", "id": "combo_label_pct", "default": "[pct] rabatt", "label": "Label of a discount step", "info": "[pct] = the step's percent from the top bar." },
+      { "type": "text", "id": "combo_label_gift", "default": "Gratis gåva", "label": "Label of a gift goal" },
+      { "type": "text", "id": "combo_label_ship", "default": "Gratis frakt", "label": "Label of the shipping goal" },
+      { "type": "text", "id": "combo_word_one", "default": "flaska", "label": "Word for 1 bottle" },
+      { "type": "text", "id": "combo_word_many", "default": "flaskor", "label": "Word for several bottles" },
+      { "type": "textarea", "id": "combo_texts_da", "label": "Combined goals bar, Danish", "default": "Tilføj [count] mere og få [reward]\nKøb for [amount] mere og få en gratis gave\nKøb for [amount] mere og få gratis fragt\nTillykke! Du har låst alle belønninger op\n[pct] rabat\nGratis gave\nGratis fragt\nflaske\nflasker", "info": "Pages Weglot translates to Danish. 9 lines in the order of the Swedish fields above. Missing lines = no bar." },
+      { "type": "textarea", "id": "combo_texts_fi", "label": "Combined goals bar, Finnish", "default": "Lisää vielä [count] ja saat [pct] alennusta\nOsta vielä [amount] edestä ja saat ilmaisen lahjan\nOsta vielä [amount] edestä ja saat ilmaisen toimituksen\nOnneksi olkoon! Olet avannut kaikki edut\n[pct] alennus\nIlmainen lahja\nIlmainen toimitus\npullo\npulloa", "info": "Pages Weglot translates to Finnish. 9 lines in the order of the Swedish fields above. Missing lines = no bar." },
       {
         "type": "header",
         "content": "Cart goals bar"
