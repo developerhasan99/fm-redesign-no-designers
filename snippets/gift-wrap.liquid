@@ -1,11 +1,11 @@
 {%- comment -%}
-  Gift wrap add-on: product "presentinslagning", one per order. One row for both places: product image, name + price,
-  toggle switch on the right (a native checkbox with role="switch"; the whole row is its label).
+  Gift wrap add-on: product "presentinslagning", one per order. One card for both places: checkbox, product image,
+  name + price; the whole card is the checkbox's label.
   - default: cart drawer footer. The wrap's own line is hidden from the drawer list (snippets/cart-drawer.liquid).
     data-fix keeps it consistent: quantity above 1 goes back to 1, and the wrap is removed when it is the only thing
     left in the cart.
   - pdp: true: product page, under the buy button, before the payment icons.
-  The switch is drawn on a span next to a visually hidden checkbox, so theme/Tailwind input styles can't reach it.
+  The box is drawn on a span next to a visually hidden checkbox, so theme/Tailwind input styles can't reach it.
   Logic in assets/gift-wrap.js; goal bars leave its price out via window.giftWrapCents (layout/theme.liquid).
 {%- endcomment -%}
 {%- liquid
@@ -24,22 +24,18 @@
   endif
 -%}
 {%- capture gw_row -%}
-  <label class="gift-wrap__row">
+  <label class="gift-wrap__card">
+    <input type="checkbox" class="gift-wrap__input" aria-label="Lägg till presentinslagning"{% if gw_qty > 0 %} checked{% endif %}>
+    <span class="gift-wrap__box" aria-hidden="true">
+      <svg viewBox="0 0 16 16" width="14" height="14" fill="none" focusable="false"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
     {%- if gw_image -%}
-      {{ gw_image | image_url: width: 120 | image_tag: class: 'gift-wrap__img', width: 56, height: 56, alt: '', loading: 'lazy' }}
+      {{ gw_image | image_url: width: 120 | image_tag: class: 'gift-wrap__img', width: 48, height: 48, alt: '', loading: 'lazy' }}
     {%- endif -%}
     <span class="gift-wrap__text">
       <span class="gift-wrap__title">Presentinslagning</span>
       <span class="gift-wrap__price">Lägg till för +{{ gw_variant.price | money }}</span>
     </span>
-    <input
-      type="checkbox"
-      role="switch"
-      class="gift-wrap__input"
-      aria-label="Lägg till presentinslagning"
-      {% if gw_qty > 0 %}checked{% endif %}
-    >
-    <span class="gift-wrap__switch" aria-hidden="true"></span>
   </label>
 {%- endcapture -%}
 
