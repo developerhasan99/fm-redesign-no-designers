@@ -386,7 +386,7 @@
       "type": "gg-bundle-builder",
       "settings": {
         "anchor": "skapa-eget",
-        "discount_steps": "2:25,4:30,6:35,8:40",
+        "discount_steps": "2:30,5:40",
         "discount_collections": "lagerforsaljning,black-utique",
         "image_product": "3-x-50ml-doftgarderob-429",
         "pool_collection": "best-sellers",
@@ -395,7 +395,7 @@
         "pool_extra": "black-utique:100ml",
         "eyebrow": "Skapa eget",
         "heading": "Skapa ditt eget set",
-        "text": "Lägg så många 50 ml-dofter i varukorgen som du vill. Från 2 dofter sparar du 25%, från 4 30%, från 6 35% och från 8 40%.",
+        "text": "Lägg så många 50 ml-dofter i varukorgen som du vill. Från 2 dofter sparar du 30% och från 5 dofter 40%.",
         "bottle_label": "Flaska",
         "inspired_word": "Inspirerad av",
         "presets_label": "Lägg till ett färdigt presentset",
