@@ -143,8 +143,6 @@
   ></p>
 </div>
 
-{% render 'gift-wrap', pdp: true %}
-
 {% render 'fmx-payment-icons' %}
 
 {% unless product.template_suffix == 'cro-deck' %}
@@ -347,7 +345,6 @@
           if (goToCheckout) window.location.href = '/checkout';
           else if (cart) {
             cart.renderContents(data);
-            document.querySelector('gift-wrap-pdp')?.afterAdd();
             // The drawer was rendered for an empty cart; clear that state like product-form.js does.
             if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
           }
