@@ -1296,3 +1296,28 @@
 }
 
 .gg-bb__steps .gg-bb__step-mark.is-reached:not(.is-gift):not(.is-ship)::before { background-size: 11px; }
+
+/* Gift wrap upsell: product picture between the switch and the title (no link, the whole row toggles) */
+.gg-bb__wrap:has(.gg-bb__wrap-img) { grid-template-columns: auto auto minmax(0, 1fr) auto; }
+
+.gg-bb__wrap-img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--gg-white);
+}
+
+.gg-bb__wrap:not(.gg-bb__ins) .gg-bb__wrap-title { text-decoration: none; }
+
+.gg-bb__wrap:not(.gg-bb__ins) .gg-bb__wrap-title::before { content: none; }
+
+@media (max-width: 339px) {
+  .gg-bb__wrap:has(.gg-bb__wrap-img) {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    grid-template-areas: "sw img txt" "sw img price";
+  }
+
+  .gg-bb__wrap-img { grid-area: img; }
+}
