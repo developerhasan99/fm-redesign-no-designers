@@ -44,6 +44,7 @@
         script of its own. Hidden unless the test is running.
       {%- endcomment -%}
       {%- render 'fuel04-cart-progress' -%}
+      {%- if cart != empty -%}{%- render 'cart-promo-notice' -%}{%- endif -%}
       <div class="flex-grow overflow-y-auto -mr-3 pr-3 bg-white">
         {%- if cart == empty -%}
           <div class="drawer__inner-empty">

@@ -1,0 +1,18 @@
+{%- comment -%} Cart drawer notice: today-only free UTIQUE sample. Remove the render in cart-drawer.liquid to take it down. {%- endcomment -%}
+<div class="ts-promo-notice" role="note">
+  <svg class="ts-promo-notice__icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <rect x="9.1" y="5" width="1.8" height="6.5" rx="0.9" fill="currentColor"/>
+    <circle cx="10" cy="14.4" r="1.1" fill="currentColor"/>
+  </svg>
+  <div class="ts-promo-notice__text">
+    <p class="ts-promo-notice__title">Bara idag: gratis UTIQUE-prov!</p>
+    <p class="ts-promo-notice__body">Varje beställning som läggs idag får ett <strong>gratis</strong> UTIQUE-prov.</p>
+  </div>
+</div>
+<style>
+  .ts-promo-notice { display: flex; gap: 12px; align-items: flex-start; margin: 12px 0; padding: 12px 14px; border: 1px dashed #e0484f; border-radius: 6px; background: #fff3f3; color: #1f1f1f; }
+  .ts-promo-notice .ts-promo-notice__icon { flex: 0 0 20px; margin-top: 1px; color: #e0484f; }
+  .ts-promo-notice .ts-promo-notice__title { margin: 0 0 2px; font-size: 14px; line-height: 1.3; font-weight: 700; text-transform: uppercase; color: #e0484f; }
+  .ts-promo-notice .ts-promo-notice__body { margin: 0; font-size: 14px; line-height: 1.4; }
+</style>
