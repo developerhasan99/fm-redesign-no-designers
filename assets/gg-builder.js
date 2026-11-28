@@ -678,8 +678,10 @@
       if (this.$.err) this.$.err.hidden = true;
     }
 
+    /* Own scent name first (titles = "<Name> - No. <code>"); bare "Nr. <code>" only when the title has no name */
     numberText(it) {
-      return it.n ? fill(this.t.number || 'Nr. [n]', { n: it.n }) : it.t;
+      if (it.t) return it.t;
+      return it.n ? fill(this.t.number || 'Nr. [n]', { n: it.n }) : '';
     }
 
     /* ---------- filters ---------- */
@@ -764,7 +766,7 @@
       if (it.b) l1.appendChild(el('span', 'gg-bb__tag gg-bb__tag--best', this.t.best || ''));
       if (it.w) l1.appendChild(el('span', 'gg-bb__tag gg-bb__tag--new', this.t.isNew || ''));
       info.appendChild(l1);
-      var sub = it.i ? (this.t.inspired || '') + ' ' + it.i : it.n ? it.t : (it.s || '');
+      var sub = it.i ? (this.t.inspired || '') + ' ' + it.i : (it.s || '');
       if (sub) info.appendChild(el('span', 'gg-bb__insp', sub));
       info.appendChild(el('span', 'gg-bb__price', money(it.p)));
       r.appendChild(info);
