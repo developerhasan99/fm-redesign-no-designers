@@ -1,0 +1,58 @@
+{%- comment -%}
+  One cart write at a time. Rendered first in <head> (before pm-net-dedupe and content_for_header), so it is the
+  innermost fetch/XHR wrapper and every script goes through it: theme, Kite, Aimerce, Subscribfy.
+  Why: Shopify keeps a stale cart when writes overlap or come back to back. Tested 28.11.2026 on live: a removed
+  bottle came back after Kite's next write, or a different bottle was removed. Every POST to
+  /cart/add|change|update|clear waits for the previous one plus GAP ms; /cart and /cart.js reads wait for writes
+  already in flight. Measured: 0/2 correct without it, 6/6 with it (plus remove-by-key in assets/cart.js).
+  Off switch: set window.cartQueueOff = true before this runs, or remove the render from layout/theme.liquid.
+{%- endcomment -%}
+<script>
+  (function () {
+    if (window.cartQueueOff || window.__cartQueue || !window.fetch) return;
+    window.__cartQueue = true;
+    var GAP = 500;
+    var WRITE = /\/cart\/(add|change|update|clear)(\.js)?(\?|$)/;
+    var READ = /\/cart(\.js)?(\?|$)/;
+    var tail = Promise.resolve();
+
+    function enqueue(run) {
+      var p = tail.then(run, run);
+      tail = p.then(null, function () {}).then(function () {
+        return new Promise(function (r) { setTimeout(r, GAP); });
+      });
+      return p;
+    }
+
+    var nativeFetch = window.fetch;
+    window.fetch = function (input, init) {
+      var url = typeof input === 'string' ? input : (input && input.url) || String(input);
+      var method = String((init && init.method) || (input && input.method) || 'GET').toUpperCase();
+      var self = this, args = arguments;
+      if (method === 'POST' && WRITE.test(url)) {
+        return enqueue(function () { return nativeFetch.apply(self, args); });
+      }
+      if (method === 'GET' && READ.test(url)) {
+        return tail.then(function () { return nativeFetch.apply(self, args); });
+      }
+      return nativeFetch.apply(self, args);
+    };
+
+    var open = XMLHttpRequest.prototype.open;
+    var send = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.open = function (method, url) {
+      this.__cq = String(method).toUpperCase() === 'POST' && WRITE.test(String(url));
+      return open.apply(this, arguments);
+    };
+    XMLHttpRequest.prototype.send = function () {
+      if (!this.__cq) return send.apply(this, arguments);
+      var xhr = this, args = arguments;
+      enqueue(function () {
+        return new Promise(function (done) {
+          xhr.addEventListener('loadend', done);
+          send.apply(xhr, args);
+        });
+      });
+    };
+  })();
+</script>
