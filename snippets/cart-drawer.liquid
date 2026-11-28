@@ -285,8 +285,7 @@
                                       {% # theme-check-enable %}
                                       aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
                                       id="Drawer-quantity-{{ item.index | plus: 1 }}"
-                                      data-index="{{ item.index | plus: 1 }}"
-                                      data-key="{{ item.key }}">
+                                      data-index="{{ item.index | plus: 1 }}">
                                     <button
                                       class="quantity__button"
                                       name="plus"
@@ -302,7 +301,7 @@
                                     </button>
                                   </quantity-input>
                                 </div>
-                                <cart-remove-button id="CartDrawer-Remove-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}" data-key="{{ item.key }}">
+                                <cart-remove-button id="CartDrawer-Remove-{{ item.index | plus: 1 }}" data-index="{{ item.index | plus: 1 }}">
                                   <button
                                     type="button"
                                     class="button button--tertiary cart-remove-button"
