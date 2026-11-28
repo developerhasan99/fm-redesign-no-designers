@@ -6,7 +6,7 @@ class CartRemoveButton extends HTMLElement {
       event.preventDefault();
       const cartItems =
         this.closest("cart-items") || this.closest("cart-drawer-items");
-      cartItems.updateQuantity(this.dataset.index, 0, event);
+      cartItems.updateQuantity(this.dataset.index, 0, event, null, null, this.dataset.key);
     });
   }
 }
@@ -93,6 +93,7 @@ class CartItems extends HTMLElement {
         event,
         document.activeElement.getAttribute("name"),
         event.target.dataset.quantityVariantId,
+        event.target.dataset.key,
       );
     }
   }
@@ -164,11 +165,13 @@ class CartItems extends HTMLElement {
     ];
   }
 
-  updateQuantity(line, quantity, event, name, variantId) {
+  updateQuantity(line, quantity, event, name, variantId, key) {
     this.enableLoading(line);
 
+    // Line key, not row number: Kite inserts its gift at the top of the cart, so a row number can point at
+    // another product by the time the request lands. `line` stays for finding the row elements below.
     const body = JSON.stringify({
-      line,
+      ...(key ? { id: key } : { line }),
       quantity,
       sections: this.getSectionsToRender().map((section) => section.section),
       sections_url: window.location.pathname,
